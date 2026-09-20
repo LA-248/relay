@@ -8,7 +8,8 @@
     "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "node dist/app.js",
     "dev": "tsx watch src/app.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
