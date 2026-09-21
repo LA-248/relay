@@ -134,10 +134,10 @@ export default function MessageList({
     if (isGroupChat) {
       groupMembersInfo.forEach((member: GroupMember) => {
         profilePictureMap.set(
-          member.user_id,
+          member.id,
           member.profile_picture ?? '/images/default-avatar.jpg',
         );
-        usernameMap.set(member.user_id, member.username);
+        usernameMap.set(member.id, member.username);
       });
     }
     if (isPrivateChat) {

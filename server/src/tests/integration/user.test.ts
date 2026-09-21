@@ -13,7 +13,7 @@ beforeEach(async () => {
 
   const hashed = await bcrypt.hash('secret', 10);
   await pool.query(
-    `INSERT INTO users (user_id, username, hashed_password) VALUES 
+    `INSERT INTO users (id, username, hashed_password) VALUES 
     ($1, $2, $3)`,
     [1, 'test', hashed],
   );

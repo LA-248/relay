@@ -9,13 +9,13 @@ export default function configurePassport() {
   // Store user data in the session
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   passport.serializeUser(function (user: any, cb) {
-    cb(null, user.user_id);
+    cb(null, user.id);
   });
 
   // Retrieves the user data from the session and makes it available in the request object
   passport.deserializeUser(function (id, cb) {
     pool.query(
-      'SELECT user_id, username, profile_picture FROM users WHERE user_id = $1',
+      'SELECT id, username, profile_picture FROM users WHERE id = $1',
       [id],
       (err, result) => {
         cb(err, result.rows[0]);

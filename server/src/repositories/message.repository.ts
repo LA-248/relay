@@ -22,8 +22,8 @@ export class Message {
       `
       CREATE TABLE IF NOT EXISTS messages (
         id SERIAL PRIMARY KEY,
-        sender_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
-        recipient_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+        sender_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        recipient_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
         group_id INTEGER REFERENCES groups(group_id) ON DELETE CASCADE,
         client_offset TEXT UNIQUE,
         room UUID NOT NULL,
@@ -122,7 +122,7 @@ export class Message {
         u.username as sender_username
       FROM messages m
       JOIN users u
-      ON m.sender_id = u.user_id
+      ON m.sender_id = u.id
       WHERE m.id > $1
         AND m.room = $2
       ORDER BY m.event_time ASC;

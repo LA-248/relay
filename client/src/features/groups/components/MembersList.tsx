@@ -29,7 +29,7 @@ export default function MembersList({
   const isMemberOwner = useMemo(() => {
     return membersList.some(
       (member) =>
-        member.user_id === loggedInUserId &&
+        member.id === loggedInUserId &&
         member.role === GroupMemberRole.OWNER
     );
   }, [membersList, loggedInUserId]);
@@ -38,7 +38,7 @@ export default function MembersList({
   const isMemberAdmin = useMemo(() => {
     return membersList.some(
       (member) =>
-        member.user_id === loggedInUserId &&
+        member.id === loggedInUserId &&
         member.role === GroupMemberRole.ADMIN
     );
   }, [membersList, loggedInUserId]);
@@ -48,7 +48,7 @@ export default function MembersList({
       <div className='group-member-list-container'>
         <div className='group-member-list-header'>Members</div>
         {membersList.map((member) => {
-          const isSelf = member.user_id === loggedInUserId;
+          const isSelf = member.id === loggedInUserId;
 
           const showKickButton =
             // OWNER: able to kick everybody except themselves
@@ -60,7 +60,7 @@ export default function MembersList({
               !isSelf);
 
           return (
-            <div className='group-member' key={member.user_id}>
+            <div className='group-member' key={member.id}>
               <div className='group-member-metadata'>
                 <img
                   className='group-member-profile-picture'
@@ -94,7 +94,7 @@ export default function MembersList({
                         title='Make admin'
                         onClick={() => {
                           setIsMakeAdminModalOpen(true);
-                          setMemberId(member.user_id);
+                          setMemberId(member.id);
                           setMemberName(member.username);
                         }}
                       >
@@ -107,7 +107,7 @@ export default function MembersList({
                         title='Remove as admin'
                         onClick={() => {
                           setIsRemoveAsAdminModalOpen(true);
-                          setMemberId(member.user_id);
+                          setMemberId(member.id);
                           setMemberName(member.username);
                         }}
                       >
@@ -123,7 +123,7 @@ export default function MembersList({
                     title='Kick'
                     onClick={() => {
                       setIsRemoveMemberModalOpen(true);
-                      setMemberId(member.user_id);
+                      setMemberId(member.id);
                       setMemberName(member.username);
                     }}
                   >

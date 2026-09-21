@@ -27,7 +27,7 @@ export const privateChatRoomAuth = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const senderId = Number(req.user?.user_id);
+  const senderId = Number(req.user?.id);
   const room = String(req.params.room);
 
   try {
@@ -73,7 +73,7 @@ export const groupChatRoomAuth = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const senderId = Number(req.user?.user_id);
+  const senderId = Number(req.user?.id);
 
   try {
     const groupRepository = new Group();
@@ -122,7 +122,7 @@ export const groupChatRoomAuth = async (
       return;
     }
     const groupChatMemberIds = groupChatMembers.map(
-      (member: { user_id: number }) => member.user_id,
+      (member: { id: number }) => member.id,
     );
 
     if (!senderId) {
@@ -157,14 +157,14 @@ export const authoriseGroupOwnerAction = async (
 ): Promise<void> => {
   const groupRepository = new Group();
   const groupMemberRepository = new GroupMemberRepository();
-  const loggedInUserId = Number(req.user?.user_id);
+  const loggedInUserId = Number(req.user?.id);
   const groupId = Number(req.params.groupId);
 
   const { room } = await groupRepository.findRoomById(groupId);
 
   try {
     const groupChatMembers:
-      | Pick<GroupMemberInfo, 'user_id' | 'role'>[]
+      | Pick<GroupMemberInfo, 'id' | 'role'>[]
       | null = await groupMemberRepository.findMembersByRoom(room);
 
     if (!groupChatMembers) {
@@ -185,7 +185,7 @@ export const authoriseGroupOwnerAction = async (
 
     const isOwner = groupChatMembers.some(
       (member) =>
-        member.user_id === loggedInUserId &&
+        member.id === loggedInUserId &&
         member.role === GroupMemberRole.OWNER,
     );
 
@@ -218,14 +218,14 @@ export const authoriseGroupOwnerOrAdminAction = async (
 ): Promise<void> => {
   const groupRepository = new Group();
   const groupMemberRepository = new GroupMemberRepository();
-  const loggedInUserId = Number(req.user?.user_id);
+  const loggedInUserId = Number(req.user?.id);
   const groupId = Number(req.params.groupId);
 
   const { room } = await groupRepository.findRoomById(groupId);
 
   try {
     const groupChatMembers:
-      | Pick<GroupMemberInfo, 'user_id' | 'role'>[]
+      | Pick<GroupMemberInfo, 'id' | 'role'>[]
       | null = await groupMemberRepository.findMembersByRoom(room);
 
     if (!groupChatMembers) {
@@ -246,12 +246,12 @@ export const authoriseGroupOwnerOrAdminAction = async (
 
     const isOwner = groupChatMembers.some(
       (member) =>
-        member.user_id === loggedInUserId &&
+        member.id === loggedInUserId &&
         member.role === GroupMemberRole.OWNER,
     );
     const isAdmin = groupChatMembers.some(
       (member) =>
-        member.user_id === loggedInUserId &&
+        member.id === loggedInUserId &&
         member.role === GroupMemberRole.ADMIN,
     );
 

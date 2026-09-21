@@ -38,7 +38,7 @@ export const retrieveRecipientData = async (
   const profilePictureUrl = recipient.profile_picture
     ? await createPresignedUrl(
       process.env.BUCKET_NAME!,
-      `${S3AvatarStoragePath.USER_AVATARS}/${recipient.user_id}/${recipient.profile_picture}`,
+      `${S3AvatarStoragePath.USER_AVATARS}/${recipient.id}/${recipient.profile_picture}`,
     )
     : null;
 
@@ -58,7 +58,7 @@ export const retrieveUserById = async (id: number): Promise<UserProfile> => {
       );
     }
 
-    const userId = user.user_id;
+    const userId = user.id;
     const username = user.username;
 
     const profilePictureUrl = user.profile_picture
@@ -68,7 +68,7 @@ export const retrieveUserById = async (id: number): Promise<UserProfile> => {
       )
       : null;
 
-    return { user_id: userId, username, profile_picture: profilePictureUrl };
+    return { id: userId, username, profile_picture: profilePictureUrl };
   } catch (error) {
     console.error('Error retrieving user data:', error);
     throw error;

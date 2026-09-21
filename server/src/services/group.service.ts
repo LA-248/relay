@@ -63,7 +63,7 @@ export const retrieveGroupMembersInfo = async (
     if (groupMember.profile_picture) {
       groupMember.profile_picture = await createPresignedUrl(
         process.env.BUCKET_NAME!,
-        `${S3AvatarStoragePath.USER_AVATARS}/${groupMember.user_id}/${groupMember.profile_picture}`,
+        `${S3AvatarStoragePath.USER_AVATARS}/${groupMember.id}/${groupMember.profile_picture}`,
       );
     }
   }
@@ -84,7 +84,7 @@ export const findGroupMembersByRoom = async (room: string): Promise<number[]> =>
   try {
     const groupMemberRepository = new GroupMemberRepository();
     const members = await groupMemberRepository.findMembersByRoom(room);
-    return members ? members.map((member) => member.user_id) : [];
+    return members ? members.map((member) => member.id) : [];
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(
@@ -169,15 +169,15 @@ export const removeMemberWhoLeft = async (
   userId: number,
 ): Promise<{
   room: string;
-  removedUser: Pick<GroupMemberInfo, 'user_id' | 'role'>;
-  newGroupOwner: Pick<GroupMemberInfo, 'user_id' | 'role'>;
+  removedUser: Pick<GroupMemberInfo, 'id' | 'role'>;
+  newGroupOwner: Pick<GroupMemberInfo, 'id' | 'role'>;
 }> => {
   const groupRepository = new Group();
   const groupMemberRepository = new GroupMemberRepository();
 
   const socketId = userSockets.get(userId);
-  let newGroupOwner: Pick<GroupMemberInfo, 'user_id' | 'role'> = {
-    user_id: 0,
+  let newGroupOwner: Pick<GroupMemberInfo, 'id' | 'role'> = {
+    id: 0,
     role: 'member',
   };
 
@@ -192,14 +192,14 @@ export const removeMemberWhoLeft = async (
       room,
       groupId,
     );
-    const groupMemberUserId = groupMemberInfo.user_id;
+    const groupMemberUserId = groupMemberInfo.id;
 
     newGroupOwner = await groupMemberRepository.updateRole(
       GroupMemberRole.OWNER,
       groupId,
       groupMemberUserId,
     );
-    await groupRepository.updateOwner(newGroupOwner.user_id, groupId, room);
+    await groupRepository.updateOwner(newGroupOwner.id, groupId, room);
   }
 
   if (socketId) {
@@ -218,7 +218,7 @@ export const kickMember = async (
   loggedInUserId: number,
 ): Promise<{
   room: string;
-  removedUser: Pick<GroupMemberInfo, 'user_id' | 'role'>;
+  removedUser: Pick<GroupMemberInfo, 'id' | 'role'>;
 }> => {
   const groupRepository = new Group();
   const groupMemberRepository = new GroupMemberRepository();
@@ -259,7 +259,7 @@ export const updateMemberRole = async (
   userId: number,
 ): Promise<{
   room: string;
-  updatedMember: Pick<GroupMemberInfo, 'user_id' | 'role'>;
+  updatedMember: Pick<GroupMemberInfo, 'id' | 'role'>;
 }> => {
   const groupRepository = new Group();
   const groupMemberRepository = new GroupMemberRepository();
@@ -283,7 +283,7 @@ export const permanentlyDeleteGroupChat = async (
     groupRepository.findPictureById(groupId),
   ]);
 
-  const memberUserIds = membersInfo.map((member) => member.user_id);
+  const memberUserIds = membersInfo.map((member) => member.id);
   const memberSocketIds = [];
 
   const avatarObjectKey = `${S3AvatarStoragePath.GROUP_AVATARS}/${groupId}/${groupAvatar}`;
@@ -348,7 +348,7 @@ export const uploadGroupPicture = async (
 export const updateGroupMemberLastReadAt = async (
   groupId: number,
   userId: number,
-): Promise<Pick<GroupMemberInfo, 'group_id' | 'user_id' | 'last_read_at'>> => {
+): Promise<Pick<GroupMemberInfo, 'group_id' | 'id' | 'last_read_at'>> => {
   const groupMemberRepository = new GroupMemberRepository();
   return await groupMemberRepository.updateLastReadAt(groupId, userId);
 };
@@ -416,12 +416,12 @@ const notifyAddedUsers = async (
   const addedUsersInfo: AddedUserInfo[] = [];
 
   for (const member of insertedGroupMembers) {
-    const addedUser = await retrieveUserById(member.user_id);
+    const addedUser = await retrieveUserById(member.id);
     addedUsersInfo.push(addedUser);
 
-    if (userSockets.has(addedUser.user_id)) {
+    if (userSockets.has(addedUser.id)) {
       // Get the socket ID of each member added to the group
-      const addedUserSocketId = userSockets.get(addedUser.user_id);
+      const addedUserSocketId = userSockets.get(addedUser.id);
       if (addedUserSocketId) {
         io.to(addedUserSocketId).emit('add-group-to-chat-list', {
           chat_id: `g_${groupData.group_id}`,
@@ -454,9 +454,9 @@ const broadcastGroupCreation = (
 ): void => {
   for (const member of insertedGroupMembers) {
     if (member.value) {
-      if (userSockets.has(member.value.user_id)) {
+      if (userSockets.has(member.value.id)) {
         // Get the socket ID of each member added to the group
-        const socketId = userSockets.get(member.value.user_id);
+        const socketId = userSockets.get(member.value.id);
         if (socketId) {
           // This structure is used as it mirrors the one returned when fetching a user's chats from the database to build their chat list
           // Ensures uniform handling of chat items in the frontend chat list

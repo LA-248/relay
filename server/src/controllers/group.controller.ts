@@ -130,7 +130,7 @@ export const deleteGroupChat: RequestHandler<
 > = async (req, res) => {
   try {
     const groupId = Number(req.params.groupId);
-    const userId = Number(req.user?.user_id);
+    const userId = Number(req.user?.id);
     if (!userId) {
       res.status(401).json({ error: 'User not authenticated' });
       return;
@@ -185,7 +185,7 @@ export const leaveGroup: RequestHandler<
   try {
     const io = req.app.get('io');
 
-    const userId = Number(req.user?.user_id);
+    const userId = Number(req.user?.id);
     if (!userId) {
       res.status(401).json({ error: 'User not authenticated' });
       return;
@@ -199,7 +199,7 @@ export const leaveGroup: RequestHandler<
       removedUser,
       newGroupOwner: updatedMember,
     } = await removeMemberWhoLeft(io, groupId, userId);
-    const removedUserId = removedUser.user_id;
+    const removedUserId = removedUser.id;
 
     // Send the user id of the removed member to the frontend
     // This allows for the members list to be updated in real-time for all group chat participants
@@ -237,7 +237,7 @@ export const removeKickedGroupMember: RequestHandler<
 > = async (req, res) => {
   try {
     const io = req.app.get('io');
-    const loggedInUserId = Number(req.user?.user_id); // Get the ID of the user performing the member removal
+    const loggedInUserId = Number(req.user?.id); // Get the ID of the user performing the member removal
     if (!loggedInUserId) {
       res.status(401).json({ error: 'User not authenticated' });
       return;
@@ -249,7 +249,7 @@ export const removeKickedGroupMember: RequestHandler<
       Number(req.params.userId),
       loggedInUserId,
     );
-    const removedUserId = removedUser.user_id;
+    const removedUserId = removedUser.id;
     const socketId = userSockets.get(Number(req.params.userId));
 
     // Send the user id of the removed member to the frontend
@@ -267,7 +267,7 @@ export const removeKickedGroupMember: RequestHandler<
     }
 
     res.status(200).json({
-      kickedMemberUserId: removedUser.user_id,
+      kickedMemberUserId: removedUser.id,
       message: 'Member removed',
     });
   } catch (error) {
@@ -306,7 +306,7 @@ export const updateRole: RequestHandler<
 
     res.status(200).json({
       message: 'Member role updated',
-      user_id: updatedMember.user_id,
+      id: updatedMember.id,
       role: updatedMember.role,
     });
   } catch (error) {

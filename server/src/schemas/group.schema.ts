@@ -55,7 +55,7 @@ export type GroupUpdatedAt = z.infer<typeof GroupUpdatedAtSchema>;
 
 export const NewGroupMemberSchema = z.object({
   group_id: z.number(),
-  user_id: z.number(),
+  id: z.number(),
   role: z.enum(['owner', 'admin', 'member']),
   joined_at: z.date(),
 });
@@ -63,7 +63,7 @@ export type NewGroupMember = z.infer<typeof NewGroupMemberSchema>;
 
 export const GroupMemberInfoSchema = z.object({
   group_id: z.coerce.number(),
-  user_id: z.coerce.number(),
+  id: z.coerce.number(),
   username: z.string(),
   profile_picture: z.string().nullable(),
   role: z.enum(['owner', 'admin', 'member']),

@@ -19,7 +19,7 @@ export const editMessage: RequestHandler<
   EditMessageInputDto
 > = async (req, res) => {
   try {
-    const senderId = Number(req.user?.user_id);
+    const senderId = Number(req.user?.id);
     const messageId = Number(req.params.messageId);
     const newMessage = req.body.newMessage;
 
@@ -37,7 +37,7 @@ export const deleteMessage: RequestHandler<
   void
 > = async (req, res) => {
   try {
-    const senderId = Number(req.user?.user_id);
+    const senderId = Number(req.user?.id);
     const messageId = Number(req.params.messageId);
     const type = req.params.type;
     const chatId = req.params.chatId;

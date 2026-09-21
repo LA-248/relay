@@ -21,7 +21,7 @@ export class GroupMember {
       `
         CREATE TABLE IF NOT EXISTS group_members (
           group_id INTEGER REFERENCES groups(group_id) ON DELETE CASCADE,
-          user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+          user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
           role VARCHAR(50),
           joined_at TIMESTAMPTZ DEFAULT NOW(),
           deleted_at TIMESTAMPTZ,
@@ -42,7 +42,7 @@ export class GroupMember {
       `
       INSERT INTO group_members (group_id, user_id, role)
       VALUES ($1, $2, $3)
-      RETURNING *
+      RETURNING group_id, user_id AS "id", role, joined_at
       `,
       [groupId, userId, role],
     );
@@ -52,13 +52,13 @@ export class GroupMember {
 
   findMembersByRoom = async (
     room: string,
-  ): Promise<Pick<GroupMemberInfo, 'user_id' | 'role'>[]> => {
+  ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>[]> => {
     const result = await this.db.query<
-      Pick<GroupMemberInfo, 'user_id' | 'role'>
+      Pick<GroupMemberInfo, 'id' | 'role'>
     >(
       `
       SELECT
-        gm.user_id,
+        gm.user_id AS "id",
         gm.role
       FROM group_members gm
       JOIN groups g ON g.group_id = gm.group_id
@@ -74,12 +74,12 @@ export class GroupMember {
     room: string,
     groupId: number,
     userId: number,
-  ): Promise<Pick<GroupMemberInfo, 'user_id' | 'role'>> => {
+  ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>> => {
     const result = await this.db.query<
-      Pick<GroupMemberInfo, 'user_id' | 'role'>
+      Pick<GroupMemberInfo, 'id' | 'role'>
     >(
       `
-      SELECT gm.user_id, gm.role
+      SELECT gm.user_id AS "id", gm.role
       FROM group_members gm
       JOIN groups g ON g.group_id = gm.group_id
       WHERE g.room = $1 AND gm.group_id = $2 AND gm.user_id = $3
@@ -93,12 +93,12 @@ export class GroupMember {
   findRandomMember = async (
     room: string,
     groupId: number,
-  ): Promise<Pick<GroupMemberInfo, 'user_id' | 'role'>> => {
+  ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>> => {
     const result = await this.db.query<
-      Pick<GroupMemberInfo, 'user_id' | 'role'>
+      Pick<GroupMemberInfo, 'id' | 'role'>
     >(
       `
-      SELECT gm.user_id, gm.role
+      SELECT gm.user_id AS "id", gm.role
       FROM group_members gm
       JOIN groups g ON g.group_id = gm.group_id
       WHERE g.room = $1 AND g.group_id = $2
@@ -130,15 +130,15 @@ export class GroupMember {
     role: string,
     groupId: number,
     userId: number,
-  ): Promise<Pick<GroupMemberInfo, 'user_id' | 'role'>> => {
+  ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>> => {
     const result = await this.db.query<
-      Pick<GroupMemberInfo, 'user_id' | 'role'>
+      Pick<GroupMemberInfo, 'id' | 'role'>
     >(
       `
       UPDATE group_members 
       SET role = $1
       WHERE group_id = $2 AND user_id = $3
-      RETURNING user_id, role
+      RETURNING user_id AS "id", role
       `,
       [role, groupId, userId],
     );
@@ -155,7 +155,7 @@ export class GroupMember {
       UPDATE group_members
       SET last_read_at = NOW()
       WHERE group_id = $1 AND user_id = $2
-      RETURNING group_id, user_id, last_read_at
+      RETURNING group_id, user_id AS "id", last_read_at
       `,
       [groupId, userId],
     );
@@ -172,7 +172,7 @@ export class GroupMember {
       UPDATE group_members
       SET deleted_at = NOW()
       WHERE group_id = $1 AND user_id = $2
-      RETURNING group_id, user_id
+      RETURNING group_id, user_id AS "id"
       `,
       [groupId, userId],
     );
@@ -183,14 +183,14 @@ export class GroupMember {
   deleteGroupMember = async (
     groupId: number,
     userId: number,
-  ): Promise<Pick<GroupMemberInfo, 'user_id' | 'role'>> => {
+  ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>> => {
     const result = await this.db.query<
-      Pick<GroupMemberInfo, 'user_id' | 'role'>
+      Pick<GroupMemberInfo, 'id' | 'role'>
     >(
       `
       DELETE FROM group_members 
       WHERE group_id = $1 AND user_id = $2
-      RETURNING user_id, role
+      RETURNING user_id AS "id", role
       `,
       [groupId, userId],
     );

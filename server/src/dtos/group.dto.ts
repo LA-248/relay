@@ -60,7 +60,7 @@ export type RemoveKickedGroupMemberResponseDto = {
 
 export type UpdateGroupMemberRoleResponseDto = {
   message: string;
-  user_id: number;
+  id: number;
   role: string;
 };
 

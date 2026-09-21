@@ -8,7 +8,7 @@ export const authoriseMessageDeletion = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestingUserId = Number(req.user?.user_id);
+  const requestingUserId = Number(req.user?.id);
   const messageId = Number(req.params.messageId);
 
   try {

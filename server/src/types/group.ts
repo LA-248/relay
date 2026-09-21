@@ -11,7 +11,7 @@ export type GroupInfo = {
 }
 
 export type GroupMember = {
-  user_id: number;
+  id: number;
   username: string;
   role: string;
   profile_picture?: string | null;
@@ -25,7 +25,7 @@ export type GroupMemberToBeAdded = {
 }
 
 export type AddedUserInfo = {
-  user_id: number;
+  id: number;
   username: string;
   profile_picture: string | null;
 }

@@ -23,14 +23,14 @@ export const InsertUserSchema = z.object({
 export type InsertUser = z.infer<typeof InsertUserSchema>;
 
 export const UserProfileSchema = z.object({
-  user_id: z.coerce.number().positive(),
+  id: z.coerce.number().positive(),
   username: z.string(),
   profile_picture: z.string().nullable(),
 });
 export type UserProfile = z.infer<typeof UserProfileSchema>;
 
 export const UserEntitySchema = z.object({
-  user_id: z.coerce.number().positive(),
+  id: z.coerce.number().positive(),
   username: z.string(),
   hashed_password: z.string(),
   profile_picture: z.string().nullable(),
@@ -39,7 +39,7 @@ export const UserEntitySchema = z.object({
 export type UserEntity = z.infer<typeof UserEntitySchema>;
 
 export const RecipientUserProfileSchema = z.object({
-  user_id: z.coerce.number().positive(),
+  id: z.coerce.number().positive(),
   username: z.string(),
   profile_picture: z.string().nullable(),
   blocked_users: z.array(z.number()),
@@ -47,7 +47,7 @@ export const RecipientUserProfileSchema = z.object({
 export type RecipientUserProfile = z.infer<typeof RecipientUserProfileSchema>;
 
 export const UserIdSchema = z.object({
-  user_id: z.number(),
+  id: z.number(),
 });
 export type UserId = z.infer<typeof UserIdSchema>;
 
@@ -62,7 +62,7 @@ export const UserBlockListSchema = z.object({
 export type UserBlockList = z.infer<typeof UserBlockListSchema>;
 
 export const UserDataAuthSchema = z.object({
-  user_id: z.coerce.number().positive(),
+  id: z.coerce.number().positive(),
   username: z.string(),
   profile_picture: z.string().nullable(),
 });

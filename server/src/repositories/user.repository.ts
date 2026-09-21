@@ -40,7 +40,7 @@ export class User {
       `
         INSERT INTO users (username, hashed_password)
         VALUES ($1, $2)
-        RETURNING user_id, username, profile_picture
+        RETURNING id, username, profile_picture
       `,
       [username, hashedPassword],
     );
@@ -50,7 +50,7 @@ export class User {
 
   findUserById = async (userId: number): Promise<UserProfile> => {
     const result = await this.db.query<UserProfile>(
-      'SELECT user_id, username, profile_picture FROM users WHERE user_id = $1',
+      'SELECT id, username, profile_picture FROM users WHERE id = $1',
       [userId],
     );
 
@@ -73,12 +73,12 @@ export class User {
     const result = await query<RecipientUserProfile>(
       `
         SELECT
-          u.user_id,
+          u.id,
           u.username,
           u.profile_picture,
           u.blocked_users
         FROM users u
-        JOIN private_chats pc ON u.user_id = CASE
+        JOIN private_chats pc ON u.id = CASE
           WHEN pc.user1_id = $1 THEN pc.user2_id
           ELSE pc.user1_id
         END
@@ -92,7 +92,7 @@ export class User {
 
   findUserIdByUsername = async (username: string): Promise<UserId> => {
     const result = await query<UserId>(
-      'SELECT user_id FROM users WHERE username = $1',
+      'SELECT id FROM users WHERE username = $1',
       [username],
     );
 
@@ -103,7 +103,7 @@ export class User {
     userId: number,
   ): Promise<UserProfilePicture> => {
     const result = await query<UserProfilePicture>(
-      'SELECT profile_picture FROM users WHERE user_id = $1',
+      'SELECT profile_picture FROM users WHERE id = $1',
       [userId],
     );
 
@@ -112,7 +112,7 @@ export class User {
 
   findBlockListById = async (userId: number): Promise<UserBlockList> => {
     const result = await query<UserBlockList>(
-      'SELECT blocked_users FROM users WHERE user_id = $1',
+      'SELECT blocked_users FROM users WHERE id = $1',
       [userId],
     );
 
@@ -124,7 +124,7 @@ export class User {
     userId: number,
   ): Promise<void> => {
     await this.db.query<UserBlockList>(
-      'UPDATE users SET username = $1 WHERE user_id = $2',
+      'UPDATE users SET username = $1 WHERE id = $2',
       [username, userId],
     );
   };
@@ -134,7 +134,7 @@ export class User {
     userId: number,
   ): Promise<void> => {
     await this.db.query<UserBlockList>(
-      'UPDATE users SET profile_picture = $1 WHERE user_id = $2',
+      'UPDATE users SET profile_picture = $1 WHERE id = $2',
       [fileName, userId],
     );
   };
@@ -144,7 +144,7 @@ export class User {
     userId: number,
   ): Promise<void> => {
     await this.db.query<UserBlockList>(
-      'UPDATE users SET blocked_users = $1 WHERE user_id = $2',
+      'UPDATE users SET blocked_users = $1 WHERE id = $2',
       [blockedUsers, userId],
     );
   };

@@ -29,7 +29,7 @@ function GroupInfoHeader({
   const isMemberOwner = useMemo(() => {
     return membersList.some(
       (member) =>
-        member.user_id === loggedInUserId &&
+        member.id === loggedInUserId &&
         member.role === GroupMemberRole.OWNER
     );
   }, [membersList, loggedInUserId]);

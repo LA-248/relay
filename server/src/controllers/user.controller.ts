@@ -29,7 +29,7 @@ export const retrieveLoggedInUserData: RequestHandler<
 > = async (req, res) => {
   try {
     const profilePicture = req.user?.profile_picture;
-    const userId = Number(req.user?.user_id);
+    const userId = Number(req.user?.id);
     const username = String(req.user?.username);
 
     const profilePictureUrl = profilePicture
@@ -59,7 +59,7 @@ export const retrieveRecipientProfile: RequestHandler<
 > = async (req, res) => {
   try {
     const result = await retrieveRecipientData(
-      Number(req.user?.user_id),
+      Number(req.user?.id),
       req.params.room,
     );
 
@@ -72,7 +72,7 @@ export const retrieveRecipientProfile: RequestHandler<
     const { recipient, profilePictureUrl } = result;
 
     res.status(200).json({
-      userId: recipient.user_id,
+      userId: recipient.id,
       username: recipient.username,
       profilePicture: profilePictureUrl,
     });
@@ -94,7 +94,7 @@ export const retrieveIdByUsername: RequestHandler<
         'User does not exist. Make sure that the username is correct.',
       );
     }
-    res.status(200).json({ userId: user.user_id });
+    res.status(200).json({ userId: user.id });
   } catch (error) {
     if (error instanceof Error) {
       if (
@@ -127,7 +127,7 @@ export const retrieveUserProfilePicture = async (
 
 export const retrieveBlockListById = async (req: Request, res: Response) => {
   try {
-    const userId = Number(req.user?.user_id);
+    const userId = Number(req.user?.id);
     const result = await retrieveBlockList(userId);
     res.status(200).json({ blockList: result.blocked_users });
   } catch (error) {
@@ -154,7 +154,7 @@ export const uploadProfilePicture = async (req: Request, res: Response) => {
 
 export const updateUsername = async (req: Request, res: Response) => {
   try {
-    const userId = Number(req.user?.user_id);
+    const userId = Number(req.user?.id);
     const io = req.app.get('io');
     const username = req.body.username;
 
@@ -172,7 +172,7 @@ export const updateUsername = async (req: Request, res: Response) => {
 export const updateBlockedUsers = async (req: Request, res: Response) => {
   try {
     const blockedUserIds = req.body.blockedUserIds;
-    const userId = Number(req.user?.user_id);
+    const userId = Number(req.user?.id);
 
     await updateUserBlockList(blockedUserIds, userId);
     res.status(200).json({ success: 'Block list successfully updated' });

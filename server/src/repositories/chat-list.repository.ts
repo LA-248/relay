@@ -40,7 +40,7 @@ export class ChatList {
           WHEN pc.user2_id = $1 THEN pc.user2_last_read_at
         END AS last_read_at
       FROM private_chats pc
-      JOIN users u ON u.user_id = CASE
+      JOIN users u ON u.id = CASE
         WHEN pc.user1_id = $1 THEN pc.user2_id
         ELSE pc.user1_id
       END

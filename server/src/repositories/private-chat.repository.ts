@@ -24,8 +24,8 @@ export class PrivateChat {
       `
         CREATE TABLE IF NOT EXISTS private_chats (
           chat_id SERIAL PRIMARY KEY,
-          user1_id INTEGER REFERENCES users(user_id) ON DELETE SET NULL,
-          user2_id INTEGER REFERENCES users(user_id) ON DELETE SET NULL,
+          user1_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+          user2_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
           last_message_id INTEGER REFERENCES messages(id) ON DELETE SET NULL,
           room UUID UNIQUE NOT NULL,
           created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -86,7 +86,7 @@ export class PrivateChat {
           WHEN pc.user2_id = $1 THEN pc.user2_deleted_at
         END AS deleted_at
       FROM private_chats pc
-      JOIN users u ON u.user_id = CASE
+      JOIN users u ON u.id = CASE
         WHEN pc.user1_id = $1 THEN pc.user2_id
         ELSE pc.user1_id
       END

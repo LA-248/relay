@@ -12,7 +12,7 @@ export default function useMembersListUpdate(
     const handleMemberRemoval = (data: { removedUserId: number }) => {
       setMembersList((prevMembersList) =>
         prevMembersList.filter(
-          (member) => member.user_id !== data.removedUserId
+          (member) => member.id !== data.removedUserId
         )
       );
     };
@@ -28,7 +28,7 @@ export default function useMembersListUpdate(
     }) => {
       setMembersList((prevMembersList) =>
         prevMembersList.map((member) => {
-          return member.user_id === data.updatedMember.user_id
+          return member.id === data.updatedMember.id
             ? { ...member, role: data.updatedMember.role }
             : member;
         })
@@ -42,7 +42,7 @@ export default function useMembersListUpdate(
     }) => {
       setMembersList((prevMembersList) =>
         prevMembersList.map((member) => {
-          return member.user_id === data.userId
+          return member.id === data.userId
             ? { ...member, profile_picture: data.newInfo }
             : member;
         })
@@ -56,7 +56,7 @@ export default function useMembersListUpdate(
     }) => {
       setMembersList((prevMembersList) =>
         prevMembersList.map((member) => {
-          return member.user_id === data.userId
+          return member.id === data.userId
             ? { ...member, username: data.newInfo }
             : member;
         })

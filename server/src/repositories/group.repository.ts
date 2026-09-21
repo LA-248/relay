@@ -25,7 +25,7 @@ export class Group {
       `
         CREATE TABLE IF NOT EXISTS groups (
           group_id SERIAL PRIMARY KEY,
-          owner_user_id INTEGER REFERENCES users(user_id) ON DELETE SET NULL,
+          owner_user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
           last_message_id INTEGER REFERENCES messages(id) ON DELETE SET NULL,
           name TEXT,
           group_picture TEXT,
@@ -59,12 +59,12 @@ export class Group {
     const result = await this.db.query<GroupMemberInfo>(
       `
       SELECT
-        u.user_id,
+        u.id,
         u.username,
         u.profile_picture,
         gm.role
       FROM users u
-      JOIN group_members gm ON u.user_id = gm.user_id
+      JOIN group_members gm ON u.id = gm.user_id
       WHERE gm.group_id = $1
       `,
       [groupId],

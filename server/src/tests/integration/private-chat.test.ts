@@ -22,7 +22,7 @@ describe('POST /chats', () => {
     const hashed = await bcrypt.hash('secret', 10);
 
     await pool.query(
-      `INSERT INTO users (user_id, username, hashed_password) VALUES
+      `INSERT INTO users (id, username, hashed_password) VALUES
         (2, 'test2',  $1)`,
       [hashed],
     );

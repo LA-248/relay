@@ -25,10 +25,10 @@ export const addChat: RequestHandler<
   CreatePrivateChatInputDto
 > = async (req, res) => {
   try {
-    const senderId = Number(req.user?.user_id);
+    const senderId = Number(req.user?.id);
     const recipientName = req.body.recipientName;
 
-    const { user_id: recipientId } = await retrieveUserIdByUsername(
+    const { id: recipientId } = await retrieveUserIdByUsername(
       recipientName,
     );
 
@@ -61,7 +61,7 @@ export const getChatList: RequestHandler<
   void
 > = async (req, res) => {
   try {
-    const userId = Number(req.user?.user_id);
+    const userId = Number(req.user?.id);
     const chatList = await getChatListByUser(userId);
 
     res.status(200).json(chatList);
@@ -96,7 +96,7 @@ export const updateReadStatus: RequestHandler<
   void
 > = async (req, res) => {
   try {
-    const userId = Number(req.user?.user_id);
+    const userId = Number(req.user?.id);
     const room = req.params.room;
 
     await updateLastReadAt(userId, room);
@@ -119,7 +119,7 @@ export const deleteChat: RequestHandler<
   void
 > = async (req, res) => {
   try {
-    const userId = Number(req.user?.user_id);
+    const userId = Number(req.user?.id);
     const room = req.params.room;
     await updateDeletedAt(userId, room);
     res.status(200).json({ message: 'Chat deleted successfully' });

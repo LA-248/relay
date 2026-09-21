@@ -1,5 +1,5 @@
 export type GroupMember = {
-  user_id: number;
+  id: number;
   username: string;
   role: GroupMemberRole;
   profile_picture?: string | null;
