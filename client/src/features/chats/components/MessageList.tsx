@@ -9,7 +9,7 @@ import { updateLastReadAt } from '../../../api/group-chat-api';
 import ContactInfoModal from './ContactInfoModal';
 import formatDate from '../../../utils/DateTimeFormat';
 import type { GroupInfoWithMembers, GroupMember } from '../../../types/group';
-import { MessageType, type Message, type ServerMessageEditEventPayload } from '../../../types/message';
+import { MessageType, type Message, type ServerMessageDeleteEventPayload, type ServerMessageEditEventPayload } from '../../../types/message';
 import { ChatType } from '../../../types/chat';
 import type { UserProfileUpdate } from '../../../types/user';
 
@@ -101,10 +101,9 @@ export default function MessageList({
       }
     };
 
-    const handleMessageDelete = (messageDeleteEventPayload: {
-      messageId: number;
-      room: string;
-    }): void => {
+    const handleMessageDelete = (messageDeleteEventPayload:
+      ServerMessageDeleteEventPayload
+    ): void => {
       if (messageDeleteEventPayload.room === room) {
         setMessages((prevMessages: Message[]) => {
           return prevMessages

@@ -27,12 +27,13 @@ export type ClientMessageEditEventPayload = {
   content: string;
   room: string;
 }
+export type ServerMessageEditEventPayload = ClientMessageEditEventPayload;
 
-export type ServerMessageEditEventPayload = {
+export type ClientMessageDeleteEventPayload = {
   messageId: number;
-  content: string;
   room: string;
 }
+export type ServerMessageDeleteEventPayload = ClientMessageDeleteEventPayload;
 
 export type MessageContextType = {
   messages: Message[];

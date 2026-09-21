@@ -13,7 +13,7 @@ import { createPresignedUrl } from '../../services/s3.service.ts';
 import {
   ChatType,
 } from '../../types/chat.ts';
-import { Message, ClientMessageEventPayload, MessageType, ClientMessageEditEventPayload, ServerMessageEditEventPayload } from '../../types/message.ts';
+import { Message, ClientMessageEventPayload, MessageType, ClientMessageEditEventPayload, ServerMessageEditEventPayload, ClientMessageDeleteEventPayload, ServerMessageDeleteEventPayload } from '../../types/message.ts';
 import { formatMessage, saveMessageToDatabase } from '../../services/message.service.ts';
 
 export const createChatMessageHandler = (socket: Socket, io: Server) =>
@@ -170,7 +170,6 @@ export const editMessageHandler = (socket: Socket, io: Server) =>
   async (data: ClientMessageEditEventPayload) => {
     try {
       const { messageId, content, room } = data;
-
       const messageEditPayload: ServerMessageEditEventPayload =
         { messageId, content, room };
 
@@ -185,12 +184,13 @@ export const editMessageHandler = (socket: Socket, io: Server) =>
   };
 
 export const deleteMessageHandler = (socket: Socket, io: Server) =>
-  async (messageId: number, room: string) => {
+  async (data: ClientMessageDeleteEventPayload) => {
     try {
-      io.to(room).emit('message-deleted', {
-        messageId,
-        room
-      });
+      const { messageId, room } = data;
+      const messageDeletePayload: ServerMessageDeleteEventPayload =
+        { messageId, room };
+
+      io.to(room).emit('message-deleted', messageDeletePayload);
     } catch (error) {
       console.error('Unexpected error:', error);
       socket.emit('custom-error', {

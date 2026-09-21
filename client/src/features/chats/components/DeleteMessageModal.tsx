@@ -8,6 +8,7 @@ import { updateLastGroupMessageId } from '../../../api/group-chat-api';
 import Modal from '../../../components/ModalTemplate';
 import { ChatType } from '../../../types/chat';
 import { ChatContext } from '../../../contexts/ChatContext';
+import type { ClientMessageDeleteEventPayload } from '../../../types/message';
 
 interface DeleteMessageModalProps {
   chatType: string;
@@ -38,7 +39,7 @@ export default function DeleteMessageModal({
     messageIndex: number | null,
   ): Promise<void> => {
     try {
-      if (!socket || !room) return;
+      if (!socket || !room || messageId === null) return;
 
       const messageList = [...filteredMessages];
       const isLastMessage = messageIndex === messageList.length - 1;
@@ -70,8 +71,10 @@ export default function DeleteMessageModal({
 
         socket.emit('last-message-updated', { room, chatType });
       }
-      // Emit event to notify the server of message deletion and remove the message for everyone in the room
-      socket.emit('message-deleted', messageId, room);
+
+      const messageDeletePayload: ClientMessageDeleteEventPayload =
+        { messageId, room };
+      socket.emit('message-deleted', messageDeletePayload);
 
       setIsModalOpen(false);
     } catch (error) {
