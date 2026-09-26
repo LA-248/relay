@@ -22,7 +22,7 @@ export async function getLoggedInUserData(): Promise<UserInfo> {
 }
 
 // Retrieve the ID of a message recipient from the database using their username
-export async function getRecipientUserIdByUsername(
+export async function getUserIdByUsername(
   username: string
 ): Promise<number> {
   const response = await fetch(

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import {
-  getRecipientUserIdByUsername,
+  getUserIdByUsername,
   getUserProfilePicture,
 } from '../../../api/user-api';
 import { createGroupChat } from '../../../api/group-chat-api';
@@ -70,7 +70,7 @@ export default function CreateGroupChatModal({
       }
 
       // Check if the user being added exists in the database, if they do, their user id is returned
-      const memberUserId = await getRecipientUserIdByUsername(
+      const memberUserId = await getUserIdByUsername(
         sanitizedUsername
       );
       const memberProfilePicture = await getUserProfilePicture(memberUserId);

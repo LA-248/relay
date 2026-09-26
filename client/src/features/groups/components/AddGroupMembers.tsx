@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import { getRecipientUserIdByUsername } from '../../../api/user-api';
+import { getUserIdByUsername } from '../../../api/user-api';
 import {
   addMembers,
-  retrieveGroupMembersInfo,
+  getMemberUsernames,
 } from '../../../api/group-chat-api';
 import Modal from '../../../components/ModalTemplate';
 import {
@@ -43,7 +43,7 @@ export default function AddGroupMembers({
     event.preventDefault();
 
     try {
-      const currentGroupMembers = await retrieveGroupMembersInfo(groupId);
+      const currentGroupMembers = await getMemberUsernames(groupId);
       const sanitizedUsername = inputUsername.replace(/[\\/]/g, '');
 
       if (!sanitizedUsername) {
@@ -66,7 +66,7 @@ export default function AddGroupMembers({
         throw new Error('Groups have a limit of 10 members');
       }
       // Check if the user being added exists in the database, if they do, their user id is returned
-      const memberUserId = await getRecipientUserIdByUsername(
+      const memberUserId = await getUserIdByUsername(
         sanitizedUsername
       );
 

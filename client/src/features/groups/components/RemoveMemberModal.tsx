@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { removeGroupMember } from '../../../api/group-chat-api';
+import { removeKickedGroupMember } from '../../../api/group-chat-api';
 import Modal from '../../../components/ModalTemplate';
 import type { GroupInfoWithMembers } from '../../../types/group';
 
@@ -24,7 +24,7 @@ export default function RemoveMemberModal({
   const handleMemberRemoval = async (): Promise<void> => {
     try {
       const groupId = group.info.chatId;
-      const result = await removeGroupMember(groupId, memberId);
+      const result = await removeKickedGroupMember(groupId, memberId);
       toast.success(result);
       setIsModalOpen(false);
     } catch (error) {
