@@ -2,7 +2,7 @@ import { z } from 'zod/v4';
 import { ChatType } from '../types/chat.ts';
 import { MessageType } from '../types/message.ts';
 
-export const ClientMessageEventSchema = z.object({
+export const ClientMessageEventSchema = z.strictObject({
   username: z.string(),
   chatId: z.coerce.number().int().positive(),
   content: z.string(),
@@ -10,6 +10,17 @@ export const ClientMessageEventSchema = z.object({
   chatType: z.enum(ChatType),
   messageType: z.enum(MessageType),
   fileKey: z.string().optional(),
+});
+
+export const ClientMessageEditEventPayloadSchema = z.strictObject({
+  messageId: z.coerce.number().int().positive(),
+  content: z.string(),
+  room: z.uuid(),
+});
+
+export const ClientMessageDeleteEventPayloadSchema = z.strictObject({
+  messageId: z.coerce.number().int().positive(),
+  room: z.uuid(),
 });
 
 export const InsertMessageSchema = z.object({

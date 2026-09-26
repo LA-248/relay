@@ -95,6 +95,11 @@ export const findGroupMembersByRoom = async (room: string): Promise<number[]> =>
   }
 }
 
+export const findGroupChatUpdatedAtDate = async (room: string) => {
+  const groupRepository = new Group();
+  return await groupRepository.findUpdatedAtDate(room);
+}
+
 export const createNewGroup = async (
   io: Server,
   ownerUserId: number,
@@ -383,7 +388,7 @@ export const deleteGroupForMember = async (
 };
 
 // Restore group chat for all members
-export const restore = async (
+export const restoreGroupChat = async (
   groupId: number,
 ): Promise<void> => {
   const groupMemberRepository = new GroupMemberRepository();

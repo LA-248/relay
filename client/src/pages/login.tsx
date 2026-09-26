@@ -88,7 +88,7 @@ export default function Login() {
             Don't have an account? <Link to='/register'>Sign up</Link>
           </div>
         </div>
-        <div className='logotype'>Chats</div>
+        <div className='logotype'>relay</div>
       </div>
     </div>
   );

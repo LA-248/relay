@@ -2,7 +2,7 @@ import { Socket } from "socket.io";
 import { ClientMessageEventPayload } from "../../types/message.ts";
 import { ClientMessageEventSchema } from "../../schemas/message.schema.ts";
 import { ChatType } from "../../types/chat.ts";
-import { findMembersByRoom } from "../../services/private-chat.service.ts";
+import { findPrivateChatMembersByRoom } from "../../services/private-chat.service.ts";
 import { findGroupMembersByRoom } from "../../services/group.service.ts";
 
 // Prevent users from sending messages to chat rooms they are not a part of
@@ -40,7 +40,7 @@ const authenticateChatMember = async (
   let memberIds: number[];
 
   if (isPrivateChat) {
-    memberIds = await findMembersByRoom(room);
+    memberIds = await findPrivateChatMembersByRoom(room);
   } else {
     memberIds = await findGroupMembersByRoom(room);
   }

@@ -79,7 +79,7 @@ export default function Home() {
               }}
               onClick={() => setActiveChatRoom(null)}
             >
-              Chats
+              relay
             </Link>
             <Sidebar />
           </div>

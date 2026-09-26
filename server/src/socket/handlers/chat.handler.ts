@@ -6,15 +6,18 @@ import { Group } from '../../repositories/group.repository.ts';
 import { Message as MessageRepository } from '../../repositories/message.repository.ts';
 import { PrivateChat } from '../../repositories/private-chat.repository.ts';
 import {
+  ClientMessageDeleteEventPayloadSchema,
+  ClientMessageEditEventPayloadSchema,
   NewMessage,
 } from '../../schemas/message.schema.ts';
-import { addNewPrivateChatOnFirstMessage, restoreChat } from '../../services/private-chat.service.ts';
+import { addNewPrivateChatOnFirstMessage, findPrivateChatUpdatedAtDate, restoreChat } from '../../services/private-chat.service.ts';
 import { createPresignedUrl } from '../../services/s3.service.ts';
 import {
   ChatType,
 } from '../../types/chat.ts';
-import { Message, ClientMessageEventPayload, MessageType, ClientMessageEditEventPayload, ServerMessageEditEventPayload, ClientMessageDeleteEventPayload, ServerMessageDeleteEventPayload } from '../../types/message.ts';
-import { formatMessage, saveMessageToDatabase } from '../../services/message.service.ts';
+import { Message, MessageType, ClientMessageEditEventPayload, ServerMessageEditEventPayload, ClientMessageDeleteEventPayload, ServerMessageDeleteEventPayload, ClientMessageEventPayload } from '../../types/message.ts';
+import { findLastMessageInfo, formatMessage, saveMessageToDatabase } from '../../services/message.service.ts';
+import { findGroupChatUpdatedAtDate } from '../../services/group.service.ts';
 
 export const createChatMessageHandler = (socket: Socket, io: Server) =>
   async (data: ClientMessageEventPayload, clientOffset: string, callback: any) => {
@@ -128,34 +131,19 @@ export const updateRecentMessageHandler = (socket: Socket, io: Server) =>
     const { room, chatType } = data;
 
     try {
-      const messageRepository = new MessageRepository();
-      const privateChatRepository = new PrivateChat();
-      const groupRepository = new Group();
-
-      const lastMessageInfo = await messageRepository.findLastMessageInfo(room);
-      const isImage = lastMessageInfo?.type === MessageType.IMAGE;
-      const isPrivateChat = chatType === ChatType.PRIVATE;
-
-      const lastMessageContent = lastMessageInfo
-        ? isImage
-          ? 'Image'
-          : lastMessageInfo.content
-        : null;
-
-      const lastMessageTime = lastMessageInfo
-        ? lastMessageInfo.event_time
-        : null;
+      // FIXME: Don't reach into other modules' internals, expose them through services
+      const lastMessageInfo = await findLastMessageInfo(room, chatType);
+      const { lastMessageContent, lastMessageTime, isPrivateChat } = lastMessageInfo;
 
       const { updated_at } = isPrivateChat
-        ? await privateChatRepository.findUpdatedAtDate(room)
-        : await groupRepository.findUpdatedAtDate(room);
-      const updatedAt = updated_at;
+        ? await findPrivateChatUpdatedAtDate(room)
+        : await findGroupChatUpdatedAtDate(room);
 
       io.to(room).emit('last-message-updated', {
-        room: room,
+        room,
         lastMessageContent,
         lastMessageTime,
-        updatedAt: updatedAt,
+        updatedAt: updated_at,
       });
     } catch (error) {
       console.error('Error updating chat list:', error);
@@ -168,36 +156,40 @@ export const updateRecentMessageHandler = (socket: Socket, io: Server) =>
 
 export const editMessageHandler = (socket: Socket, io: Server) =>
   async (data: ClientMessageEditEventPayload) => {
-    try {
-      const { messageId, content, room } = data;
-      const messageEditPayload: ServerMessageEditEventPayload =
-        { messageId, content, room };
+    const result = ClientMessageEditEventPayloadSchema.safeParse(data);
 
-      io.to(room).emit('message-edited', messageEditPayload);
-    } catch (error) {
-      console.error('Unexpected error:', error);
+    if (!result.success) {
+      console.error('editMessageHandler: Invalid event payload', result.error.issues);
       socket.emit('custom-error', {
         error: `Error editing message. Please try again.`,
       });
       return;
     }
+
+    const { messageId, content, room } = result.data;
+    const messageEditPayload: ServerMessageEditEventPayload =
+      { messageId, content, room };
+
+    io.to(room).emit('message-edited', messageEditPayload);
   };
 
 export const deleteMessageHandler = (socket: Socket, io: Server) =>
   async (data: ClientMessageDeleteEventPayload) => {
-    try {
-      const { messageId, room } = data;
-      const messageDeletePayload: ServerMessageDeleteEventPayload =
-        { messageId, room };
+    const result = ClientMessageDeleteEventPayloadSchema.safeParse(data);
 
-      io.to(room).emit('message-deleted', messageDeletePayload);
-    } catch (error) {
-      console.error('Unexpected error:', error);
+    if (!result.success) {
+      console.error('deleteMessageHandler: Invalid event payload', result.error.issues);
       socket.emit('custom-error', {
         error: `Error deleting message. Please try again.`,
       });
       return;
     }
+
+    const { messageId, room } = result.data;
+    const messageDeletePayload: ServerMessageDeleteEventPayload =
+      { messageId, room };
+
+    io.to(room).emit('message-deleted', messageDeletePayload);
   };
 
 // Emit a chat message to everyone in the relevant room (used for both private and group chats)

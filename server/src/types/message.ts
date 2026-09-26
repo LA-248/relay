@@ -1,5 +1,10 @@
 import { z } from 'zod/v4';
-import { ClientMessageEventSchema, NewMessage } from '../schemas/message.schema.ts';
+import {
+  ClientMessageDeleteEventPayloadSchema,
+  ClientMessageEditEventPayloadSchema,
+  ClientMessageEventSchema,
+  NewMessage
+} from '../schemas/message.schema.ts';
 import { ChatType } from './chat.ts';
 
 export type Message = {
@@ -16,17 +21,10 @@ export type Message = {
 
 export type ClientMessageEventPayload = z.infer<typeof ClientMessageEventSchema>;
 
-export type ClientMessageEditEventPayload = {
-  messageId: number;
-  content: string;
-  room: string;
-}
+export type ClientMessageEditEventPayload = z.infer<typeof ClientMessageEditEventPayloadSchema>;
 export type ServerMessageEditEventPayload = ClientMessageEditEventPayload;
 
-export type ClientMessageDeleteEventPayload = {
-  messageId: number;
-  room: string;
-}
+export type ClientMessageDeleteEventPayload = z.infer<typeof ClientMessageDeleteEventPayloadSchema>;
 export type ServerMessageDeleteEventPayload = ClientMessageDeleteEventPayload;
 
 export type MessageSenderId = {

@@ -93,7 +93,7 @@ export default function SignUp() {
           Already have an account? <Link to='/login'>Log in</Link>
         </div>
       </div>
-      <div className='logotype'>Chats</div>
+      <div className='logotype'>relay</div>
     </div>
   );
 }

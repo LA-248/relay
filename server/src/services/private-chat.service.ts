@@ -9,9 +9,9 @@ import {
   generateChatListPresignedUrls,
 } from './s3.service.ts';
 import { userSockets } from '../socket/index.ts';
-import { restore } from './group.service.ts';
+import { restoreGroupChat } from './group.service.ts';
 
-export const handleChatAddition = async (
+export const addNewPrivateChat = async (
   socket: Socket,
   senderId: number,
   recipientId: number,
@@ -29,10 +29,10 @@ export const handleChatAddition = async (
     await privateChatRepository.insertNewChat(senderId, recipientId, newRoom);
     socket.join(newRoom);
 
-    return await getChat(senderId, newRoom);
+    return await findPrivateChat(senderId, newRoom);
   } else {
     await privateChatRepository.restoreChat(senderId, room);
-    return await getChat(senderId, room);
+    return await findPrivateChat(senderId, room);
   }
 };
 
@@ -54,7 +54,7 @@ export const addNewPrivateChatOnFirstMessage = async (
     // If lastMessageId is null, it means it's the first message being sent in the chat, which should -
     // trigger the chat to be added to the recipient's chat list
     if (socketId && lastMessageId === null) {
-      const newChat = await getChat(recipientId, room);
+      const newChat = await findPrivateChat(recipientId, room);
       const recipientSocket = io.sockets.sockets.get(socketId);
 
       // Only add chat if it does not already exist in the user's chat list
@@ -70,7 +70,7 @@ export const addNewPrivateChatOnFirstMessage = async (
   }
 };
 
-export const getChat = async (
+export const findPrivateChat = async (
   senderId: number,
   room: string,
 ): Promise<ChatDto> => {
@@ -90,7 +90,7 @@ export const getChat = async (
   return { ...chat, chat_picture: profilePictureUrl };
 };
 
-export const findMembersByRoom = async (room: string): Promise<number[]> => {
+export const findPrivateChatMembersByRoom = async (room: string): Promise<number[]> => {
   try {
     const privateChatRepository = new PrivateChat();
     const members = await privateChatRepository.findMembersByRoom(room);
@@ -105,6 +105,12 @@ export const findMembersByRoom = async (room: string): Promise<number[]> => {
   }
 }
 
+export const findPrivateChatUpdatedAtDate = async (room: string) => {
+  const privateChatRepository = new PrivateChat();
+  return await privateChatRepository.findUpdatedAtDate(room);
+}
+
+// TODO: Move to more general location since this handles both private and group chats
 // Mark a chat as not deleted in the database on incoming message if it was previously marked as deleted
 export const restoreChat = async (
   recipientId: number, // For group chats, this is the groupId
@@ -126,7 +132,7 @@ export const restoreChat = async (
       await privateChatRepository.restoreChat(recipientId, room);
     } else if (isGroupChat) {
       const groupId = recipientId;
-      restore(groupId);
+      await restoreGroupChat(groupId);
     }
   } catch (error) {
     // Here the error is swallowed, this is because we don't want to block the sender's message from being delivered if restoring -

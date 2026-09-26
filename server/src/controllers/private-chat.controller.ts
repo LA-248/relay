@@ -9,7 +9,7 @@ import {
 } from '../dtos/private-chat.dto.ts';
 import {
   getChatListByUser,
-  handleChatAddition,
+  addNewPrivateChat,
   updateDeletedAt,
   updateLastMessage,
   updateLastReadAt,
@@ -36,7 +36,7 @@ export const addChat: RequestHandler<
     const socket = io.sockets.sockets.get(userSockets.get(senderId)); // Retrieve specific socket instance by socket ID
     if (!socket) return;
 
-    const addedChat = await handleChatAddition(socket, senderId, recipientId);
+    const addedChat = await addNewPrivateChat(socket, senderId, recipientId);
     res.status(200).json(addedChat);
   } catch (error: unknown) {
     if (error instanceof Error) {

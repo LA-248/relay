@@ -47,35 +47,6 @@ export const upload = async (file: Express.MulterS3.File) => {
   return { fileKey: file.key, fileName: file.originalname };
 };
 
-export const formatMessage = async (
-  message: Message,
-): Promise<FormattedMessage> => {
-  const recipientId = message.recipient_id;
-  const groupId = message.group_id;
-
-  const isGroup = recipientId === null ? true : false;
-  const chatId = isGroup ? groupId : recipientId;
-  const chatType = isGroup ? 'group' : 'private';
-  const isImage = message.type === MessageType.IMAGE;
-
-  const content = isImage
-    ? await createPresignedUrl(
-      process.env.BUCKET_NAME!,
-      `${S3AttachmentsStoragePath.CHAT_ATTACHMENTS}/${chatType}/${chatId}/${message.content}`,
-    )
-    : message.content;
-
-  return {
-    from: message.sender_username,
-    content,
-    eventTime: message.event_time,
-    id: message.id,
-    senderId: message.sender_id,
-    isEdited: message.is_edited,
-    messageType: message.type,
-  };
-};
-
 export const saveMessageToDatabase = async (
   messageContent: string,
   senderId: number,
@@ -140,3 +111,50 @@ export const saveMessageToDatabase = async (
   }
 };
 
+export const findLastMessageInfo = async (room: string, chatType: ChatType) => {
+  const messageRepository = new MessageRepository();
+  const lastMessageInfo = await messageRepository.findLastMessageInfo(room);
+  const isImage = lastMessageInfo?.type === MessageType.IMAGE;
+  const isPrivateChat = chatType === ChatType.PRIVATE;
+
+  const lastMessageContent = lastMessageInfo
+    ? isImage
+      ? 'Image'
+      : lastMessageInfo.content
+    : null;
+
+  const lastMessageTime = lastMessageInfo
+    ? lastMessageInfo.event_time
+    : null;
+
+  return { lastMessageContent, lastMessageTime, isPrivateChat };
+}
+
+export const formatMessage = async (
+  message: Message,
+): Promise<FormattedMessage> => {
+  const recipientId = message.recipient_id;
+  const groupId = message.group_id;
+
+  const isGroup = recipientId === null ? true : false;
+  const chatId = isGroup ? groupId : recipientId;
+  const chatType = isGroup ? 'group' : 'private';
+  const isImage = message.type === MessageType.IMAGE;
+
+  const content = isImage
+    ? await createPresignedUrl(
+      process.env.BUCKET_NAME!,
+      `${S3AttachmentsStoragePath.CHAT_ATTACHMENTS}/${chatType}/${chatId}/${message.content}`,
+    )
+    : message.content;
+
+  return {
+    from: message.sender_username,
+    content,
+    eventTime: message.event_time,
+    id: message.id,
+    senderId: message.sender_id,
+    isEdited: message.is_edited,
+    messageType: message.type,
+  };
+};
