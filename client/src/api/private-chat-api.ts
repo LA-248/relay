@@ -2,7 +2,7 @@ import type { Chat } from '../types/chat';
 import type { UserInfo } from '../types/user';
 
 // Fetch the chat list of a specific user
-export async function getChatListByUserId(): Promise<Chat[]> {
+export async function getChatList(): Promise<Chat[]> {
   const response = await fetch(
     `/api/chats/private`,
     {
@@ -23,7 +23,7 @@ export async function getChatListByUserId(): Promise<Chat[]> {
   return data;
 }
 
-export async function getRecipientInfo(
+export async function getRecipientProfile(
   room: string,
   navigate: (path: string) => void,
 ): Promise<UserInfo> {
@@ -108,7 +108,7 @@ export async function updateLastMessageId(
   }
 }
 
-export async function updateReadStatus(room: string): Promise<void> {
+export async function updateLastReadStatus(room: string): Promise<void> {
   const response = await fetch(
     `/api/chats/private/${room}/read_status`,
     {

@@ -90,7 +90,7 @@ export const updateLastMessageId: RequestHandler<
   }
 };
 
-export const updateReadStatus: RequestHandler<
+export const updateLastReadStatus: RequestHandler<
   { room: string },
   UpdateReadStatusResponseDto | ApiErrorResponse,
   void
@@ -113,7 +113,7 @@ export const updateReadStatus: RequestHandler<
 };
 
 // Delete a chat from a user's chat list
-export const deleteChat: RequestHandler<
+export const deletePrivateChat: RequestHandler<
   { room: string },
   DeleteChatResponseDto | ApiErrorResponse,
   void

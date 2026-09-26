@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react';
-import { uploadChatMedia } from '../../../api/message-api';
+import { uploadMedia } from '../../../api/message-api';
 import { useSocket } from '../../../hooks/useSocket';
 import type { ChatType } from '../../../types/chat';
 
@@ -22,7 +22,7 @@ export function useSendMediaMessage(
 
   const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (socket) {
-      uploadChatMedia(
+      uploadMedia(
         event,
         formRef,
         socket,

@@ -4,8 +4,8 @@ import { useSocket } from '../../../hooks/useSocket';
 import { ChatContext } from '../../../contexts/ChatContext';
 import { ChatType, type Chat } from '../../../types/chat';
 import {
-  getChatListByUserId,
-  updateReadStatus,
+  getChatList,
+  updateLastReadStatus,
 } from '../../../api/private-chat-api';
 import ChatItem from './ChatItem';
 import useClearErrorMessage from '../../../hooks/useClearErrorMessage';
@@ -15,7 +15,7 @@ import useAddGroup from '../hooks/useAddGroup';
 import useAddNewPrivateChat from '../../chats/hooks/useAddPrivateChat';
 import { useChatDelete } from '../hooks/useChatDelete';
 import { useSocketErrorHandling } from '../../../hooks/useSocketErrorHandling';
-import { updateLastReadAt } from '../../../api/group-chat-api';
+import { updateLastReadStatus as updateLastGroupReadStatus } from '../../../api/group-chat-api';
 import useRemoveGroupChat from '../hooks/useRemoveGroupChat';
 import { UserContext } from '../../../contexts/UserContext';
 
@@ -48,7 +48,7 @@ export default function ChatList({
 
     if (chat.chat_type === ChatType.PRIVATE) {
       navigate(`/chats/${chat.room}`);
-      await updateReadStatus(chat.room);
+      await updateLastReadStatus(chat.room);
 
       setChatList((prevChatList): Chat[] => {
         return prevChatList.map((currentChat) => {
@@ -60,7 +60,7 @@ export default function ChatList({
     } else {
       navigate(`/groups/${chat.room}`);
       const groupId: number = Number(chat.chat_id.split('_').pop()); // There must be a cleaner way to do this
-      await updateLastReadAt(groupId, loggedInUserId);
+      await updateLastGroupReadStatus(groupId, loggedInUserId);
     }
   };
 
@@ -68,7 +68,7 @@ export default function ChatList({
   useEffect(() => {
     const displayChatList = async (): Promise<void> => {
       try {
-        const chatList = await getChatListByUserId();
+        const chatList = await getChatList();
         setChatList(chatList);
       } catch (error) {
         if (error instanceof Error) {

@@ -286,7 +286,7 @@ export const removeKickedGroupMember: RequestHandler<
   }
 };
 
-export const updateRole: RequestHandler<
+export const updateGroupMemberRole: RequestHandler<
   UpdateMemberRoleParamsDto,
   UpdateGroupMemberRoleResponseDto | ApiErrorResponse,
   UpdateMemberRoleBodyDto
@@ -375,7 +375,7 @@ export const updateGroupPicture: RequestHandler<
   }
 };
 
-export const updateLastRead: RequestHandler<
+export const updateLastReadStatus: RequestHandler<
   UpdateLastReadStatusParamsDto,
   ApiErrorResponse,
   void

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { retrieveGroupChatInfo } from '../../../api/group-chat-api';
+import { getGroupInfo } from '../../../api/group-chat-api';
 import type { GroupInfoWithMembers } from '../../../types/group';
 import { ChatType } from '../../../types/chat';
 
@@ -23,7 +23,7 @@ export default function useFetchGroupChatInfo(
     const fetchGroupInfo = async (): Promise<void> => {
       try {
         if (chatType === ChatType.GROUP) {
-          const groupChatInfo = await retrieveGroupChatInfo(room, navigate);
+          const groupChatInfo = await getGroupInfo(room, navigate);
           setGroupInfo(groupChatInfo);
         }
       } catch (error) {

@@ -4,7 +4,7 @@ import { deleteMessage } from '../../../api/message-api';
 import { useSocket } from '../../../hooks/useSocket';
 import { MessageContext } from '../../../contexts/MessageContext';
 import { updateLastMessageId } from '../../../api/private-chat-api';
-import { updateLastGroupMessageId } from '../../../api/group-chat-api';
+import { updateLastMessageId as updateLastGroupMessageId } from '../../../api/group-chat-api';
 import Modal from '../../../components/ModalTemplate';
 import { ChatType } from '../../../types/chat';
 import { ChatContext } from '../../../contexts/ChatContext';

@@ -1,10 +1,10 @@
 import express from 'express';
 import {
-  getBlockListById,
+  getBlockList,
   getUserIdByUsername,
   getLoggedInUserData,
   getUserProfilePicture,
-  updateBlockedUsers,
+  updateBlockList,
   updateUsername,
   uploadProfilePicture,
 } from '../controllers/user.controller.ts';
@@ -32,7 +32,7 @@ usersRouter.get(
 usersRouter.get(
   '/blocked',
   validate({ user: UserDataAuthSchema }),
-  getBlockListById,
+  getBlockList,
 );
 usersRouter.get(
   '/:username',
@@ -53,7 +53,7 @@ usersRouter.put(
 usersRouter.put(
   '/blocked',
   validate({ body: UpdateBlockedUsersBodySchema, user: UserDataAuthSchema }),
-  updateBlockedUsers,
+  updateBlockList,
 );
 
 usersRouter.post(

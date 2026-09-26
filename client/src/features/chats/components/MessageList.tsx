@@ -4,8 +4,8 @@ import { UserContext } from '../../../contexts/UserContext';
 import { MessageContext } from '../../../contexts/MessageContext';
 import { ChatContext } from '../../../contexts/ChatContext';
 import { updateBlockList } from '../../../api/user-api';
-import { updateReadStatus } from '../../../api/private-chat-api';
-import { updateLastReadAt } from '../../../api/group-chat-api';
+import { updateLastReadStatus } from '../../../api/private-chat-api';
+import { updateLastReadStatus as updateLastGroupReadStatus } from '../../../api/group-chat-api';
 import ContactInfoModal from './ContactInfoModal';
 import formatDate from '../../../utils/DateTimeFormat';
 import type { GroupInfoWithMembers, GroupMember } from '../../../types/group';
@@ -67,9 +67,9 @@ export default function MessageList({
           });
           // If a message is received while the user has the chat open, automatically mark the chat as read
           if (messageData.chatType === ChatType.PRIVATE) {
-            await updateReadStatus(room);
+            await updateLastReadStatus(room);
           } else if (messageData.chatType === ChatType.GROUP) {
-            await updateLastReadAt(groupId, loggedInUserId);
+            await updateLastGroupReadStatus(groupId, loggedInUserId);
           }
         }
       } catch (error) {

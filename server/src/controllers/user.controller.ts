@@ -125,7 +125,7 @@ export const getUserProfilePicture = async (
   }
 };
 
-export const getBlockListById = async (req: Request, res: Response) => {
+export const getBlockList = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.user?.id);
     const result = await findBlockList(userId);
@@ -169,7 +169,7 @@ export const updateUsername = async (req: Request, res: Response) => {
 };
 
 // Update a user's list of blocked users
-export const updateBlockedUsers = async (req: Request, res: Response) => {
+export const updateBlockList = async (req: Request, res: Response) => {
   try {
     const blockedUserIds = req.body.blockedUserIds;
     const userId = Number(req.user?.id);

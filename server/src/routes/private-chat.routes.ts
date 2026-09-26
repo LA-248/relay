@@ -1,9 +1,9 @@
 import express from 'express';
 import {
   addChat,
-  deleteChat,
+  deletePrivateChat,
   getChatList,
-  updateReadStatus,
+  updateLastReadStatus,
   updateLastMessageId,
 } from '../controllers/private-chat.controller.ts';
 import { getRecipientProfile } from '../controllers/user.controller.ts';
@@ -61,7 +61,7 @@ privateChatsRouter.put(
     user: UserDataAuthSchema,
     params: UpdateReadStatusParamsSchema,
   }),
-  updateReadStatus,
+  updateLastReadStatus,
 );
 privateChatsRouter.delete(
   '/:room',
@@ -69,7 +69,7 @@ privateChatsRouter.delete(
     user: UserDataAuthSchema,
     params: DeleteChatParamsSchema
   }),
-  deleteChat,
+  deletePrivateChat,
 );
 
 export default privateChatsRouter;

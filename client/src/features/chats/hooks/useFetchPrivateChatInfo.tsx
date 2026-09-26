@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getRecipientInfo } from '../../../api/private-chat-api';
+import { getRecipientProfile } from '../../../api/private-chat-api';
 import { useNavigate } from 'react-router-dom';
 import type { UserInfo } from '../../../types/user';
 import { ChatType } from '../../../types/chat';
@@ -20,7 +20,7 @@ export default function useFetchPrivateChatInfo(
     const fetchPrivateChatInfo = async (): Promise<void> => {
       try {
         if (chatType === ChatType.PRIVATE) {
-          const chatInfo = await getRecipientInfo(room, navigate);
+          const chatInfo = await getRecipientProfile(room, navigate);
           setPrivateChatInfo(chatInfo);
         }
       } catch (error) {

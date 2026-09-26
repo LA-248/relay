@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { MessageContext } from '../../../contexts/MessageContext';
-import { editMessageById } from '../../../api/message-api';
+import { editMessage } from '../../../api/message-api';
 import { useSocket } from '../../../hooks/useSocket';
 import Modal from '../../../components/ModalTemplate';
 import { ChatContext } from '../../../contexts/ChatContext';
@@ -44,7 +44,7 @@ export default function EditMessageModal({
 
       // TODO: Write to database in socket event instead of API call
       if (chatId && messageId) {
-        await editMessageById(chatType, chatId, newMessage, messageId);
+        await editMessage(chatType, chatId, newMessage, messageId);
       }
 
       const messageList = [...filteredMessages];

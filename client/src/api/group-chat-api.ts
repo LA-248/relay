@@ -63,7 +63,7 @@ export async function addMembers(
   return data;
 }
 
-export async function retrieveGroupChatInfo(
+export async function getGroupInfo(
   room: string,
   navigate: (path: string) => void,
 ): Promise<GroupInfoWithMembers> {
@@ -95,7 +95,7 @@ export async function retrieveGroupChatInfo(
   return data;
 }
 
-export async function retrieveGroupMembersInfo(
+export async function getMemberUsernames(
   groupId: number,
 ): Promise<string[]> {
   const response = await fetch(
@@ -118,7 +118,7 @@ export async function retrieveGroupMembersInfo(
 
 // Needed for when the most recent message in a group chat is deleted
 // Ensures the correct latest message is shown in the chat list
-export async function updateLastGroupMessageId(
+export async function updateLastMessageId(
   messageId: number | null,
   room: string,
 ): Promise<void> {
@@ -140,7 +140,7 @@ export async function updateLastGroupMessageId(
   }
 }
 
-export async function updateLastReadAt(
+export async function updateLastReadStatus(
   groupId: number,
   userId: number,
 ): Promise<void> {
@@ -202,7 +202,7 @@ export async function leaveGroup(groupId: number): Promise<string> {
   return data.message;
 }
 
-export async function removeGroupMember(
+export async function removeKickedGroupMember(
   groupId: number,
   userId: number,
 ): Promise<string> {

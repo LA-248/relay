@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ChatType } from '../types/chat';
 import { MessageType, type ClientMessageEventPayload } from '../types/message';
 
-export async function editMessageById(
+export async function editMessage(
   chatType: string,
   chatId: number,
   newMessage: string,
@@ -54,7 +54,7 @@ export async function deleteMessage(
   }
 }
 
-export const uploadChatMedia = async (
+export const uploadMedia = async (
   event: React.ChangeEvent<HTMLInputElement>,
   formRef: React.RefObject<HTMLFormElement>,
   socket: Socket,

@@ -10,8 +10,8 @@ import {
   getMemberUsernames,
   updateGroupPicture,
   updateLastMessageId,
-  updateLastRead,
-  updateRole,
+  updateLastReadStatus,
+  updateGroupMemberRole,
 } from '../controllers/group.controller.ts';
 import {
   authoriseGroupOwnerAction,
@@ -117,7 +117,7 @@ groupChatsRouter.put(
     body: UpdateMemberRoleBodySchema,
     params: UpdateMemberRoleParamsSchema,
   }),
-  updateRole,
+  updateGroupMemberRole,
 );
 groupChatsRouter.put(
   '/:groupId/members/:userId/last_read',
@@ -125,7 +125,7 @@ groupChatsRouter.put(
   validate({
     params: UpdateLastReadStatusParamsSchema,
   }),
-  updateLastRead,
+  updateLastReadStatus,
 );
 
 export default groupChatsRouter;
