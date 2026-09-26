@@ -26,16 +26,16 @@ import {
   deleteS3Directory,
   deleteS3Object,
 } from './s3.service.ts';
-import { retrieveUserById } from './user.service.ts';
+import { findUserById } from './user.service.ts';
 import { userSockets } from '../socket/index.ts';
 
 // TODO: Rename this function, it's confusing
-export const retrieveGroupInfoWithMembers = async (
+export const findGroupInfoWithMembers = async (
   room: string,
 ): Promise<GroupInfoWithMembers> => {
   const groupRepository = new Group();
   const groupInfo = await groupRepository.findGroupInfoByRoom(room);
-  const groupMembersInfo = await retrieveGroupMembersInfo(groupInfo.group_id);
+  const groupMembersInfo = await findGroupMembersInfo(groupInfo.group_id);
 
   const groupPictureUrl = groupInfo.group_picture
     ? await createGroupPictureUrl(groupInfo.group_id, groupInfo.group_picture)
@@ -51,7 +51,7 @@ export const retrieveGroupInfoWithMembers = async (
   };
 };
 
-export const retrieveGroupMembersInfo = async (
+export const findGroupMembersInfo = async (
   groupId: number,
 ): Promise<GroupMember[]> => {
   const groupRepository = new Group();
@@ -71,7 +71,7 @@ export const retrieveGroupMembersInfo = async (
   return groupMembersInfo;
 };
 
-export const getMemberUsernames = async (
+export const findMemberUsernames = async (
   groupId: number,
 ): Promise<string[]> => {
   const groupRepository = new Group();
@@ -421,7 +421,7 @@ const notifyAddedUsers = async (
   const addedUsersInfo: AddedUserInfo[] = [];
 
   for (const member of insertedGroupMembers) {
-    const addedUser = await retrieveUserById(member.id);
+    const addedUser = await findUserById(member.id);
     addedUsersInfo.push(addedUser);
 
     if (userSockets.has(addedUser.id)) {

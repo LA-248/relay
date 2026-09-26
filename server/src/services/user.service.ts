@@ -21,7 +21,7 @@ export const createProfilePictureUrl = async (
   )
 };
 
-export const retrieveRecipientData = async (
+export const findRecipientData = async (
   userId: number,
   room: string,
 ): Promise<{
@@ -45,7 +45,7 @@ export const retrieveRecipientData = async (
   return { recipient, profilePictureUrl };
 };
 
-export const retrieveUserById = async (id: number): Promise<UserProfile> => {
+export const findUserById = async (id: number): Promise<UserProfile> => {
   try {
     const userRepository = new User();
     const user = await userRepository.findUserById(id);
@@ -75,7 +75,7 @@ export const retrieveUserById = async (id: number): Promise<UserProfile> => {
   }
 };
 
-export const retrieveUserIdByUsername = async (
+export const findUserIdByUsername = async (
   username: string,
 ): Promise<UserId> => {
   const userRepository = new User();
@@ -91,7 +91,7 @@ export const retrieveUserIdByUsername = async (
   return userId;
 };
 
-export const retrieveProfilePicture = async (userId: number) => {
+export const findProfilePicture = async (userId: number) => {
   const userRepository = new User();
   const result = await userRepository.findUserProfilePictureById(userId);
   const profilePicture = result.profile_picture;
@@ -101,7 +101,7 @@ export const retrieveProfilePicture = async (userId: number) => {
     : null;
 };
 
-export const retrieveBlockList = async (
+export const findBlockList = async (
   userId: number,
 ): Promise<UserBlockList> => {
   const userRepository = new User();

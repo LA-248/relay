@@ -178,7 +178,7 @@ export const setLastMessage = async (
 
 
 // TODO: Move this function to a more general location - this handles retrieving all chats to construct a user's chat list
-export const getChatListByUser = async (userId: number): Promise<ChatDto[]> => {
+export const findChatListByUser = async (userId: number): Promise<ChatDto[]> => {
   const ChatListRepository = new ChatList();
   const chatList = await ChatListRepository.findAllChatsByUser(userId);
   return generateChatListPresignedUrls(chatList);

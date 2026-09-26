@@ -35,11 +35,11 @@ import {
   addUsersToGroup,
   createNewGroup,
   deleteGroupForMember,
-  getMemberUsernames,
+  findMemberUsernames,
   kickMember,
   permanentlyDeleteGroupChat,
   removeMemberWhoLeft,
-  retrieveGroupInfoWithMembers,
+  findGroupInfoWithMembers,
   updateGroupMemberLastReadAt,
   updateLastGroupMessage,
   updateMemberRole,
@@ -91,13 +91,13 @@ export const createGroupChat: RequestHandler<
   }
 };
 
-export const retrieveGroupInfo: RequestHandler<
+export const getGroupInfo: RequestHandler<
   GroupRoom,
   RetrieveGroupInfoResponseDto | ApiErrorResponse,
   void
 > = async (req, res) => {
   try {
-    const groupData = await retrieveGroupInfoWithMembers(req.params.room);
+    const groupData = await findGroupInfoWithMembers(req.params.room);
     res.status(200).json(groupData);
   } catch (error) {
     console.error('Error retrieving group info:', error);
@@ -105,7 +105,7 @@ export const retrieveGroupInfo: RequestHandler<
   }
 };
 
-export const retrieveMemberUsernames: RequestHandler<
+export const getMemberUsernames: RequestHandler<
   GroupIdParamsDto,
   RetrieveGroupMemberUsernamesResponseDto | ApiErrorResponse,
   void
@@ -113,7 +113,7 @@ export const retrieveMemberUsernames: RequestHandler<
   try {
     const groupId = req.params.groupId;
 
-    const usernames = await getMemberUsernames(Number(groupId));
+    const usernames = await findMemberUsernames(Number(groupId));
     res.status(200).json({ memberUsernames: usernames });
   } catch (error) {
     console.error('Error retrieving group member usernames:', error);

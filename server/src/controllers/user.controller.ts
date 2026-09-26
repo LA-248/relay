@@ -14,15 +14,15 @@ import {
 import {
   createProfilePictureUrl,
   handleUsernameUpdate,
-  retrieveBlockList,
-  retrieveProfilePicture,
-  retrieveRecipientData,
-  retrieveUserIdByUsername,
+  findBlockList,
+  findProfilePicture,
+  findRecipientData,
+  findUserIdByUsername,
   updateProfilePicture,
   updateUserBlockList,
 } from '../services/user.service.ts';
 
-export const retrieveLoggedInUserData: RequestHandler<
+export const getLoggedInUserData: RequestHandler<
   ParamsDictionary,
   RetrieveLoggedInUserDataResponseDto | ApiErrorResponse,
   void
@@ -50,7 +50,7 @@ export const retrieveLoggedInUserData: RequestHandler<
   }
 };
 
-export const retrieveRecipientProfile: RequestHandler<
+export const getRecipientProfile: RequestHandler<
   RetrieveRecipientProfileParamsDto,
   | RetrieveRecipientProfileResponseDto
   | RetrieveRecipientProfileNotFoundResponseDto
@@ -58,7 +58,7 @@ export const retrieveRecipientProfile: RequestHandler<
   void
 > = async (req, res) => {
   try {
-    const result = await retrieveRecipientData(
+    const result = await findRecipientData(
       Number(req.user?.id),
       req.params.room,
     );
@@ -82,13 +82,13 @@ export const retrieveRecipientProfile: RequestHandler<
   }
 };
 
-export const retrieveIdByUsername: RequestHandler<
+export const getUserIdByUsername: RequestHandler<
   RetrieveIdByUsernameParamsDto,
   RetrieveIdByUsernameResponseDto | ApiErrorResponse
 > = async (req, res) => {
   try {
     const username = req.params.username;
-    const user = await retrieveUserIdByUsername(username);
+    const user = await findUserIdByUsername(username);
     if (!user) {
       throw new Error(
         'User does not exist. Make sure that the username is correct.',
@@ -110,13 +110,13 @@ export const retrieveIdByUsername: RequestHandler<
   }
 };
 
-export const retrieveUserProfilePicture = async (
+export const getUserProfilePicture = async (
   req: Request,
   res: Response,
 ) => {
   try {
     const userId = Number(req.params.id);
-    const profilePictureUrl = await retrieveProfilePicture(userId);
+    const profilePictureUrl = await findProfilePicture(userId);
 
     res.status(200).json({ profilePicture: profilePictureUrl });
   } catch (error) {
@@ -125,10 +125,10 @@ export const retrieveUserProfilePicture = async (
   }
 };
 
-export const retrieveBlockListById = async (req: Request, res: Response) => {
+export const getBlockListById = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.user?.id);
-    const result = await retrieveBlockList(userId);
+    const result = await findBlockList(userId);
     res.status(200).json({ blockList: result.blocked_users });
   } catch (error) {
     console.error('Error retrieving block list:', error);

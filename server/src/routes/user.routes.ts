@@ -1,9 +1,9 @@
 import express from 'express';
 import {
-  retrieveBlockListById,
-  retrieveIdByUsername,
-  retrieveLoggedInUserData,
-  retrieveUserProfilePicture,
+  getBlockListById,
+  getUserIdByUsername,
+  getLoggedInUserData,
+  getUserProfilePicture,
   updateBlockedUsers,
   updateUsername,
   uploadProfilePicture,
@@ -27,22 +27,22 @@ usersRouter.use(requireAuth);
 usersRouter.get(
   '/',
   validate({ user: UserDataAuthSchema }),
-  retrieveLoggedInUserData,
+  getLoggedInUserData,
 );
 usersRouter.get(
   '/blocked',
   validate({ user: UserDataAuthSchema }),
-  retrieveBlockListById,
+  getBlockListById,
 );
 usersRouter.get(
   '/:username',
   validate({ params: RetrieveIdByUsernameParamsSchema }),
-  retrieveIdByUsername,
+  getUserIdByUsername,
 );
 usersRouter.get(
   '/:id/pictures',
   validate({ params: RetrieveUserProfilePictureParamsSchema }),
-  retrieveUserProfilePicture,
+  getUserProfilePicture,
 );
 
 usersRouter.put(

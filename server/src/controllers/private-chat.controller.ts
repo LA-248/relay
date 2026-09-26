@@ -8,13 +8,13 @@ import {
   UpdateReadStatusResponseDto,
 } from '../dtos/private-chat.dto.ts';
 import {
-  getChatListByUser,
+  findChatListByUser,
   addNewPrivateChat,
   updateDeletedAt,
   updateLastMessage,
   updateLastReadAt,
 } from '../services/private-chat.service.ts';
-import { retrieveUserIdByUsername } from '../services/user.service.ts';
+import { findUserIdByUsername } from '../services/user.service.ts';
 import { ChatDto } from '../types/chat.ts';
 import { userSockets } from '../socket/index.ts';
 
@@ -28,7 +28,7 @@ export const addChat: RequestHandler<
     const senderId = Number(req.user?.id);
     const recipientName = req.body.recipientName;
 
-    const { id: recipientId } = await retrieveUserIdByUsername(
+    const { id: recipientId } = await findUserIdByUsername(
       recipientName,
     );
 
@@ -62,7 +62,7 @@ export const getChatList: RequestHandler<
 > = async (req, res) => {
   try {
     const userId = Number(req.user?.id);
-    const chatList = await getChatListByUser(userId);
+    const chatList = await findChatListByUser(userId);
 
     res.status(200).json(chatList);
   } catch (error) {

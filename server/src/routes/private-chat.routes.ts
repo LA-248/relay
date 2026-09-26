@@ -6,7 +6,7 @@ import {
   updateReadStatus,
   updateLastMessageId,
 } from '../controllers/private-chat.controller.ts';
-import { retrieveRecipientProfile } from '../controllers/user.controller.ts';
+import { getRecipientProfile } from '../controllers/user.controller.ts';
 import {
   privateChatRoomAuth,
   requireAuth,
@@ -43,7 +43,7 @@ privateChatsRouter.get(
     user: UserDataAuthSchema,
     params: RetrieveRecipientProfileParamsSchema,
   }),
-  retrieveRecipientProfile,
+  getRecipientProfile,
 );
 privateChatsRouter.put(
   '/:room/last_message',

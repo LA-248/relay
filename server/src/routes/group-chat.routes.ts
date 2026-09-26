@@ -6,8 +6,8 @@ import {
   leaveGroup,
   permanentlyDeleteGroup,
   removeKickedGroupMember,
-  retrieveGroupInfo,
-  retrieveMemberUsernames,
+  getGroupInfo,
+  getMemberUsernames,
   updateGroupPicture,
   updateLastMessageId,
   updateLastRead,
@@ -64,13 +64,13 @@ groupChatsRouter.get(
   '/:room',
   groupChatRoomAuth,
   validate({ params: GroupRoomSchema }),
-  retrieveGroupInfo,
+  getGroupInfo,
 );
 groupChatsRouter.get(
   '/:groupId/members',
   groupChatRoomAuth,
   validate({ params: GroupIdSchema }),
-  retrieveMemberUsernames,
+  getMemberUsernames,
 );
 
 groupChatsRouter.delete(
