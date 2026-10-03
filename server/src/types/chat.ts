@@ -17,7 +17,7 @@ export type ChatDto = {
   deleted_at: Date | null;
 }
 
-export type InsertedChat = {
+export type InsertedPrivateChat = {
   id: number;
   type: ChatType;
   room: string;
@@ -25,13 +25,28 @@ export type InsertedChat = {
   updated_at: Date;
   last_message_at: Date | null;
   last_message_id: number | null;
-  name: string | null;
+}
+
+export type InsertedGroupChat = {
+  id: number;
+  type: ChatType;
+  room: string;
+  created_at: Date;
+  updated_at: Date;
+  last_message_at: Date | null;
+  last_message_id: number | null;
+  name: string;
   picture: string | null;
 }
 
 export enum ChatType {
   PRIVATE = 'chats',
   GROUP = 'groups',
+}
+
+export enum NewChatType {
+  PRIVATE = 'private',
+  GROUP = 'group',
 }
 
 export enum S3AvatarStoragePath {
