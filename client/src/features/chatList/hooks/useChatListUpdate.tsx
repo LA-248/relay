@@ -2,11 +2,8 @@ import { useEffect } from 'react';
 import { Socket } from 'socket.io-client';
 import type { Chat, ChatMetadata } from '../../../types/chat';
 
-/* 
-Update chat list with latest content and time info on incoming messages, and sort it
-Also mark the chat as not deleted, which ensures the chat is added for the -
-recipient if they had it marked as deleted
-*/
+// Update chat in the list when the last remaining message in a chat is deleted or edited,
+// or when a new message is received
 export default function useChatListUpdate(
   socket: Socket | null,
   setChatList: React.Dispatch<React.SetStateAction<Chat[]>>,
@@ -20,33 +17,11 @@ export default function useChatListUpdate(
             .map((chat) =>
               chat.room === chatData.room
                 ? {
-                    ...chat,
-                    last_message_content: chatData.lastMessageContent,
-                    last_message_time: chatData.lastMessageTime,
-                    updated_at: chatData.updatedAt,
-                  }
-                : chat,
-            )
-            .sort((a, b) => {
-              const timeA = a.updated_at ? new Date(a.updated_at).getTime() : 0;
-              const timeB = b.updated_at ? new Date(b.updated_at).getTime() : 0;
-              return timeB - timeA;
-            }),
-        );
-      };
-
-      // Update chat in chat list when the last remaining message in a chat is deleted or edited
-      const handleLastMessageUpdate = (lastMessageData: ChatMetadata): void => {
-        setChatList((prevChatList) =>
-          prevChatList
-            .map((chat) =>
-              chat.room === lastMessageData.room
-                ? {
-                    ...chat,
-                    last_message_content: lastMessageData.lastMessageContent,
-                    last_message_time: lastMessageData.lastMessageTime,
-                    updated_at: lastMessageData.updatedAt,
-                  }
+                  ...chat,
+                  last_message_content: chatData.lastMessageContent,
+                  last_message_time: chatData.lastMessageTime,
+                  updated_at: chatData.updatedAt,
+                }
                 : chat,
             )
             .sort((a, b) => {
@@ -62,7 +37,7 @@ export default function useChatListUpdate(
 
       return () => {
         socket.off('update-chat-list', handleChatListUpdate);
-        socket.off('last-message-updated', handleLastMessageUpdate);
+        socket.off('last-message-updated', handleChatListUpdate);
       };
     }
   }, [setChatList, socket, activeChatRoom]);

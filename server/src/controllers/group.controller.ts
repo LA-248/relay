@@ -48,7 +48,6 @@ import {
 import { GroupMemberInsertionResult } from '../types/group.ts';
 import { userSockets } from '../socket/index.ts';
 
-// Handle creating a group chat
 export const createGroupChat: RequestHandler<
   ParamsDictionary,
   | CreateGroupChatResponseDto

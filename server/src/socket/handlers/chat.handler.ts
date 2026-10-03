@@ -125,13 +125,13 @@ export const displayChatMessagesHandler = async (
   }
 };
 
+// TODO: Validate incoming payload
 // Send updated message info for the chat list after the last remaining message in a chat is deleted or edited
 export const updateRecentMessageHandler = (socket: Socket, io: Server) =>
   async (data: { room: string, chatType: ChatType }) => {
     const { room, chatType } = data;
 
     try {
-      // FIXME: Don't reach into other modules' internals, expose them through services
       const lastMessageInfo = await findLastMessageInfo(room, chatType);
       const { lastMessageContent, lastMessageTime, isPrivateChat } = lastMessageInfo;
 

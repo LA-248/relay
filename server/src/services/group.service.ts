@@ -29,24 +29,28 @@ import {
 import { findUserById } from './user.service.ts';
 import { userSockets } from '../socket/index.ts';
 
-// TODO: Rename this function, it's confusing
 export const findGroupInfoWithMembers = async (
   room: string,
 ): Promise<GroupInfoWithMembers> => {
   const groupRepository = new Group();
-  const groupInfo = await groupRepository.findGroupInfoByRoom(room);
+  const groupInfo: GroupInfo = await groupRepository.findGroupInfoByRoom(room);
   const groupMembersInfo = await findGroupMembersInfo(groupInfo.group_id);
 
-  const groupPictureUrl = groupInfo.group_picture
-    ? await createGroupPictureUrl(groupInfo.group_id, groupInfo.group_picture)
-    : null;
+  const {
+    group_picture: groupPicture,
+    group_id: groupId,
+    name: groupName,
+  } = groupInfo;
+  const { group_picture: groupPictureUrl } = await createGroupPictureUrl(groupId, groupPicture);
+
+  const groupInfoResponse = {
+    chatId: groupId,
+    name: groupName,
+    groupPicture: groupPictureUrl
+  }
 
   return {
-    info: {
-      chatId: groupInfo.group_id,
-      name: groupInfo.name,
-      groupPicture: groupPictureUrl?.group_picture ?? null,
-    },
+    info: groupInfoResponse,
     members: groupMembersInfo,
   };
 };
@@ -57,7 +61,6 @@ export const findGroupMembersInfo = async (
   const groupRepository = new Group();
   const groupMembersInfo = await groupRepository.findMembersInfoById(groupId);
 
-  // Create a presigned S3 url for each group member's profile picture
   for (let i = 0; i < groupMembersInfo.length; i++) {
     const groupMember = groupMembersInfo[i];
     if (groupMember.profile_picture) {
@@ -119,7 +122,6 @@ export const createNewGroup = async (
     room,
   );
 
-  // Add members to the group chat concurrently
   const insertGroupMembers = addedMembers.map((user) =>
     groupMemberRepository.insertGroupMember(
       newGroupChat.group_id,
@@ -130,11 +132,10 @@ export const createNewGroup = async (
   const insertedGroupMembers: GroupMemberInsertionResult[] =
     await Promise.allSettled(insertGroupMembers);
 
-  // Log failed insertions
   const failedInsertions: GroupMemberInsertionResult[] = [];
   for (let i = 0; i < insertedGroupMembers.length; i++) {
     if (insertedGroupMembers[i].status === 'rejected') {
-      console.error(`Failed to add user ${insertedGroupMembers[i].reason}`);
+      console.error(`Failed to add user: ${insertedGroupMembers[i].reason}`);
       failedInsertions.push(insertedGroupMembers[i]);
     }
   }
@@ -154,7 +155,6 @@ export const addUsersToGroup = async (
 
   const groupInfo = await groupRepository.findGroupInfoByRoom(room);
 
-  // Add members to the group chat
   const insertGroupMembers = addedMembers.map((user) =>
     groupMemberRepository.insertGroupMember(
       groupInfo.group_id,

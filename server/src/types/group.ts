@@ -4,12 +4,6 @@ import {
   NewGroupMember,
 } from '../schemas/group.schema.ts';
 
-export type GroupInfo = {
-  group_id: number;
-  name: string;
-  group_picture: string | null;
-}
-
 export type GroupMember = {
   id: number;
   username: string;

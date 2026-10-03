@@ -69,7 +69,6 @@ export const saveMessageToDatabase = async (
       // Terrible hack to get past the foreign key constraint in the messages table
       // This error happens because the recipient id in the messages table references the users table.
       // When sending messages in a group chat, the group id is used as the recipient id which does not exist in the user's table
-      // TODO: Create distinct tables for private and group chat messages
       isPrivateChat ? chatId : null,
       isGroupChat ? chatId : null,
       room,
