@@ -29,8 +29,7 @@ function GroupInfoHeader({
   const isMemberOwner = useMemo(() => {
     return membersList.some(
       (member) =>
-        member.id === loggedInUserId &&
-        member.role === GroupMemberRole.OWNER
+        member.id === loggedInUserId && member.role === GroupMemberRole.OWNER,
     );
   }, [membersList, loggedInUserId]);
 
@@ -38,15 +37,15 @@ function GroupInfoHeader({
     <>
       <GroupPicture />
       <div
-        className='chat-name-contact-info-modal'
+        className="chat-name-contact-info-modal"
         style={{ textDecoration: 'none', cursor: 'auto' }}
       >
         {group.info.name}
       </div>
       {isMemberOwner ? (
-        <div className='delete-group-container'>
+        <div className="delete-group-container">
           <button
-            className='delete-group-button'
+            className="delete-group-button"
             onClick={() => setIsDeleteModalOpen(true)}
             style={{ width: '100%', marginBottom: '-5px' }}
           >
@@ -98,9 +97,9 @@ export default function GroupInfoModal({
       errorMessage={errorMessage}
       setErrorMessage={setErrorMessage}
     >
-      <div className='modal-heading'>Group info</div>
+      <div className="modal-heading">Group info</div>
 
-      <div className='group-info-container'>
+      <div className="group-info-container">
         <GroupInfoHeader
           group={group}
           membersList={membersList}
@@ -108,7 +107,11 @@ export default function GroupInfoModal({
           setIsDeleteModalOpen={setIsDeleteGroupModalOpen}
         />
         <hr
-          style={{ width: '100%', border: 'solid 1px gray', margin: '10px' }}
+          style={{
+            width: '100%',
+            border: 'solid 1px gray',
+            margin: '10px',
+          }}
         ></hr>
         <MembersList
           membersList={membersList}
@@ -123,7 +126,7 @@ export default function GroupInfoModal({
       </div>
 
       <div
-        className='leave-group-button'
+        className="leave-group-button"
         onClick={() => {
           setIsLeaveModalOpen(true);
         }}
@@ -131,9 +134,9 @@ export default function GroupInfoModal({
         Leave group
       </div>
 
-      <div className='modal-action-buttons-container'>
+      <div className="modal-action-buttons-container">
         <button
-          className='close-modal-button'
+          className="close-modal-button"
           onClick={() => setIsModalOpen(false)}
           style={{ width: '100%' }}
         >

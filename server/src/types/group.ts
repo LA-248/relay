@@ -9,20 +9,20 @@ export type GroupMember = {
   username: string;
   role: string;
   profile_picture?: string | null;
-}
+};
 
 export type GroupMemberToBeAdded = {
   username: string;
   userId: number;
   role: string;
   profilePicture?: string | null;
-}
+};
 
 export type AddedUserInfo = {
   id: number;
   username: string;
   profile_picture: string | null;
-}
+};
 
 export type GroupInfoWithMembers = {
   info: {
@@ -31,13 +31,13 @@ export type GroupInfoWithMembers = {
     groupPicture: string | null;
   };
   members: GroupMember[];
-}
+};
 
 export type GroupMemberInsertionResult = {
   status: 'fulfilled' | 'rejected';
   value?: NewGroupMember;
   reason?: Error | string;
-}
+};
 
 export enum GroupMemberRole {
   OWNER = 'owner',

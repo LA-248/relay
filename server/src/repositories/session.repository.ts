@@ -20,7 +20,7 @@ export class Session {
           expire TIMESTAMP NOT NULL
         )
       `,
-      []
+      [],
     );
   };
 }

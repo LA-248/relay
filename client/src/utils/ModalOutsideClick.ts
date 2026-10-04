@@ -1,7 +1,7 @@
 export default function handleModalOutsideClick(
   modalRef: React.RefObject<HTMLElement | null>,
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  isModalOpen: boolean
+  isModalOpen: boolean,
 ) {
   const handleOutsideClick = (event: MouseEvent) => {
     if (

@@ -7,7 +7,7 @@ import { ChatType } from '../../../types/chat';
 export default function useFetchPrivateChatInfo(
   room: string,
   chatType: string,
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
 ) {
   const navigate = useNavigate();
   const [privateChatInfo, setPrivateChatInfo] = useState<UserInfo>({

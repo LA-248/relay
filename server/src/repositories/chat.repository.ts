@@ -31,9 +31,7 @@ export class Chats {
     );
   };
 
-  insertPrivateChat = async (
-    room: string,
-  ): Promise<InsertedPrivateChat> => {
+  insertPrivateChat = async (room: string): Promise<InsertedPrivateChat> => {
     const result = await this.db.query<InsertedPrivateChat>(
       `
         INSERT INTO chats (type, room)
@@ -44,7 +42,7 @@ export class Chats {
     );
 
     return result.rows[0];
-  }
+  };
 
   insertGroupChat = async (
     room: string,
@@ -61,5 +59,5 @@ export class Chats {
     );
 
     return result.rows[0];
-  }
+  };
 }

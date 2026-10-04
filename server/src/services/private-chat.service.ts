@@ -82,15 +82,17 @@ export const findPrivateChat = async (
 
   const profilePictureUrl = profilePictureName
     ? await createPresignedUrl(
-      process.env.BUCKET_NAME!,
-      `${S3AvatarStoragePath.USER_AVATARS}/${recipientId}/${profilePictureName}`,
-    )
+        process.env.BUCKET_NAME!,
+        `${S3AvatarStoragePath.USER_AVATARS}/${recipientId}/${profilePictureName}`,
+      )
     : null;
 
   return { ...chat, chat_picture: profilePictureUrl };
 };
 
-export const findPrivateChatMembersByRoom = async (room: string): Promise<number[]> => {
+export const findPrivateChatMembersByRoom = async (
+  room: string,
+): Promise<number[]> => {
   try {
     const privateChatRepository = new PrivateChat();
     const members = await privateChatRepository.findMembersByRoom(room);
@@ -103,12 +105,12 @@ export const findPrivateChatMembersByRoom = async (room: string): Promise<number
     }
     throw new Error('An unexpected error occurred');
   }
-}
+};
 
 export const findPrivateChatUpdatedAtDate = async (room: string) => {
   const privateChatRepository = new PrivateChat();
   return await privateChatRepository.findUpdatedAtDate(room);
-}
+};
 
 // TODO: Move to more general location since this handles both private and group chats
 // Mark a chat as not deleted in the database on incoming message if it was previously marked as deleted
@@ -169,16 +171,17 @@ export const updateDeletedAt = async (
 
 export const setLastMessage = async (
   newMessageId: number,
-  room: string
+  room: string,
 ): Promise<Date> => {
   const privateChatRepository = new PrivateChat();
   const result = await privateChatRepository.setLastMessage(newMessageId, room);
   return result.updated_at;
 };
 
-
 // TODO: Move this function to a more general location - this handles retrieving all chats to construct a user's chat list
-export const findChatListByUser = async (userId: number): Promise<ChatDto[]> => {
+export const findChatListByUser = async (
+  userId: number,
+): Promise<ChatDto[]> => {
   const ChatListRepository = new ChatList();
   const chatList = await ChatListRepository.findAllChatsByUser(userId);
   return generateChatListPresignedUrls(chatList);

@@ -45,5 +45,5 @@ export class ChatParticipants {
     );
 
     return result.rows[0];
-  }
+  };
 }

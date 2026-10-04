@@ -28,14 +28,14 @@ function ChatView() {
   const privateChatInfo = useFetchPrivateChatInfo(
     room!, // the route pattern chats/:room guarantees room exists at runtime
     chatType,
-    setErrorMessage
+    setErrorMessage,
   );
   const groupChatInfo = useFetchGroupChatInfo(room!, chatType, setErrorMessage);
 
   useSocketErrorHandling(socket, setErrorMessage);
 
   return (
-    <div className='chat-view-container'>
+    <div className="chat-view-container">
       <ContactHeader
         room={room!}
         chatType={chatType}
@@ -56,7 +56,7 @@ function ChatView() {
         setMessageIndex={setMessageIndex}
       />
 
-      <div className='message-form-container'>
+      <div className="message-form-container">
         <MessageInput key={room} />
       </div>
 

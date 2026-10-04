@@ -28,9 +28,7 @@ export default function Home() {
         setLoggedInUserId(Number(userData.userId));
         setLoggedInUsername(userData.username);
 
-        setProfilePicture(
-          userData.profilePicture,
-        );
+        setProfilePicture(userData.profilePicture);
       } catch (error) {
         if (error instanceof Error) {
           setErrorMessage(error.message);
@@ -62,13 +60,13 @@ export default function Home() {
   return (
     socket && (
       <SocketContext.Provider value={socket}>
-        <div className='main-container'>
-          <div className='sidebar-container'>
+        <div className="main-container">
+          <div className="sidebar-container">
             {errorMessage ? (
-              <div className='error-message'>{errorMessage}</div>
+              <div className="error-message">{errorMessage}</div>
             ) : null}
             <Link
-              to='/'
+              to="/"
               style={{
                 color: '#1db954',
                 fontWeight: '600',
@@ -83,7 +81,7 @@ export default function Home() {
             </Link>
             <Sidebar />
           </div>
-          <div className='chat-window-container'>
+          <div className="chat-window-container">
             <Outlet />
           </div>
         </div>

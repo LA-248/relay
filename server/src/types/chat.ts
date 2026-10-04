@@ -1,4 +1,4 @@
-import { MessageType } from "./message.ts";
+import { MessageType } from './message.ts';
 
 export type ChatDto = {
   chat_id: string;
@@ -15,7 +15,7 @@ export type ChatDto = {
   created_at: Date;
   updated_at: Date;
   deleted_at: Date | null;
-}
+};
 
 export type InsertedPrivateChat = {
   id: number;
@@ -25,7 +25,7 @@ export type InsertedPrivateChat = {
   updated_at: Date;
   last_message_at: Date | null;
   last_message_id: number | null;
-}
+};
 
 export type InsertedGroupChat = {
   id: number;
@@ -37,7 +37,7 @@ export type InsertedGroupChat = {
   last_message_id: number | null;
   name: string;
   picture: string | null;
-}
+};
 
 export enum ChatType {
   PRIVATE = 'chats',
@@ -66,4 +66,4 @@ export enum MulterUploadField {
 
 export type ChatRoom = {
   room: string | null;
-}
+};

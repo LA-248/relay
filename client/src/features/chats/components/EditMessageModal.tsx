@@ -31,9 +31,7 @@ export default function EditMessageModal({
     useContext(MessageContext);
   // const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
 
-  const handleMessageEdit = async (
-    messageId: number | null,
-  ): Promise<void> => {
+  const handleMessageEdit = async (messageId: number | null): Promise<void> => {
     try {
       if (!socket || !room || messageId === null) return;
 
@@ -49,13 +47,17 @@ export default function EditMessageModal({
 
       const messageList = [...filteredMessages];
       // TODO: Perfrom this check on the server
-      const isLastMessage = messageList[messageList.length - 1]?.id === messageId;
+      const isLastMessage =
+        messageList[messageList.length - 1]?.id === messageId;
       if (isLastMessage) {
         socket.emit('last-message-updated', { room, chatType });
       }
 
-      const messageEditPayload: ClientMessageEditEventPayload =
-        { messageId, content: newMessage, room };
+      const messageEditPayload: ClientMessageEditEventPayload = {
+        messageId,
+        content: newMessage,
+        room,
+      };
       socket.emit('message-edited', messageEditPayload);
 
       setNewMessage('');
@@ -76,11 +78,11 @@ export default function EditMessageModal({
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
       >
-        <div className='modal-heading'>Edit message</div>
+        <div className="modal-heading">Edit message</div>
         <div>
           <textarea
             autoFocus
-            id='message-edit-textarea'
+            id="message-edit-textarea"
             placeholder={currentMessage}
             value={newMessage}
             onChange={(event) => setNewMessage(event.target.value)}
@@ -103,9 +105,9 @@ export default function EditMessageModal({
           <div className='emoji-picker-container'></div>
         ) : null} */}
 
-        <div className='modal-action-buttons-container'>
+        <div className="modal-action-buttons-container">
           <button
-            className='confirm-action-button'
+            className="confirm-action-button"
             style={{ backgroundColor: '#1db954' }}
             onClick={() => handleMessageEdit(messageId)}
           >
@@ -113,7 +115,7 @@ export default function EditMessageModal({
           </button>
 
           <button
-            className='close-modal-button'
+            className="close-modal-button"
             onClick={() => {
               setNewMessage('');
               setIsModalOpen(false);

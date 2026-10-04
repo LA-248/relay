@@ -21,7 +21,7 @@ export default function UsernameEdit({
   const [usernameInput, setUsernameInput] = useState<string>('');
 
   const handleFormSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
+    event: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     event.preventDefault();
 
@@ -49,16 +49,16 @@ export default function UsernameEdit({
 
   return (
     <>
-      <div className='username-container'>
-        <div className='username-heading'>Username</div>
-        <div className='username-input-wrapper'>
+      <div className="username-container">
+        <div className="username-heading">Username</div>
+        <div className="username-input-wrapper">
           <input
-            id='username-display'
+            id="username-display"
             placeholder={loggedInUsername}
             disabled={true}
           />
           <button
-            className='edit-username-button'
+            className="edit-username-button"
             onClick={() => setIsModalOpen(true)}
           >
             Edit
@@ -72,29 +72,29 @@ export default function UsernameEdit({
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
       >
-        <div className='modal-heading'>Edit username</div>
-        <form id='username-edit-form' onSubmit={handleFormSubmit}>
+        <div className="modal-heading">Edit username</div>
+        <form id="username-edit-form" onSubmit={handleFormSubmit}>
           <input
             autoFocus
-            className='username-input'
-            placeholder='Choose a new username'
+            className="username-input"
+            placeholder="Choose a new username"
             value={usernameInput}
             onChange={(event) => {
               setUsernameInput(event.target.value);
               setErrorMessage('');
             }}
           />
-          <div className='modal-action-buttons-container'>
+          <div className="modal-action-buttons-container">
             <button
-              type='submit'
-              className='confirm-username-edit-button'
+              type="submit"
+              className="confirm-username-edit-button"
               style={{ marginTop: '20px' }}
             >
               Confirm
             </button>
             <button
-              type='button'
-              className='close-modal-button'
+              type="button"
+              className="close-modal-button"
               style={{ marginTop: '20px' }}
               onClick={() => setIsModalOpen(false)}
             >

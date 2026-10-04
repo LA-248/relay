@@ -11,15 +11,15 @@ import { ChatView } from '../../features/chats/components/ChatView';
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path='/register' element={<SignUp />} />
-      <Route path='/login' element={<Login />} />
+      <Route path="/register" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
 
       <Route element={<ProtectedRoutes />}>
-        <Route path='/' element={<Home />}>
+        <Route path="/" element={<Home />}>
           <Route index element={<ChatWindowPlaceholder />} />
-          <Route path='chats/:room' element={<ChatView />} />
-          <Route path='groups/:room' element={<ChatView />} />
-          <Route path='settings' element={<Settings />} />
+          <Route path="chats/:room" element={<ChatView />} />
+          <Route path="groups/:room" element={<ChatView />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
       </Route>
     </Routes>

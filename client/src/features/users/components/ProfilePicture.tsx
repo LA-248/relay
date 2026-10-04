@@ -7,43 +7,42 @@ export default function ProfilePicture() {
   const formRef = useRef(null);
   const { profilePicture, setProfilePicture, loggedInUserId } =
     useContext(UserContext);
-  const successMessage = 'Picture uploaded successfully'
+  const successMessage = 'Picture uploaded successfully';
 
   const apiEndpoint = `/api/users/${loggedInUserId}/pictures`;
-
 
   const { handleFileInputClick, handleMediaUpload } = useMediaUpload(
     fileInputRef,
     formRef,
     apiEndpoint,
     setProfilePicture,
-    successMessage
+    successMessage,
   );
 
   return (
-    <div className='profile-picture-container'>
+    <div className="profile-picture-container">
       <img
-        className='profile-picture'
-        alt='Profile avatar'
+        className="profile-picture"
+        alt="Profile avatar"
         src={profilePicture ?? '/images/default-avatar.jpg'}
       ></img>
       <form
         ref={formRef}
-        id='profile-picture-upload-form'
-        encType='multipart/form-data'
+        id="profile-picture-upload-form"
+        encType="multipart/form-data"
       >
         <input
           ref={fileInputRef}
-          type='file'
-          name='profile-picture'
-          accept='image/*'
+          type="file"
+          name="profile-picture"
+          accept="image/*"
           style={{ display: 'none' }}
           onChange={handleMediaUpload}
         />
       </form>
       <button
-        type='button'
-        className='upload-profile-picture-button'
+        type="button"
+        className="upload-profile-picture-button"
         onClick={handleFileInputClick}
       >
         Upload

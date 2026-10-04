@@ -3,7 +3,7 @@ import {
   ClientMessageDeleteEventPayloadSchema,
   ClientMessageEditEventPayloadSchema,
   ClientMessageEventSchema,
-  NewMessage
+  NewMessage,
 } from '../schemas/message.schema.ts';
 import { ChatType } from './chat.ts';
 
@@ -17,23 +17,28 @@ export type Message = {
   isEdited?: boolean;
   chatType: ChatType;
   messageType: MessageType;
-}
+};
 
-export type ClientMessageEventPayload = z.infer<typeof ClientMessageEventSchema>;
+export type ClientMessageEventPayload = z.infer<
+  typeof ClientMessageEventSchema
+>;
 
-export type ClientMessageEditEventPayload = z.infer<typeof ClientMessageEditEventPayloadSchema>;
+export type ClientMessageEditEventPayload = z.infer<
+  typeof ClientMessageEditEventPayloadSchema
+>;
 export type ServerMessageEditEventPayload = ClientMessageEditEventPayload;
 
-export type ClientMessageDeleteEventPayload = z.infer<typeof ClientMessageDeleteEventPayloadSchema>;
+export type ClientMessageDeleteEventPayload = z.infer<
+  typeof ClientMessageDeleteEventPayloadSchema
+>;
 export type ServerMessageDeleteEventPayload = ClientMessageDeleteEventPayload;
 
 export type MessageSenderId = {
   messageSenderId: number;
-}
+};
 
 export enum MessageType {
   TEXT = 'text',
   IMAGE = 'image',
   VIDEO = 'video',
 }
-

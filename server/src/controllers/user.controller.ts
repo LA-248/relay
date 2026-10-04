@@ -33,10 +33,7 @@ export const getLoggedInUserData: RequestHandler<
     const username = String(req.user?.username);
 
     const profilePictureUrl = profilePicture
-      ? await createProfilePictureUrl(
-        userId,
-        profilePicture,
-      )
+      ? await createProfilePictureUrl(userId, profilePicture)
       : null;
 
     res.status(200).json({
@@ -110,10 +107,7 @@ export const getUserIdByUsername: RequestHandler<
   }
 };
 
-export const getUserProfilePicture = async (
-  req: Request,
-  res: Response,
-) => {
+export const getUserProfilePicture = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.id);
     const profilePictureUrl = await findProfilePicture(userId);
@@ -121,7 +115,9 @@ export const getUserProfilePicture = async (
     res.status(200).json({ profilePicture: profilePictureUrl });
   } catch (error) {
     console.error('Error retrieving user profile picture:', error);
-    res.status(500).json({ error: 'Error retrieving user profile picture' });
+    res.status(500).json({
+      error: 'Error retrieving user profile picture',
+    });
   }
 };
 
@@ -146,9 +142,9 @@ export const uploadProfilePicture = async (req: Request, res: Response) => {
     res.status(200).json({ fileUrl: profilePictureUrl });
   } catch (error) {
     console.error('Error uploading profile picture:', error);
-    res
-      .status(500)
-      .json({ error: 'Error uploading profile picture. Please try again.' });
+    res.status(500).json({
+      error: 'Error uploading profile picture. Please try again.',
+    });
   }
 };
 
@@ -162,9 +158,9 @@ export const updateUsername = async (req: Request, res: Response) => {
     res.status(200).json({ success: 'Username updated successfully' });
   } catch (error) {
     console.error('Error updating username:', error);
-    res
-      .status(500)
-      .json({ error: 'Error updating username. Please try again.' });
+    res.status(500).json({
+      error: 'Error updating username. Please try again.',
+    });
   }
 };
 
@@ -178,6 +174,8 @@ export const updateBlockList = async (req: Request, res: Response) => {
     res.status(200).json({ success: 'Block list successfully updated' });
   } catch (error) {
     console.error('Error blocking user:', error);
-    res.status(500).json({ error: 'Error blocking user. Please try again.' });
+    res.status(500).json({
+      error: 'Error blocking user. Please try again.',
+    });
   }
 };

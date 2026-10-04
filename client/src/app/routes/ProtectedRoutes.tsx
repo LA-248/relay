@@ -11,17 +11,14 @@ export default function ProtectedRoutes() {
   useEffect(() => {
     try {
       const checkAuthStatus = async (): Promise<void> => {
-        const response = await fetch(
-          `/api/auth/status`,
-          {
-            method: 'GET',
-            credentials: 'include',
-          }
-        );
+        const response = await fetch(`/api/auth/status`, {
+          method: 'GET',
+          credentials: 'include',
+        });
 
         if (!response.ok) {
           throw new Error(
-            'There was an error retrieving the authentication status.'
+            'There was an error retrieving the authentication status.',
           );
         }
 
@@ -50,6 +47,6 @@ export default function ProtectedRoutes() {
   if (authenticationStatus) {
     return <Outlet />;
   } else {
-    return <Navigate to='/login' />;
+    return <Navigate to="/login" />;
   }
 }

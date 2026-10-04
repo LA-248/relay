@@ -3,14 +3,14 @@ export type GroupMember = {
   username: string;
   role: GroupMemberRole;
   profile_picture?: string | null;
-}
+};
 
 export type GroupMemberToBeAdded = {
   username: string;
   userId: number;
   role: GroupMemberRole;
   profilePicture?: string | null;
-}
+};
 
 export type GroupInfoWithMembers = {
   info: {
@@ -19,18 +19,18 @@ export type GroupInfoWithMembers = {
     groupPicture: string | null;
   };
   members: GroupMember[];
-}
+};
 
 export type RemovedGroupChat = {
   room: string;
   redirectPath: string;
-}
+};
 
 export type GroupMemberToRemove = {
   username: string;
   userId: number;
   role: GroupMemberRole;
-}
+};
 
 export enum GroupMemberRole {
   OWNER = 'owner',

@@ -7,7 +7,7 @@ export default function useRemoveGroupChat(
   socket: Socket | null,
   setChatList: React.Dispatch<React.SetStateAction<Chat[]>>,
   setActiveChatRoom: React.Dispatch<React.SetStateAction<string | null>>,
-  navigate: (path: string) => void
+  navigate: (path: string) => void,
 ) {
   // Remove a group chat that a user left or was kicked out of from their chat list
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function useRemoveGroupChat(
 
     const handleGroupChatRemoval = (data: RemovedGroupChat) => {
       setChatList((prevChatList) =>
-        prevChatList.filter((group) => group.room !== data.room)
+        prevChatList.filter((group) => group.room !== data.room),
       );
       setActiveChatRoom(null);
       navigate(data.redirectPath);

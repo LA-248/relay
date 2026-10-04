@@ -45,4 +45,3 @@ export async function createTables(): Promise<void> {
     console.error('Error creating table:', error);
   }
 }
-

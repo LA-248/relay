@@ -29,8 +29,7 @@ export default function MembersList({
   const isMemberOwner = useMemo(() => {
     return membersList.some(
       (member) =>
-        member.id === loggedInUserId &&
-        member.role === GroupMemberRole.OWNER
+        member.id === loggedInUserId && member.role === GroupMemberRole.OWNER,
     );
   }, [membersList, loggedInUserId]);
 
@@ -38,15 +37,14 @@ export default function MembersList({
   const isMemberAdmin = useMemo(() => {
     return membersList.some(
       (member) =>
-        member.id === loggedInUserId &&
-        member.role === GroupMemberRole.ADMIN
+        member.id === loggedInUserId && member.role === GroupMemberRole.ADMIN,
     );
   }, [membersList, loggedInUserId]);
 
   return (
     <>
-      <div className='group-member-list-container'>
-        <div className='group-member-list-header'>Members</div>
+      <div className="group-member-list-container">
+        <div className="group-member-list-header">Members</div>
         {membersList.map((member) => {
           const isSelf = member.id === loggedInUserId;
 
@@ -60,58 +58,58 @@ export default function MembersList({
               !isSelf);
 
           return (
-            <div className='group-member' key={member.id}>
-              <div className='group-member-metadata'>
+            <div className="group-member" key={member.id}>
+              <div className="group-member-metadata">
                 <img
-                  className='group-member-profile-picture'
+                  className="group-member-profile-picture"
                   src={member.profile_picture ?? '/images/default-avatar.jpg'}
-                  alt='Profile avatar'
+                  alt="Profile avatar"
                 />
-                <div className='group-member-name-and-role'>
-                  <div className='group-member-name'>
+                <div className="group-member-name-and-role">
+                  <div className="group-member-name">
                     {loggedInUsername === member.username
                       ? 'You'
                       : member.username}
                   </div>
-                  <div className='group-member-role'>
+                  <div className="group-member-role">
                     <div>
                       {member.role === GroupMemberRole.OWNER
                         ? 'Owner'
                         : member.role === GroupMemberRole.ADMIN
-                        ? 'Admin'
-                        : null}
+                          ? 'Admin'
+                          : null}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className='group-moderation-buttons-container'>
+              <div className="group-moderation-buttons-container">
                 {
                   // For the owner of the group, do not show the button to add/remove an admin next to their name
                   member.role !== GroupMemberRole.OWNER ? (
                     isMemberOwner && member.role !== GroupMemberRole.ADMIN ? (
                       <button
-                        className='make-admin-button'
-                        title='Make admin'
+                        className="make-admin-button"
+                        title="Make admin"
                         onClick={() => {
                           setIsMakeAdminModalOpen(true);
                           setMemberId(member.id);
                           setMemberName(member.username);
                         }}
                       >
-                        <AddModeratorRoundedIcon fontSize='small' />
+                        <AddModeratorRoundedIcon fontSize="small" />
                       </button>
                     ) : isMemberOwner &&
                       member.role === GroupMemberRole.ADMIN ? (
                       <button
-                        className='remove-admin-button'
-                        title='Remove as admin'
+                        className="remove-admin-button"
+                        title="Remove as admin"
                         onClick={() => {
                           setIsRemoveAsAdminModalOpen(true);
                           setMemberId(member.id);
                           setMemberName(member.username);
                         }}
                       >
-                        <RemoveModeratorRoundedIcon fontSize='small'></RemoveModeratorRoundedIcon>
+                        <RemoveModeratorRoundedIcon fontSize="small"></RemoveModeratorRoundedIcon>
                       </button>
                     ) : null
                   ) : null
@@ -119,15 +117,15 @@ export default function MembersList({
 
                 {showKickButton ? (
                   <button
-                    className='remove-member-button'
-                    title='Kick'
+                    className="remove-member-button"
+                    title="Kick"
                     onClick={() => {
                       setIsRemoveMemberModalOpen(true);
                       setMemberId(member.id);
                       setMemberName(member.username);
                     }}
                   >
-                    <PersonRemoveAlt1RoundedIcon fontSize='small' />
+                    <PersonRemoveAlt1RoundedIcon fontSize="small" />
                   </button>
                 ) : null}
               </div>

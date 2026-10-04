@@ -43,15 +43,15 @@ export default function RemoveMemberModal({
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
       >
-        <div className='modal-heading'>{`Remove ${memberName}?`}</div>
-        <div className='modal-subtext'>
+        <div className="modal-heading">{`Remove ${memberName}?`}</div>
+        <div className="modal-subtext">
           Are you sure you want to remove <strong>{memberName}</strong> from the
           group? They will be able to join again if they are re-added.
         </div>
 
-        <div className='modal-action-buttons-container'>
+        <div className="modal-action-buttons-container">
           <button
-            className='confirm-action-button'
+            className="confirm-action-button"
             style={{ backgroundColor: 'red' }}
             onClick={() => handleMemberRemoval()}
           >
@@ -59,7 +59,7 @@ export default function RemoveMemberModal({
           </button>
 
           <button
-            className='close-modal-button'
+            className="close-modal-button"
             onClick={() => {
               setIsModalOpen(false);
             }}

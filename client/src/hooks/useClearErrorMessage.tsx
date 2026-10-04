@@ -3,7 +3,7 @@ import { ChatContext } from '../contexts/ChatContext';
 
 export default function useClearErrorMessage(
   errorMessage: string,
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
 ) {
   const { chatId } = useContext(ChatContext);
 

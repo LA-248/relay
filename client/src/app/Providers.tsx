@@ -11,7 +11,7 @@ export default function Providers({ children }: { children: ReactNode }) {
       <ChatProvider>
         <MessageProvider>
           <Router>
-            <Toaster position='top-center' richColors={true} />
+            <Toaster position="top-center" richColors={true} />
             {children}
           </Router>
         </MessageProvider>

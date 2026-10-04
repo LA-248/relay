@@ -22,15 +22,7 @@ export function useSendMediaMessage(
 
   const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (socket) {
-      uploadMedia(
-        event,
-        formRef,
-        socket,
-        username,
-        chatId,
-        room,
-        chatType,
-      );
+      uploadMedia(event, formRef, socket, username, chatId, room, chatType);
     }
   };
 

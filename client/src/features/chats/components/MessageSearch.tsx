@@ -21,7 +21,7 @@ export default function MessageSearch({
       const filtered = messages.filter((message) =>
         message.content
           .toLowerCase()
-          .includes(messageSearchValueText.toLowerCase())
+          .includes(messageSearchValueText.toLowerCase()),
       );
       setFilteredMessages(filtered);
     } else {
@@ -30,11 +30,11 @@ export default function MessageSearch({
   }, [setFilteredMessages, messageSearchValueText, messages]);
 
   return (
-    <div className='message-search-container'>
+    <div className="message-search-container">
       <input
-        id='message-search-input'
-        type='text'
-        placeholder='Search messages'
+        id="message-search-input"
+        type="text"
+        placeholder="Search messages"
         value={messageSearchValueText}
         onChange={(event) => setMessageSearchValueText(event.target.value)}
         onClick={() => setActive(true)}

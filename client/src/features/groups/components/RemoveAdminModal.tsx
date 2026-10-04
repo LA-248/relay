@@ -30,7 +30,7 @@ export default function RemoveAsAdminModal({
       const result = await updateGroupMemberRole(
         groupId,
         memberId,
-        GroupMemberRole.MEMBER
+        GroupMemberRole.MEMBER,
       );
       toast.success(result);
       setIsModalOpen(false);
@@ -50,15 +50,15 @@ export default function RemoveAsAdminModal({
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
       >
-        <div className='modal-heading'>{`Remove ${memberName} as admin?`}</div>
-        <div className='modal-subtext'>
+        <div className="modal-heading">{`Remove ${memberName} as admin?`}</div>
+        <div className="modal-subtext">
           This will remove <strong>{memberName}'s</strong> admin privileges,
           they will no longer have the ability to kick members.
         </div>
 
-        <div className='modal-action-buttons-container'>
+        <div className="modal-action-buttons-container">
           <button
-            className='confirm-action-button'
+            className="confirm-action-button"
             style={{ backgroundColor: '#1db954' }}
             onClick={() => handleAdminRemoval()}
           >
@@ -66,7 +66,7 @@ export default function RemoveAsAdminModal({
           </button>
 
           <button
-            className='close-modal-button'
+            className="close-modal-button"
             onClick={() => {
               setIsModalOpen(false);
             }}

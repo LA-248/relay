@@ -4,7 +4,7 @@ export default function useBlockAndUnblock(
   recipientUserId: number,
   updateBlockList: (userIds: number[]) => void,
   setIsBlocked: React.Dispatch<React.SetStateAction<boolean>>,
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
 ) {
   const handleBlockAndUnblock = async (): Promise<void> => {
     try {
@@ -18,7 +18,7 @@ export default function useBlockAndUnblock(
       } else {
         // Unblock user
         const updatedBlockList = currentUserBlockList.filter(
-          (id) => id !== recipientUserId
+          (id) => id !== recipientUserId,
         );
         updateBlockList(updatedBlockList);
         setIsBlocked(false);

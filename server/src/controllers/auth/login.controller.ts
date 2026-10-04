@@ -9,14 +9,18 @@ export const handleUserLogin = (
 ) => {
   passport.authenticate('local', (err: Error, user: UserProfile) => {
     if (!user) {
-      res
-        .status(401)
-        .json({ success: false, error: 'Incorrect username or password' });
+      res.status(401).json({
+        success: false,
+        error: 'Incorrect username or password',
+      });
       return;
     }
 
     if (err) {
-      res.status(500).json({ success: false, error: 'Internal server error' });
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+      });
       return;
     }
 

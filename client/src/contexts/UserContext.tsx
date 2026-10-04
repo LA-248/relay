@@ -3,13 +3,13 @@ import type { UserContextType } from '../types/user';
 
 const defaultUserContext: UserContextType = {
   loggedInUserId: 0,
-  setLoggedInUserId: () => { },
+  setLoggedInUserId: () => {},
   loggedInUsername: '',
-  setLoggedInUsername: () => { },
+  setLoggedInUsername: () => {},
   profilePicture: '',
-  setProfilePicture: () => { },
+  setProfilePicture: () => {},
   isBlocked: false,
-  setIsBlocked: () => { },
+  setIsBlocked: () => {},
 };
 
 const UserContext = createContext<UserContextType>(defaultUserContext);

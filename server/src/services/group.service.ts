@@ -41,13 +41,16 @@ export const findGroupInfoWithMembers = async (
     group_id: groupId,
     name: groupName,
   } = groupInfo;
-  const { group_picture: groupPictureUrl } = await createGroupPictureUrl(groupId, groupPicture);
+  const { group_picture: groupPictureUrl } = await createGroupPictureUrl(
+    groupId,
+    groupPicture,
+  );
 
   const groupInfoResponse = {
     chatId: groupId,
     name: groupName,
-    groupPicture: groupPictureUrl
-  }
+    groupPicture: groupPictureUrl,
+  };
 
   return {
     info: groupInfoResponse,
@@ -83,7 +86,9 @@ export const findMemberUsernames = async (
   return groupMembersInfo.map((member: GroupMember) => member.username);
 };
 
-export const findGroupMembersByRoom = async (room: string): Promise<number[]> => {
+export const findGroupMembersByRoom = async (
+  room: string,
+): Promise<number[]> => {
   try {
     const groupMemberRepository = new GroupMemberRepository();
     const members = await groupMemberRepository.findMembersByRoom(room);
@@ -96,12 +101,12 @@ export const findGroupMembersByRoom = async (room: string): Promise<number[]> =>
     }
     throw new Error('An unexpected error occurred');
   }
-}
+};
 
 export const findGroupChatUpdatedAtDate = async (room: string) => {
   const groupRepository = new Group();
   return await groupRepository.findUpdatedAtDate(room);
-}
+};
 
 export const createNewGroup = async (
   io: Server,
@@ -377,7 +382,7 @@ export const setLastGroupMessage = async (
   const groupRepository = new Group();
   const result = await groupRepository.setLastMessage(newMessageId, room);
   return result.updated_at;
-}
+};
 
 export const deleteGroupForMember = async (
   groupId: number,
@@ -388,12 +393,10 @@ export const deleteGroupForMember = async (
 };
 
 // Restore group chat for all members
-export const restoreGroupChat = async (
-  groupId: number,
-): Promise<void> => {
+export const restoreGroupChat = async (groupId: number): Promise<void> => {
   const groupMemberRepository = new GroupMemberRepository();
   return await groupMemberRepository.restore(groupId);
-}
+};
 
 // Update the picture of a group for all its members in real-time
 const emitGroupPictureUpdate = async (

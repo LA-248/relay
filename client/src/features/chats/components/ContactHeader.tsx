@@ -137,27 +137,27 @@ export default function ContactHeader({
 
   return (
     <div>
-      <div className='contact-header-container'>
-        <div className='contact-header'>
-          <div className='picture-and-name'>
+      <div className="contact-header-container">
+        <div className="contact-header">
+          <div className="picture-and-name">
             <img
-              className='chat-pic'
+              className="chat-pic"
               src={
                 (isPrivateChat ? recipientProfilePicture : groupPicture) ||
                 '/images/default-avatar.jpg'
               }
-              alt='Profile avatar'
+              alt="Profile avatar"
               style={{ height: '35px', width: '35px' }}
             ></img>
             <div>
               <div
-                className='chat-name-contact-header'
+                className="chat-name-contact-header"
                 onClick={() => setIsChatInfoModalOpen(true)}
               >
                 {chatName}
               </div>
               {isGroupChat && groupChatInfo.members ? (
-                <div className='group-member-list'>
+                <div className="group-member-list">
                   {membersList
                     .map((member) => {
                       return loggedInUsername === member.username
@@ -170,16 +170,16 @@ export default function ContactHeader({
             </div>
           </div>
 
-          <div className='chat-action-buttons'>
+          <div className="chat-action-buttons">
             {isPrivateChat ? (
-              <button className='start-voice-call-button'>
-                <LocalPhoneRoundedIcon fontSize='medium'></LocalPhoneRoundedIcon>
+              <button className="start-voice-call-button">
+                <LocalPhoneRoundedIcon fontSize="medium"></LocalPhoneRoundedIcon>
               </button>
             ) : null}
 
             {isGroupChat ? (
               <button
-                className='add-group-members-button'
+                className="add-group-members-button"
                 onClick={() => setIsAddMembersModalOpen(true)}
               >
                 Add members

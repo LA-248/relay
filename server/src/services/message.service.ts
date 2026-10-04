@@ -1,8 +1,15 @@
 import { Message as MessageRepository } from '../repositories/message.repository.ts';
-import { FormattedMessage, Message, NewMessage } from '../schemas/message.schema.ts';
+import {
+  FormattedMessage,
+  Message,
+  NewMessage,
+} from '../schemas/message.schema.ts';
 import { ChatType, S3AttachmentsStoragePath } from '../types/chat.ts';
 import { MessageType } from '../types/message.ts';
-import { setLastGroupMessage, updateGroupMemberLastReadAt } from './group.service.ts';
+import {
+  setLastGroupMessage,
+  updateGroupMemberLastReadAt,
+} from './group.service.ts';
 import { setLastMessage, updateLastReadAt } from './private-chat.service.ts';
 import { createPresignedUrl, deleteS3Object } from './s3.service.ts';
 
@@ -81,12 +88,14 @@ export const saveMessageToDatabase = async (
     const [updatedAt] = await Promise.all(
       isPrivateChat
         ? [
-          setLastMessage(newMessage.id, room),
-          updateLastReadAt(senderId, room)
-        ] : [
-          setLastGroupMessage(newMessage.id, room),
-          updateGroupMemberLastReadAt(chatId, senderId)
-        ]);
+            setLastMessage(newMessage.id, room),
+            updateLastReadAt(senderId, room),
+          ]
+        : [
+            setLastGroupMessage(newMessage.id, room),
+            updateGroupMemberLastReadAt(chatId, senderId),
+          ],
+    );
 
     return { newMessage, updatedAt };
   } catch (error) {
@@ -122,12 +131,10 @@ export const findLastMessageInfo = async (room: string, chatType: ChatType) => {
       : lastMessageInfo.content
     : null;
 
-  const lastMessageTime = lastMessageInfo
-    ? lastMessageInfo.event_time
-    : null;
+  const lastMessageTime = lastMessageInfo ? lastMessageInfo.event_time : null;
 
   return { lastMessageContent, lastMessageTime, isPrivateChat };
-}
+};
 
 export const formatMessage = async (
   message: Message,
@@ -142,9 +149,9 @@ export const formatMessage = async (
 
   const content = isImage
     ? await createPresignedUrl(
-      process.env.BUCKET_NAME!,
-      `${S3AttachmentsStoragePath.CHAT_ATTACHMENTS}/${chatType}/${chatId}/${message.content}`,
-    )
+        process.env.BUCKET_NAME!,
+        `${S3AttachmentsStoragePath.CHAT_ATTACHMENTS}/${chatType}/${chatId}/${message.content}`,
+      )
     : message.content;
 
   return {

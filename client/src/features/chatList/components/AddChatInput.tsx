@@ -73,13 +73,13 @@ export default function AddChatInput({
   useClearErrorMessage(errorMessage, setErrorMessage);
 
   return (
-    <div className='username-form-container'>
-      <form id='username-form' action='' onSubmit={handleAddChat}>
-        <div className='username-input-container'>
+    <div className="username-form-container">
+      <form id="username-form" action="" onSubmit={handleAddChat}>
+        <div className="username-input-container">
           <input
-            id='username-input'
-            type='text'
-            placeholder='Start a conversation'
+            id="username-input"
+            type="text"
+            placeholder="Start a conversation"
             value={inputUsername}
             onChange={(event) => {
               setInputUsername(event.target.value);
@@ -87,7 +87,7 @@ export default function AddChatInput({
             }}
           />
           <button
-            className='start-chat-button'
+            className="start-chat-button"
             style={{
               marginLeft: '10px',
               opacity:
@@ -107,7 +107,7 @@ export default function AddChatInput({
           </button>
         </div>
         {errorMessage && (
-          <div className='error-message' style={{ marginTop: '20px' }}>
+          <div className="error-message" style={{ marginTop: '20px' }}>
             {errorMessage}
           </div>
         )}

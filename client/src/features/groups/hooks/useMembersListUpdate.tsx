@@ -4,22 +4,20 @@ import type { GroupMember } from '../../../types/group';
 
 export default function useMembersListUpdate(
   socket: Socket | null,
-  setMembersList: React.Dispatch<React.SetStateAction<GroupMember[]>>
+  setMembersList: React.Dispatch<React.SetStateAction<GroupMember[]>>,
 ) {
   useEffect(() => {
     if (!socket) return;
 
     const handleMemberRemoval = (data: { removedUserId: number }) => {
       setMembersList((prevMembersList) =>
-        prevMembersList.filter(
-          (member) => member.id !== data.removedUserId
-        )
+        prevMembersList.filter((member) => member.id !== data.removedUserId),
       );
     };
 
     const handleMemberAddition = (data: { addedUsersInfo: GroupMember[] }) => {
       setMembersList((prevMembersList) =>
-        prevMembersList.concat(data.addedUsersInfo)
+        prevMembersList.concat(data.addedUsersInfo),
       );
     };
 
@@ -31,7 +29,7 @@ export default function useMembersListUpdate(
           return member.id === data.updatedMember.id
             ? { ...member, role: data.updatedMember.role }
             : member;
-        })
+        }),
       );
     };
 
@@ -45,7 +43,7 @@ export default function useMembersListUpdate(
           return member.id === data.userId
             ? { ...member, profile_picture: data.newInfo }
             : member;
-        })
+        }),
       );
     };
 
@@ -59,7 +57,7 @@ export default function useMembersListUpdate(
           return member.id === data.userId
             ? { ...member, username: data.newInfo }
             : member;
-        })
+        }),
       );
     };
 
@@ -69,7 +67,7 @@ export default function useMembersListUpdate(
     socket.on('update-member-role', handleGroupMemberRoleUpdate);
     socket.on(
       'update-profile-picture-in-groups',
-      handleGroupMemberProfilePictureUpdate
+      handleGroupMemberProfilePictureUpdate,
     );
     socket.on('update-username-in-groups', handleGroupMemberUsernameUpdate);
 
@@ -80,7 +78,7 @@ export default function useMembersListUpdate(
       socket.off('update-member-role', handleGroupMemberRoleUpdate);
       socket.off(
         'update-profile-picture-in-groups',
-        handleGroupMemberProfilePictureUpdate
+        handleGroupMemberProfilePictureUpdate,
       );
       socket.off('update-username-in-groups', handleGroupMemberUsernameUpdate);
     };

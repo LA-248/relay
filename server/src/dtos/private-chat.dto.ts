@@ -4,7 +4,9 @@ import {
   UpdateLastMessageIdBodySchema,
 } from '../schemas/private-chat.schema.ts';
 
-export type CreatePrivateChatInputDto = z.infer<typeof CreatePrivateChatBodySchema>;
+export type CreatePrivateChatInputDto = z.infer<
+  typeof CreatePrivateChatBodySchema
+>;
 
 export type UpdateLastMessageIdInputDto = z.infer<
   typeof UpdateLastMessageIdBodySchema

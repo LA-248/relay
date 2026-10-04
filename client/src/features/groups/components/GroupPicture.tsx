@@ -20,33 +20,33 @@ export default function GroupPicture() {
     formRef,
     apiEndpoint,
     setGroupPicture,
-    'Picture uploaded successfully'
+    'Picture uploaded successfully',
   );
 
   return (
-    <div className='group-picture-container'>
+    <div className="group-picture-container">
       <img
-        className='group-picture'
-        alt='Group avatar'
+        className="group-picture"
+        alt="Group avatar"
         src={groupPicture ?? '/images/default-avatar.jpg'}
       ></img>
       <form
         ref={formRef}
-        id='group-picture-upload-form'
-        encType='multipart/form-data'
+        id="group-picture-upload-form"
+        encType="multipart/form-data"
       >
         <input
           ref={fileInputRef}
-          type='file'
-          name='group-picture'
-          accept='image/*'
+          type="file"
+          name="group-picture"
+          accept="image/*"
           style={{ display: 'none' }}
           onChange={handleMediaUpload}
         />
       </form>
       <button
-        type='button'
-        className='upload-group-picture-button'
+        type="button"
+        className="upload-group-picture-button"
         onClick={handleFileInputClick}
       >
         Change picture

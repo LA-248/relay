@@ -3,16 +3,13 @@ import type { UserInfo } from '../types/user';
 
 // Fetch the chat list of a specific user
 export async function getChatList(): Promise<Chat[]> {
-  const response = await fetch(
-    `/api/chats/private`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
+  const response = await fetch(`/api/chats/private`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
     },
-  );
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -27,16 +24,13 @@ export async function getRecipientProfile(
   room: string,
   navigate: (path: string) => void,
 ): Promise<UserInfo> {
-  const response = await fetch(
-    `/api/chats/private/${room}`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
+  const response = await fetch(`/api/chats/private/${room}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
     },
-  );
+    credentials: 'include',
+  });
   const data = await response.json();
 
   // Redirect user to homepage if they try to access a chat via the URL with a user that does not exist
@@ -61,20 +55,17 @@ export async function addChat(inputUsername: string): Promise<Chat> {
     throw new Error('Username is required');
   }
 
-  const response = await fetch(
-    `/api/chats/private`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        recipientName: inputUsername,
-      }),
-      credentials: 'include',
+  const response = await fetch(`/api/chats/private`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-  );
+    body: JSON.stringify({
+      recipientName: inputUsername,
+    }),
+    credentials: 'include',
+  });
   const data = await response.json();
 
   if (!response.ok) {
@@ -90,17 +81,14 @@ export async function updateLastMessageId(
   messageId: number | null,
   room: string,
 ): Promise<void> {
-  const response = await fetch(
-    `/api/chats/private/${room}/last_message`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ messageId }),
-      credentials: 'include',
+  const response = await fetch(`/api/chats/private/${room}/last_message`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify({ messageId }),
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -109,16 +97,13 @@ export async function updateLastMessageId(
 }
 
 export async function updateLastReadStatus(room: string): Promise<void> {
-  const response = await fetch(
-    `/api/chats/private/${room}/read_status`,
-    {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
+  const response = await fetch(`/api/chats/private/${room}/read_status`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
     },
-  );
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -128,20 +113,16 @@ export async function updateLastReadStatus(room: string): Promise<void> {
 
 // Delete a chat from the user's chat list
 export async function deletePrivateChat(room: string): Promise<void> {
-  const response = await fetch(
-    `/api/chats/private/${room}`,
-    {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
+  const response = await fetch(`/api/chats/private/${room}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
     },
-  );
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
     throw new Error(errorResponse.error);
   }
 }
-

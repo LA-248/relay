@@ -15,7 +15,7 @@ export type Chat = {
   created_at: Date;
   updated_at: Date;
   deleted_at: Date | null;
-}
+};
 
 export type ChatMetadata = {
   room: string;
@@ -23,7 +23,7 @@ export type ChatMetadata = {
   lastMessageTime: Date;
   lastMessageType: string;
   updatedAt: Date;
-}
+};
 
 export enum ChatType {
   PRIVATE = 'chats',
@@ -49,4 +49,4 @@ export type ChatContextType = {
   setGroupPicture: React.Dispatch<React.SetStateAction<string | null>>;
   membersList: GroupMember[];
   setMembersList: React.Dispatch<React.SetStateAction<GroupMember[]>>;
-}
+};

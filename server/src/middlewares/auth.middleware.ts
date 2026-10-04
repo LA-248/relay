@@ -163,9 +163,8 @@ export const authoriseGroupOwnerAction = async (
   const { room } = await groupRepository.findRoomById(groupId);
 
   try {
-    const groupChatMembers:
-      | Pick<GroupMemberInfo, 'id' | 'role'>[]
-      | null = await groupMemberRepository.findMembersByRoom(room);
+    const groupChatMembers: Pick<GroupMemberInfo, 'id' | 'role'>[] | null =
+      await groupMemberRepository.findMembersByRoom(room);
 
     if (!groupChatMembers) {
       console.log('Error: chat not found');
@@ -185,8 +184,7 @@ export const authoriseGroupOwnerAction = async (
 
     const isOwner = groupChatMembers.some(
       (member) =>
-        member.id === loggedInUserId &&
-        member.role === GroupMemberRole.OWNER,
+        member.id === loggedInUserId && member.role === GroupMemberRole.OWNER,
     );
 
     if (isOwner) {
@@ -224,9 +222,8 @@ export const authoriseGroupOwnerOrAdminAction = async (
   const { room } = await groupRepository.findRoomById(groupId);
 
   try {
-    const groupChatMembers:
-      | Pick<GroupMemberInfo, 'id' | 'role'>[]
-      | null = await groupMemberRepository.findMembersByRoom(room);
+    const groupChatMembers: Pick<GroupMemberInfo, 'id' | 'role'>[] | null =
+      await groupMemberRepository.findMembersByRoom(room);
 
     if (!groupChatMembers) {
       console.log('Error: chat not found');
@@ -246,13 +243,11 @@ export const authoriseGroupOwnerOrAdminAction = async (
 
     const isOwner = groupChatMembers.some(
       (member) =>
-        member.id === loggedInUserId &&
-        member.role === GroupMemberRole.OWNER,
+        member.id === loggedInUserId && member.role === GroupMemberRole.OWNER,
     );
     const isAdmin = groupChatMembers.some(
       (member) =>
-        member.id === loggedInUserId &&
-        member.role === GroupMemberRole.ADMIN,
+        member.id === loggedInUserId && member.role === GroupMemberRole.ADMIN,
     );
 
     if (isOwner || isAdmin) {

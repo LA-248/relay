@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import { Socket } from 'socket.io';
 
 // TODO: This should be stored in Redis
 // Store user-to-socket mappings in a hash map
@@ -23,4 +23,3 @@ export function manageSocketConnections(
 
   console.log(userSockets);
 }
-

@@ -30,7 +30,7 @@ export default function MakeMemberAdminModal({
       const result = await updateGroupMemberRole(
         groupId,
         memberId,
-        GroupMemberRole.ADMIN
+        GroupMemberRole.ADMIN,
       );
       toast.success(result);
       setIsModalOpen(false);
@@ -50,16 +50,16 @@ export default function MakeMemberAdminModal({
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
       >
-        <div className='modal-heading'>{`Make ${memberName} an admin?`}</div>
-        <div className='modal-subtext'>
+        <div className="modal-heading">{`Make ${memberName} an admin?`}</div>
+        <div className="modal-subtext">
           As admin, <strong>{memberName}</strong> will have the ability to kick
           members. They will not however be able to give admin to other members
           or delete the group.
         </div>
 
-        <div className='modal-action-buttons-container'>
+        <div className="modal-action-buttons-container">
           <button
-            className='confirm-action-button'
+            className="confirm-action-button"
             style={{ backgroundColor: '#1db954' }}
             onClick={() => handleAdminAssignment()}
           >
@@ -67,7 +67,7 @@ export default function MakeMemberAdminModal({
           </button>
 
           <button
-            className='close-modal-button'
+            className="close-modal-button"
             onClick={() => {
               setIsModalOpen(false);
             }}

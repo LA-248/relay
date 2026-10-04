@@ -16,7 +16,7 @@ export default function Sidebar() {
     useContext(ChatContext);
 
   return (
-    <div className='sidebar'>
+    <div className="sidebar">
       <AddChatInput
         chatList={chatList}
         setChatList={setChatList}
@@ -24,10 +24,10 @@ export default function Sidebar() {
         setErrorMessage={setErrorMessage}
       />
 
-      <div className='create-group-button-container'>
+      <div className="create-group-button-container">
         <button
           onClick={() => setIsModalOpen(true)}
-          className='create-group-button'
+          className="create-group-button"
         >
           Create group chat
         </button>
@@ -45,21 +45,21 @@ export default function Sidebar() {
         }) ? (
           <ChatSearch />
         ) : (
-          <div className='chat-list-empty-container'>
-            <div className='chat-list-empty-message'>
+          <div className="chat-list-empty-container">
+            <div className="chat-list-empty-message">
               You have no active chats
             </div>
           </div>
         )
       ) : (
-        <div className='chat-list-empty-container'>
-          <div className='chat-list-empty-message'>
+        <div className="chat-list-empty-container">
+          <div className="chat-list-empty-message">
             You have no active chats
           </div>
         </div>
       )}
 
-      <div className='chat-list-and-profile-container'>
+      <div className="chat-list-and-profile-container">
         <ChatList setChatName={setChatName} />
         <UserProfile
           profilePicture={profilePicture}

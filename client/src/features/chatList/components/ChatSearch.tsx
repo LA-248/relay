@@ -6,11 +6,11 @@ export default function ChatSearch() {
     useContext(ChatContext);
 
   return (
-    <div className='chat-search-input-container'>
+    <div className="chat-search-input-container">
       <input
-        id='chat-search-input'
-        type='text'
-        placeholder='Search chats'
+        id="chat-search-input"
+        type="text"
+        placeholder="Search chats"
         value={chatSearchInputText}
         onChange={(event) => setChatSearchInputText(event.target.value)}
       ></input>

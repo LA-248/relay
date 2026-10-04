@@ -8,13 +8,10 @@ export default function Logout() {
 
   const handleLogout = async (): Promise<void> => {
     try {
-      const response = await fetch(
-        `/api/auth/logout`,
-        {
-          method: 'POST',
-          credentials: 'include',
-        }
-      );
+      const response = await fetch(`/api/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         throw new Error(await response.json());
@@ -28,7 +25,7 @@ export default function Logout() {
   };
 
   return (
-    <button className='logout-button' onClick={handleLogout}>
+    <button className="logout-button" onClick={handleLogout}>
       Log out
     </button>
   );

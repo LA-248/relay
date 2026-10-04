@@ -4,21 +4,21 @@ import type { GroupMember } from '../types/group';
 
 const defaultChatContext: ChatContextType = {
   chatList: [],
-  setChatList: () => { },
+  setChatList: () => {},
   activeChatRoom: null,
-  setActiveChatRoom: () => { },
+  setActiveChatRoom: () => {},
   chatSearchInputText: '',
-  setChatSearchInputText: () => { },
+  setChatSearchInputText: () => {},
   chatId: 0,
-  setChatId: () => { },
+  setChatId: () => {},
   chatName: '',
-  setChatName: () => { },
+  setChatName: () => {},
   recipientProfilePicture: '',
-  setRecipientProfilePicture: () => { },
+  setRecipientProfilePicture: () => {},
   groupPicture: '',
-  setGroupPicture: () => { },
+  setGroupPicture: () => {},
   membersList: [],
-  setMembersList: () => { },
+  setMembersList: () => {},
 };
 
 const ChatContext = createContext<ChatContextType>(defaultChatContext);

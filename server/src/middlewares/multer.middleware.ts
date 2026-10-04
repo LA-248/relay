@@ -5,11 +5,13 @@ export default function handleMulterError(
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
-      console.error(`${err}: File size limit exceeded. Maximum file size allowed is 10MB.`);
+      console.error(
+        `${err}: File size limit exceeded. Maximum file size allowed is 10MB.`,
+      );
       return res.status(400).json({
         error: 'File size limit exceeded. Maximum file size allowed is 10MB.',
       });

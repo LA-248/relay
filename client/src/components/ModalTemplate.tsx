@@ -30,12 +30,12 @@ export default function Modal({
   }
 
   return (
-    <div className='modal-overlay'>
-      <div className='modal-content' ref={modalRef}>
+    <div className="modal-overlay">
+      <div className="modal-content" ref={modalRef}>
         {children}
 
         {errorMessage ? (
-          <div className='error-message'>{errorMessage}</div>
+          <div className="error-message">{errorMessage}</div>
         ) : null}
       </div>
     </div>

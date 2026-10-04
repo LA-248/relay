@@ -6,7 +6,7 @@ import { ChatContext } from '../../../contexts/ChatContext';
 export default function useChatUpdates(
   socket: Socket | null,
   setChatList: React.Dispatch<React.SetStateAction<Chat[]>>,
-  room: string
+  room: string,
 ) {
   const { setRecipientProfilePicture, setGroupPicture, setChatName } =
     useContext(ChatContext);
@@ -23,8 +23,8 @@ export default function useChatUpdates(
         prevChatList.map((chat) =>
           chat.room === data.room
             ? { ...chat, chat_picture: data.groupPicture }
-            : chat
-        )
+            : chat,
+        ),
       );
       // Update other components where the data is also displayed, such as the contact header and chat info modal
       // Since these components exist in the chat view, only update them in real-time if the user currently has -
@@ -44,8 +44,8 @@ export default function useChatUpdates(
         prevChatList.map((chat) =>
           chat.recipient_user_id === data.userId
             ? { ...chat, chat_picture: data.newInfo }
-            : chat
-        )
+            : chat,
+        ),
       );
       // Update other components where the data is also displayed, such as the contact header and chat info modal
       // Since these components exist in the chat view, only update them in real-time if the user currently has -
@@ -65,8 +65,8 @@ export default function useChatUpdates(
         prevChatList.map((chat) =>
           chat.recipient_user_id === data.userId
             ? { ...chat, name: data.newInfo }
-            : chat
-        )
+            : chat,
+        ),
       );
       // Update other components where the data is also displayed, such as the contact header and chat info modal
       // Since these components exist in the chat view, only update them in real-time if the user currently has -
@@ -79,7 +79,7 @@ export default function useChatUpdates(
     socket.on('update-group-picture', handleGroupPictureUpdate);
     socket.on(
       'update-profile-picture-for-contacts',
-      handleProfilePictureUpdate
+      handleProfilePictureUpdate,
     );
     socket.on('update-username-for-contacts', handleUsernameUpdate);
 
@@ -87,7 +87,7 @@ export default function useChatUpdates(
       socket.off('update-group-picture', handleGroupPictureUpdate);
       socket.off(
         'update-profile-picture-for-contacts',
-        handleProfilePictureUpdate
+        handleProfilePictureUpdate,
       );
       socket.off('update-username-for-contacts', handleUsernameUpdate);
     };

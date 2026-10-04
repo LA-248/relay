@@ -110,14 +110,14 @@ export default function ChatList({
   useClearErrorMessage(errorMessage, setErrorMessage);
 
   return (
-    <div className='chat-list'>
+    <div className="chat-list">
       {errorMessage ? (
-        <div className='error-message' style={{ margin: '10px 0px 10px 0px' }}>
+        <div className="error-message" style={{ margin: '10px 0px 10px 0px' }}>
           {errorMessage}
         </div>
       ) : null}
       {chatSearchInputText && filteredChats.length === 0 ? (
-        <div id='no-chats-state'>No chats found</div>
+        <div id="no-chats-state">No chats found</div>
       ) : (
         filteredChats
           .filter((chat) => !chat.deleted_at)

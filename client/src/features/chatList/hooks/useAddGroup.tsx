@@ -4,7 +4,7 @@ import type { Chat } from '../../../types/chat';
 
 export default function useAddGroup(
   socket: Socket | null,
-  setChatList: React.Dispatch<React.SetStateAction<Chat[]>>
+  setChatList: React.Dispatch<React.SetStateAction<Chat[]>>,
 ) {
   useEffect(() => {
     if (socket) {

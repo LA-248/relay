@@ -53,9 +53,7 @@ export class GroupMember {
   findMembersByRoom = async (
     room: string,
   ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>[]> => {
-    const result = await this.db.query<
-      Pick<GroupMemberInfo, 'id' | 'role'>
-    >(
+    const result = await this.db.query<Pick<GroupMemberInfo, 'id' | 'role'>>(
       `
       SELECT
         gm.user_id AS "id",
@@ -75,9 +73,7 @@ export class GroupMember {
     groupId: number,
     userId: number,
   ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>> => {
-    const result = await this.db.query<
-      Pick<GroupMemberInfo, 'id' | 'role'>
-    >(
+    const result = await this.db.query<Pick<GroupMemberInfo, 'id' | 'role'>>(
       `
       SELECT gm.user_id AS "id", gm.role
       FROM group_members gm
@@ -94,9 +90,7 @@ export class GroupMember {
     room: string,
     groupId: number,
   ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>> => {
-    const result = await this.db.query<
-      Pick<GroupMemberInfo, 'id' | 'role'>
-    >(
+    const result = await this.db.query<Pick<GroupMemberInfo, 'id' | 'role'>>(
       `
       SELECT gm.user_id AS "id", gm.role
       FROM group_members gm
@@ -131,9 +125,7 @@ export class GroupMember {
     groupId: number,
     userId: number,
   ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>> => {
-    const result = await this.db.query<
-      Pick<GroupMemberInfo, 'id' | 'role'>
-    >(
+    const result = await this.db.query<Pick<GroupMemberInfo, 'id' | 'role'>>(
       `
       UPDATE group_members 
       SET role = $1
@@ -184,9 +176,7 @@ export class GroupMember {
     groupId: number,
     userId: number,
   ): Promise<Pick<GroupMemberInfo, 'id' | 'role'>> => {
-    const result = await this.db.query<
-      Pick<GroupMemberInfo, 'id' | 'role'>
-    >(
+    const result = await this.db.query<Pick<GroupMemberInfo, 'id' | 'role'>>(
       `
       DELETE FROM group_members 
       WHERE group_id = $1 AND user_id = $2

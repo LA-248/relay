@@ -8,7 +8,7 @@ export async function editMessage(
   chatType: string,
   chatId: number,
   newMessage: string,
-  messageId: number
+  messageId: number,
 ): Promise<void> {
   const type = determineChatType(chatType);
 
@@ -21,7 +21,7 @@ export async function editMessage(
       },
       body: JSON.stringify({ newMessage }),
       credentials: 'include',
-    }
+    },
   );
 
   if (!response.ok) {
@@ -33,7 +33,7 @@ export async function editMessage(
 export async function deleteMessage(
   chatType: string,
   chatId: number,
-  messageId: number
+  messageId: number,
 ): Promise<void> {
   const type = determineChatType(chatType);
 
@@ -45,7 +45,7 @@ export async function deleteMessage(
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-    }
+    },
   );
 
   if (!response.ok) {
@@ -61,7 +61,7 @@ export const uploadMedia = async (
   username: string,
   chatId: number,
   room: string,
-  chatType: ChatType
+  chatType: ChatType,
 ): Promise<void> => {
   event.preventDefault();
 
@@ -78,14 +78,11 @@ export const uploadMedia = async (
   });
 
   try {
-    const response = await fetch(
-      `/api/chats/${type}/${chatId}/media`,
-      {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      }
-    );
+    const response = await fetch(`/api/chats/${type}/${chatId}/media`, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
+    });
 
     if (!response.ok) {
       const errorResponse = await response.json();
@@ -98,16 +95,22 @@ export const uploadMedia = async (
     const messageType = MessageType.IMAGE;
     const clientOffset = uuidv4();
 
-    const messagePayload: ClientMessageEventPayload =
-      { username, chatId, content, room, chatType, messageType, fileKey };
-
+    const messagePayload: ClientMessageEventPayload = {
+      username,
+      chatId,
+      content,
+      room,
+      chatType,
+      messageType,
+      fileKey,
+    };
 
     // TODO: Move this logic out of here
     socket.emit(
       'chat-message',
       messagePayload,
       clientOffset,
-      (response: { success: boolean, message?: string, error?: string }) => {
+      (response: { success: boolean; message?: string; error?: string }) => {
         if (response.success) {
           toast.success(response.message);
           toast.dismiss(loadingToast);
@@ -115,7 +118,7 @@ export const uploadMedia = async (
           toast.error(response.error);
           toast.dismiss(loadingToast);
         }
-      }
+      },
     );
   } catch (error) {
     if (error instanceof Error) {

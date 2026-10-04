@@ -26,4 +26,3 @@ export const configureSockets = (io: Server) => {
     registerChatEvents(socket, io);
   });
 };
-

@@ -35,7 +35,7 @@ messagesRouter.post(
   '/:type/:id/media',
   mediaUploadMiddleware(
     MulterUploadField.MEDIA_UPLOAD,
-    S3AttachmentsStoragePath.CHAT_ATTACHMENTS
+    S3AttachmentsStoragePath.CHAT_ATTACHMENTS,
   ),
   uploadMedia,
 );

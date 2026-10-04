@@ -12,22 +12,19 @@ export async function createGroupChat(
     throw new Error('Group name is required');
   }
 
-  const response = await fetch(
-    `/api/chats/groups`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        ownerUserId: loggedInUserId,
-        name: groupName,
-        membersToBeAdded,
-      }),
-      credentials: 'include',
+  const response = await fetch(`/api/chats/groups`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-  );
+    body: JSON.stringify({
+      ownerUserId: loggedInUserId,
+      name: groupName,
+      membersToBeAdded,
+    }),
+    credentials: 'include',
+  });
   const data = await response.json();
 
   if (!response.ok) {
@@ -41,20 +38,17 @@ export async function addMembers(
   room: string,
   addedMembers: GroupMemberToBeAdded[],
 ): Promise<{ message: string }> {
-  const response = await fetch(
-    `/api/chats/groups/${room}/members`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        addedMembers: addedMembers,
-      }),
-      credentials: 'include',
+  const response = await fetch(`/api/chats/groups/${room}/members`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-  );
+    body: JSON.stringify({
+      addedMembers: addedMembers,
+    }),
+    credentials: 'include',
+  });
   const data = await response.json();
 
   if (!response.ok) {
@@ -67,16 +61,13 @@ export async function getGroupInfo(
   room: string,
   navigate: (path: string) => void,
 ): Promise<GroupInfoWithMembers> {
-  const response = await fetch(
-    `/api/chats/groups/${room}`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
+  const response = await fetch(`/api/chats/groups/${room}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
     },
-  );
+    credentials: 'include',
+  });
   const data = await response.json();
 
   // Redirect user to homepage if they try to access a group chat via the URL that does not exist
@@ -95,19 +86,14 @@ export async function getGroupInfo(
   return data;
 }
 
-export async function getMemberUsernames(
-  groupId: number,
-): Promise<string[]> {
-  const response = await fetch(
-    `/api/chats/groups/${groupId}/members`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
+export async function getMemberUsernames(groupId: number): Promise<string[]> {
+  const response = await fetch(`/api/chats/groups/${groupId}/members`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
     },
-  );
+    credentials: 'include',
+  });
   const data = await response.json();
 
   if (!response.ok) {
@@ -122,17 +108,14 @@ export async function updateLastMessageId(
   messageId: number | null,
   room: string,
 ): Promise<void> {
-  const response = await fetch(
-    `/api/chats/groups/${room}/last_message`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ messageId: messageId }),
-      credentials: 'include',
+  const response = await fetch(`/api/chats/groups/${room}/last_message`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify({ messageId: messageId }),
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -165,16 +148,13 @@ export async function deleteGroupChat(
   groupId: number,
   room: string,
 ): Promise<void> {
-  const response = await fetch(
-    `/api/chats/groups/${groupId}/rooms/${room}`,
-    {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
+  const response = await fetch(`/api/chats/groups/${groupId}/rooms/${room}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
     },
-  );
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -183,16 +163,13 @@ export async function deleteGroupChat(
 }
 
 export async function leaveGroup(groupId: number): Promise<string> {
-  const response = await fetch(
-    `/api/chats/groups/${groupId}/members/me`,
-    {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
+  const response = await fetch(`/api/chats/groups/${groupId}/members/me`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
     },
-  );
+    credentials: 'include',
+  });
   const data = await response.json();
 
   if (!response.ok) {

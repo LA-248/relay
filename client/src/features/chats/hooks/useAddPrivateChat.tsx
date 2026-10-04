@@ -5,7 +5,7 @@ import { Socket } from 'socket.io-client';
 // Add private chat to the recipient's chat list in real-time on first time message
 export default function useAddNewPrivateChat(
   socket: Socket | null,
-  setChatList: React.Dispatch<React.SetStateAction<Chat[]>>
+  setChatList: React.Dispatch<React.SetStateAction<Chat[]>>,
 ) {
   useEffect(() => {
     if (socket) {
@@ -25,7 +25,7 @@ export default function useAddNewPrivateChat(
       return () => {
         socket.off(
           'add-private-chat-to-chat-list',
-          handleFirstTimeChatAddition
+          handleFirstTimeChatAddition,
         );
       };
     }

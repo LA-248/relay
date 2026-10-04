@@ -10,7 +10,7 @@ export type Message = {
   isEdited?: boolean;
   chatType: ChatType;
   messageType: MessageType;
-}
+};
 
 export type ClientMessageEventPayload = {
   username: string;
@@ -20,19 +20,19 @@ export type ClientMessageEventPayload = {
   chatType: ChatType;
   messageType: MessageType;
   fileKey?: string;
-}
+};
 
 export type ClientMessageEditEventPayload = {
   messageId: number;
   content: string;
   room: string;
-}
+};
 export type ServerMessageEditEventPayload = ClientMessageEditEventPayload;
 
 export type ClientMessageDeleteEventPayload = {
   messageId: number;
   room: string;
-}
+};
 export type ServerMessageDeleteEventPayload = ClientMessageDeleteEventPayload;
 
 export type MessageContextType = {
@@ -46,11 +46,10 @@ export type MessageContextType = {
   setNewMessage: React.Dispatch<React.SetStateAction<string>>;
   messageSearchValueText: string;
   setMessageSearchValueText: React.Dispatch<React.SetStateAction<string>>;
-}
+};
 
 export enum MessageType {
   TEXT = 'text',
   IMAGE = 'image',
   VIDEO = 'video',
 }
-

@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { getUserIdByUsername } from '../../../api/user-api';
-import {
-  addMembers,
-  getMemberUsernames,
-} from '../../../api/group-chat-api';
+import { addMembers, getMemberUsernames } from '../../../api/group-chat-api';
 import Modal from '../../../components/ModalTemplate';
 import {
   GroupMemberRole,
@@ -38,7 +35,7 @@ export default function AddGroupMembers({
   }, [loggedInUserId, loggedInUsername]);
 
   const handleAddMember = async (
-    event: React.FormEvent<HTMLFormElement>
+    event: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     event.preventDefault();
 
@@ -57,7 +54,7 @@ export default function AddGroupMembers({
       }
 
       const exists = addedMembers.some(
-        (member) => member.username === sanitizedUsername
+        (member) => member.username === sanitizedUsername,
       );
       if (exists) {
         throw new Error('This user has already been selected to be added');
@@ -66,9 +63,7 @@ export default function AddGroupMembers({
         throw new Error('Groups have a limit of 10 members');
       }
       // Check if the user being added exists in the database, if they do, their user id is returned
-      const memberUserId = await getUserIdByUsername(
-        sanitizedUsername
-      );
+      const memberUserId = await getUserIdByUsername(sanitizedUsername);
 
       // This checks if the user trying to be added is already a member
       if (currentGroupMembers.includes(sanitizedUsername)) {
@@ -94,12 +89,12 @@ export default function AddGroupMembers({
 
   const removeMember = (memberToRemove: GroupMemberToRemove): void => {
     setAddedMembers(
-      addedMembers.filter((member) => member.userId !== memberToRemove.userId)
+      addedMembers.filter((member) => member.userId !== memberToRemove.userId),
     );
   };
 
   const handleAddMembers = async (
-    event: React.FormEvent<HTMLFormElement>
+    event: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     event.preventDefault();
 
@@ -128,30 +123,30 @@ export default function AddGroupMembers({
       errorMessage={errorMessage}
       setErrorMessage={setErrorMessage}
     >
-      <div className='modal-heading'>Add members</div>
-      <div className='add-group-members-container'>
-        <form id='add-group-members-form' onSubmit={handleAddMember}>
-          <div className='input-button-wrapper'>
+      <div className="modal-heading">Add members</div>
+      <div className="add-group-members-container">
+        <form id="add-group-members-form" onSubmit={handleAddMember}>
+          <div className="input-button-wrapper">
             <input
-              className='add-group-members-input'
-              placeholder='Username'
+              className="add-group-members-input"
+              placeholder="Username"
               value={inputUsername}
               onChange={(event) => {
                 setInputUsername(event.target.value);
                 setErrorMessage('');
               }}
             />
-            <button type='submit' className='add-member-button'>
+            <button type="submit" className="add-member-button">
               Select
             </button>
           </div>
           {addedMembers.length > 0 ? (
-            <div className='added-group-members-heading'>Selected:</div>
+            <div className="added-group-members-heading">Selected:</div>
           ) : null}
-          <div className='added-group-members-container'>
+          <div className="added-group-members-container">
             {addedMembers.map((addedMember, index) => (
-              <div className='added-group-member' key={index}>
-                <div className='added-member-username-container'>
+              <div className="added-group-member" key={index}>
+                <div className="added-member-username-container">
                   <div>{addedMember.username}</div>
                   {addedMember.role === GroupMemberRole.OWNER ? (
                     <div>(You)</div>
@@ -159,7 +154,7 @@ export default function AddGroupMembers({
                 </div>
                 {addedMember.role === GroupMemberRole.MEMBER ? (
                   <div
-                    className='remove-group-member-button'
+                    className="remove-group-member-button"
                     onClick={() => removeMember(addedMember)}
                   >
                     Remove
@@ -171,10 +166,10 @@ export default function AddGroupMembers({
         </form>
       </div>
 
-      <div className='modal-action-buttons-container'>
+      <div className="modal-action-buttons-container">
         <form onSubmit={handleAddMembers}>
           <button
-            className='confirm-action-button'
+            className="confirm-action-button"
             disabled={addedMembers.length === 0}
             style={{
               opacity: addedMembers.length === 0 ? '0.6' : undefined,
@@ -186,7 +181,7 @@ export default function AddGroupMembers({
         </form>
 
         <button
-          className='close-modal-button'
+          className="close-modal-button"
           onClick={() => {
             setIsModalOpen(false);
           }}

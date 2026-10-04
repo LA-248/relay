@@ -39,17 +39,17 @@ export default function DeleteGroupModal({
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
       >
-        <div className='modal-heading'>Delete group?</div>
-        <div className='modal-subtext'>
+        <div className="modal-heading">Delete group?</div>
+        <div className="modal-subtext">
           Are you sure you want to permanently delete{' '}
           <strong>{group.info.name}</strong>? All members will automatically be
           removed.
         </div>
-        <div className='modal-subtext'>This action cannot be undone.</div>
+        <div className="modal-subtext">This action cannot be undone.</div>
 
-        <div className='modal-action-buttons-container'>
+        <div className="modal-action-buttons-container">
           <button
-            className='confirm-action-button'
+            className="confirm-action-button"
             style={{ backgroundColor: 'red' }}
             onClick={() => handleGroupDeletion()}
           >
@@ -57,7 +57,7 @@ export default function DeleteGroupModal({
           </button>
 
           <button
-            className='close-modal-button'
+            className="close-modal-button"
             onClick={() => {
               setIsModalOpen(false);
             }}

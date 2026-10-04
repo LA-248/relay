@@ -35,7 +35,7 @@ export default function ContactInfoModal({
     recipientUserId,
     updateBlockList,
     setIsBlocked,
-    setErrorMessage
+    setErrorMessage,
   );
 
   return (
@@ -45,40 +45,42 @@ export default function ContactInfoModal({
       errorMessage={errorMessage}
       setErrorMessage={setErrorMessage}
     >
-      <div className='modal-heading'>
+      <div className="modal-heading">
         {chatType === ChatType.GROUP ? 'Group info' : 'Contact info'}
       </div>
       {isBlocked ? (
-        <div className='blocked-status' style={{ marginTop: '-15px' }}>
+        <div className="blocked-status" style={{ marginTop: '-15px' }}>
           You have this user blocked
         </div>
       ) : null}
 
-      <div className='contact-info-container'>
+      <div className="contact-info-container">
         <img
-          className='chat-pic'
+          className="chat-pic"
           src={recipientProfilePicture || '/images/default-avatar.jpg'}
-          alt='Profile avatar'
+          alt="Profile avatar"
           style={{ height: '100px', width: '100px' }}
         ></img>
         <div
-          className='chat-name-contact-info-modal'
+          className="chat-name-contact-info-modal"
           style={{ textDecoration: 'none', cursor: 'auto' }}
         >
           {chatName}
         </div>
       </div>
 
-      <div className='modal-action-buttons-container'>
+      <div className="modal-action-buttons-container">
         {chatType === ChatType.PRIVATE ? (
-          <button className='block-user-button' onClick={handleBlockAndUnblock}>
+          <button className="block-user-button" onClick={handleBlockAndUnblock}>
             {isBlocked ? 'Unblock' : 'Block'}
           </button>
         ) : null}
         <button
-          className='close-modal-button'
+          className="close-modal-button"
           onClick={() => setIsModalOpen(false)}
-          style={{ width: chatType === ChatType.GROUP ? '100%' : undefined }}
+          style={{
+            width: chatType === ChatType.GROUP ? '100%' : undefined,
+          }}
         >
           Close
         </button>

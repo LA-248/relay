@@ -7,13 +7,15 @@ import { UserEntity, UserProfile } from '../schemas/user.schema.ts';
 export async function authenticateUser(
   username: string,
   password: string,
-  cb: (err: any, user?: UserEntity | false, info?: { message: string }) => void
+  cb: (err: any, user?: UserEntity | false, info?: { message: string }) => void,
 ) {
   try {
     const userRepository = new User();
     const user = await userRepository.findUserByUsername(username);
     if (!user) {
-      return cb(null, false, { message: 'Incorrect username or password' });
+      return cb(null, false, {
+        message: 'Incorrect username or password',
+      });
     }
 
     verifyPassword(password, user, cb);
@@ -25,7 +27,7 @@ export async function authenticateUser(
 export function verifyPassword(
   password: string,
   user: UserEntity,
-  cb: (err: any, user?: UserEntity | false, info?: { message: string }) => void
+  cb: (err: any, user?: UserEntity | false, info?: { message: string }) => void,
 ) {
   bcrypt.compare(password, user.hashed_password, (err, isMatch) => {
     if (err) {
@@ -33,7 +35,9 @@ export function verifyPassword(
     }
 
     if (!isMatch) {
-      return cb(null, false, { message: 'Incorrect username or password' });
+      return cb(null, false, {
+        message: 'Incorrect username or password',
+      });
     }
 
     return cb(null, user);
@@ -42,7 +46,7 @@ export function verifyPassword(
 
 export async function insertNewUser(
   username: string,
-  password: string
+  password: string,
 ): Promise<UserProfile> {
   const userRepository = new User();
 

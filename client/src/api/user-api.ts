@@ -1,16 +1,13 @@
 import type { UserInfo } from '../types/user';
 
 export async function getLoggedInUserData(): Promise<UserInfo> {
-  const response = await fetch(
-    `/api/users`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
-    }
-  );
+  const response = await fetch(`/api/users`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+    },
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -22,19 +19,14 @@ export async function getLoggedInUserData(): Promise<UserInfo> {
 }
 
 // Retrieve the ID of a message recipient from the database using their username
-export async function getUserIdByUsername(
-  username: string
-): Promise<number> {
-  const response = await fetch(
-    `/api/users/${username}`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
-    }
-  );
+export async function getUserIdByUsername(username: string): Promise<number> {
+  const response = await fetch(`/api/users/${username}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+    },
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -45,17 +37,16 @@ export async function getUserIdByUsername(
   return data.userId;
 }
 
-export async function getUserProfilePicture(userId: number): Promise<string | null> {
-  const response = await fetch(
-    `/api/users/${userId}/pictures`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
-    }
-  );
+export async function getUserProfilePicture(
+  userId: number,
+): Promise<string | null> {
+  const response = await fetch(`/api/users/${userId}/pictures`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+    },
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -68,16 +59,13 @@ export async function getUserProfilePicture(userId: number): Promise<string | nu
 
 // Retrieve the block list of the logged in user
 export async function getBlockList(): Promise<number[]> {
-  const response = await fetch(
-    `/api/users/blocked`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
-    }
-  );
+  const response = await fetch(`/api/users/blocked`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+    },
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -89,18 +77,15 @@ export async function getBlockList(): Promise<number[]> {
 }
 
 export async function updateUsername(username: string): Promise<string> {
-  const response = await fetch(
-    `/api/users`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({ username: username }),
-      credentials: 'include',
-    }
-  );
+  const response = await fetch(`/api/users`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({ username: username }),
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();
@@ -113,17 +98,14 @@ export async function updateUsername(username: string): Promise<string> {
 
 // Update a user's block list with the ID of who they want blocked
 export async function updateBlockList(userIds: number[]): Promise<void> {
-  const response = await fetch(
-    `/api/users/blocked`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ blockedUserIds: userIds }),
-      credentials: 'include',
-    }
-  );
+  const response = await fetch(`/api/users/blocked`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ blockedUserIds: userIds }),
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     const errorResponse = await response.json();

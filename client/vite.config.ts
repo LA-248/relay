@@ -7,12 +7,12 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 3000,
     proxy: {
-      "/api": {
-        target: "http://server:8080",
+      '/api': {
+        target: 'http://server:8080',
         changeOrigin: true,
       },
-      "/socket.io": {
-        target: "http://server:8080",
+      '/socket.io': {
+        target: 'http://server:8080',
         changeOrigin: true,
         ws: true,
       },

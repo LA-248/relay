@@ -18,7 +18,7 @@ export const createProfilePictureUrl = async (
   return await createPresignedUrl(
     process.env.BUCKET_NAME!,
     `${S3AvatarStoragePath.USER_AVATARS}/${userId}/${profilePicture}`,
-  )
+  );
 };
 
 export const findRecipientData = async (
@@ -37,9 +37,9 @@ export const findRecipientData = async (
 
   const profilePictureUrl = recipient.profile_picture
     ? await createPresignedUrl(
-      process.env.BUCKET_NAME!,
-      `${S3AvatarStoragePath.USER_AVATARS}/${recipient.id}/${recipient.profile_picture}`,
-    )
+        process.env.BUCKET_NAME!,
+        `${S3AvatarStoragePath.USER_AVATARS}/${recipient.id}/${recipient.profile_picture}`,
+      )
     : null;
 
   return { recipient, profilePictureUrl };
@@ -63,9 +63,9 @@ export const findUserById = async (id: number): Promise<UserProfile> => {
 
     const profilePictureUrl = user.profile_picture
       ? await createPresignedUrl(
-        process.env.BUCKET_NAME!,
-        `${S3AvatarStoragePath.USER_AVATARS}/${userId}/${user.profile_picture}`,
-      )
+          process.env.BUCKET_NAME!,
+          `${S3AvatarStoragePath.USER_AVATARS}/${userId}/${user.profile_picture}`,
+        )
       : null;
 
     return { id: userId, username, profile_picture: profilePictureUrl };
@@ -101,9 +101,7 @@ export const findProfilePicture = async (userId: number) => {
     : null;
 };
 
-export const findBlockList = async (
-  userId: number,
-): Promise<UserBlockList> => {
+export const findBlockList = async (userId: number): Promise<UserBlockList> => {
   const userRepository = new User();
   return await userRepository.findBlockListById(userId);
 };

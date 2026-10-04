@@ -31,7 +31,7 @@ privateChatsRouter.post(
   '/',
   validate({
     user: UserDataAuthSchema,
-    body: CreatePrivateChatBodySchema
+    body: CreatePrivateChatBodySchema,
   }),
   addChat,
 );
@@ -67,7 +67,7 @@ privateChatsRouter.delete(
   '/:room',
   validate({
     user: UserDataAuthSchema,
-    params: DeleteChatParamsSchema
+    params: DeleteChatParamsSchema,
   }),
   deletePrivateChat,
 );

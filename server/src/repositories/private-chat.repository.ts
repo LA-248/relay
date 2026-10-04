@@ -252,10 +252,7 @@ export class PrivateChat {
     return result.rows[0];
   };
 
-  updateLastReadAt = async (
-    userId: number,
-    room: string,
-  ): Promise<Date> => {
+  updateLastReadAt = async (userId: number, room: string): Promise<Date> => {
     const result = await this.db.query(
       `
       UPDATE private_chats

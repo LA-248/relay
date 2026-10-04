@@ -9,7 +9,12 @@ import { updateLastReadStatus as updateLastGroupReadStatus } from '../../../api/
 import ContactInfoModal from './ContactInfoModal';
 import formatDate from '../../../utils/DateTimeFormat';
 import type { GroupInfoWithMembers, GroupMember } from '../../../types/group';
-import { MessageType, type Message, type ServerMessageDeleteEventPayload, type ServerMessageEditEventPayload } from '../../../types/message';
+import {
+  MessageType,
+  type Message,
+  type ServerMessageDeleteEventPayload,
+  type ServerMessageEditEventPayload,
+} from '../../../types/message';
 import { ChatType } from '../../../types/chat';
 import type { UserProfileUpdate } from '../../../types/user';
 
@@ -45,8 +50,12 @@ export default function MessageList({
   const { recipientProfilePicture, chatName } = useContext(ChatContext);
   const { loggedInUsername, loggedInUserId, profilePicture } =
     useContext(UserContext);
-  const { setMessages, setCurrentMessage, messageSearchValueText, filteredMessages } =
-    useContext(MessageContext);
+  const {
+    setMessages,
+    setCurrentMessage,
+    messageSearchValueText,
+    filteredMessages,
+  } = useContext(MessageContext);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -84,30 +93,34 @@ export default function MessageList({
       setMessages(initialMessages);
     };
 
-    const handleMessageEdit = (messageEditEventPayload:
-      ServerMessageEditEventPayload
+    const handleMessageEdit = (
+      messageEditEventPayload: ServerMessageEditEventPayload,
     ): void => {
       if (messageEditEventPayload.room === room) {
         setMessages((prevMessages: Message[]) => {
-          return prevMessages
-            .map((message) => {
-              if (message.id === messageEditEventPayload.messageId) {
-                return { ...message, content: messageEditEventPayload.content, isEdited: true };
-              } else {
-                return message;
-              }
-            })
+          return prevMessages.map((message) => {
+            if (message.id === messageEditEventPayload.messageId) {
+              return {
+                ...message,
+                content: messageEditEventPayload.content,
+                isEdited: true,
+              };
+            } else {
+              return message;
+            }
+          });
         });
       }
     };
 
-    const handleMessageDelete = (messageDeleteEventPayload:
-      ServerMessageDeleteEventPayload
+    const handleMessageDelete = (
+      messageDeleteEventPayload: ServerMessageDeleteEventPayload,
     ): void => {
       if (messageDeleteEventPayload.room === room) {
         setMessages((prevMessages: Message[]) => {
-          return prevMessages
-            .filter(message => message.id !== messageDeleteEventPayload.messageId);
+          return prevMessages.filter(
+            (message) => message.id !== messageDeleteEventPayload.messageId,
+          );
         });
       }
     };
@@ -217,53 +230,54 @@ export default function MessageList({
         />
       )}
 
-      <div className='chat-content-container'>
-        <div className='messages-container'>
-          <ul id='messages'>
+      <div className="chat-content-container">
+        <div className="messages-container">
+          <ul id="messages">
             {messageSearchValueText && filteredMessages.length === 0 ? (
-              <div id='no-messages-state'>No messages found</div>
+              <div id="no-messages-state">No messages found</div>
             ) : (
               filteredMessages.map((messageData, index) => (
                 <li
-                  className='individual-message'
+                  className="individual-message"
                   key={index}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
-                  <div className='message-container'>
+                  <div className="message-container">
                     {
                       <img
-                        className='message-profile-picture'
+                        className="message-profile-picture"
                         src={getChatMemberProfilePicture(messageData.senderId)}
-                        alt='Profile avatar'
+                        alt="Profile avatar"
                       />
                     }
-                    <div className='message-metadata'>
-                      <div className='message-details'>
+                    <div className="message-metadata">
+                      <div className="message-details">
                         <div
-                          className={`message-from ${loggedInUserId !== messageData.senderId &&
+                          className={`message-from ${
+                            loggedInUserId !== messageData.senderId &&
                             isPrivateChat
-                            ? 'clickable'
-                            : ''
-                            }`}
+                              ? 'clickable'
+                              : ''
+                          }`}
                           onClick={() =>
                             loggedInUserId !== messageData.senderId &&
-                              isPrivateChat
+                            isPrivateChat
                               ? setIsModalOpen(true)
                               : null
                           }
                         >
                           {getChatMemberUsername(messageData.senderId)}
                         </div>
-                        <div className='message-time'>
+                        <div className="message-time">
                           {formatDate(messageData.eventTime)}
                         </div>
                         {hoveredIndex === index &&
-                          loggedInUserId === messageData.senderId ? (
-                          <div className='message-actions-button'>
+                        loggedInUserId === messageData.senderId ? (
+                          <div className="message-actions-button">
                             {messageData.messageType === MessageType.TEXT ? (
                               <div
-                                className='message-edit-button'
+                                className="message-edit-button"
                                 onClick={() => {
                                   setIsEditModalOpen(true);
                                   setMessageId(messageData.id);
@@ -275,7 +289,7 @@ export default function MessageList({
                               </div>
                             ) : null}
                             <div
-                              className='message-delete-button'
+                              className="message-delete-button"
                               onClick={() => {
                                 setIsDeleteModalOpen(true);
                                 setMessageId(messageData.id);
@@ -287,19 +301,19 @@ export default function MessageList({
                           </div>
                         ) : null}
                       </div>
-                      <div className='message-content-container'>
+                      <div className="message-content-container">
                         {messageData.messageType === MessageType.TEXT ? (
-                          <div className='message-content'>
+                          <div className="message-content">
                             {messageData.content}
                           </div>
                         ) : (
                           <img
-                            className='message-media-content'
+                            className="message-media-content"
                             src={messageData.content}
                           ></img>
                         )}
                         {messageData.isEdited ? (
-                          <div className='message-edited-tag'>(edited)</div>
+                          <div className="message-edited-tag">(edited)</div>
                         ) : null}
                       </div>
                     </div>
@@ -311,7 +325,7 @@ export default function MessageList({
         </div>
         {errorMessage ? (
           <div
-            className='error-message'
+            className="error-message"
             style={{ margin: '20px', textAlign: 'left' }}
           >
             {errorMessage}

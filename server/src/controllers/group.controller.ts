@@ -84,9 +84,9 @@ export const createGroupChat: RequestHandler<
     res.status(200).json(newGroupChat);
   } catch (error) {
     console.error('Error creating group chat:', error);
-    res
-      .status(500)
-      .json({ error: 'Error creating group chat. Please try again.' });
+    res.status(500).json({
+      error: 'Error creating group chat. Please try again.',
+    });
   }
 };
 
@@ -139,7 +139,9 @@ export const deleteGroupChat: RequestHandler<
     res.status(200).json({ message: 'Chat deleted successfully' });
   } catch (error) {
     console.error('Error deleting chat:', error);
-    res.status(500).json({ error: 'Error deleting chat. Please try again.' });
+    res.status(500).json({
+      error: 'Error deleting chat. Please try again.',
+    });
   }
 };
 
@@ -171,7 +173,9 @@ export const addMembers: RequestHandler<
     });
   } catch (error) {
     console.error('Error adding members to group chat:', error);
-    res.status(500).json({ error: 'Error adding members. Please try again.' });
+    res.status(500).json({
+      error: 'Error adding members. Please try again.',
+    });
   }
 };
 
@@ -222,9 +226,9 @@ export const leaveGroup: RequestHandler<
     });
   } catch (error) {
     console.error('Error leaving group chat:', error);
-    res
-      .status(500)
-      .json({ error: 'Error leaving group chat. Please try again.' });
+    res.status(500).json({
+      error: 'Error leaving group chat. Please try again.',
+    });
   }
 };
 
@@ -368,9 +372,9 @@ export const updateGroupPicture: RequestHandler<
     });
   } catch (error) {
     console.error('Error uploading group picture:', error);
-    res
-      .status(500)
-      .json({ error: 'Error uploading picture. Please try again.' });
+    res.status(500).json({
+      error: 'Error uploading picture. Please try again.',
+    });
   }
 };
 

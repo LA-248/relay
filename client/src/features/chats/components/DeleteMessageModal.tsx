@@ -72,8 +72,10 @@ export default function DeleteMessageModal({
         socket.emit('last-message-updated', { room, chatType });
       }
 
-      const messageDeletePayload: ClientMessageDeleteEventPayload =
-        { messageId, room };
+      const messageDeletePayload: ClientMessageDeleteEventPayload = {
+        messageId,
+        room,
+      };
       socket.emit('message-deleted', messageDeletePayload);
 
       setIsModalOpen(false);
@@ -93,15 +95,15 @@ export default function DeleteMessageModal({
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
       >
-        <div className='modal-heading'>Delete message</div>
-        <div className='modal-subtext'>
+        <div className="modal-heading">Delete message</div>
+        <div className="modal-subtext">
           Are you sure you want to delete this message? It will be deleted for
           everyone.
         </div>
 
-        <div className='modal-action-buttons-container'>
+        <div className="modal-action-buttons-container">
           <button
-            className='confirm-action-button'
+            className="confirm-action-button"
             style={{ backgroundColor: 'red' }}
             onClick={() => handleMessageDelete(messageId, messageIndex)}
           >
@@ -109,7 +111,7 @@ export default function DeleteMessageModal({
           </button>
 
           <button
-            className='close-modal-button'
+            className="close-modal-button"
             onClick={() => {
               setIsModalOpen(false);
             }}

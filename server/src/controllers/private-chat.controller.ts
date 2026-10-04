@@ -28,9 +28,7 @@ export const addChat: RequestHandler<
     const senderId = Number(req.user?.id);
     const recipientName = req.body.recipientName;
 
-    const { id: recipientId } = await findUserIdByUsername(
-      recipientName,
-    );
+    const { id: recipientId } = await findUserIdByUsername(recipientName);
 
     const io = req.app.get('io');
     const socket = io.sockets.sockets.get(userSockets.get(senderId)); // Retrieve specific socket instance by socket ID
@@ -100,9 +98,10 @@ export const updateLastReadStatus: RequestHandler<
     const room = req.params.room;
 
     await updateLastReadAt(userId, room);
-    res
-      .status(200)
-      .json({ ok: true, success: 'Read status updated successfully.' });
+    res.status(200).json({
+      ok: true,
+      success: 'Read status updated successfully.',
+    });
   } catch (error) {
     console.error('Error updating read status:', error);
     res.status(500).json({
@@ -125,6 +124,8 @@ export const deletePrivateChat: RequestHandler<
     res.status(200).json({ message: 'Chat deleted successfully' });
   } catch (error) {
     console.error('Error deleting chat:', error);
-    res.status(500).json({ error: 'Error deleting chat. Please try again.' });
+    res.status(500).json({
+      error: 'Error deleting chat. Please try again.',
+    });
   }
 };

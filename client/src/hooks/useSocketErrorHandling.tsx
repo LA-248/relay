@@ -3,7 +3,7 @@ import { Socket } from 'socket.io-client';
 
 export const useSocketErrorHandling = (
   socket: Socket | null,
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
 ) => {
   useEffect(() => {
     if (!socket) return;
@@ -21,7 +21,7 @@ export const useSocketErrorHandling = (
 
     socket.on('disconnect', () => {
       setErrorMessage(
-        'Disconnected from chat server. Attempting to reconnect...'
+        'Disconnected from chat server. Attempting to reconnect...',
       );
     });
 

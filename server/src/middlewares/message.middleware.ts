@@ -6,16 +6,15 @@ import { MessageType } from '../types/message.ts';
 export const authoriseMessageDeletion = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const requestingUserId = Number(req.user?.id);
   const messageId = Number(req.params.messageId);
 
   try {
     const messageRepository = new Message();
-    const { messageSenderId } = await messageRepository.findMessageSenderId(
-      messageId
-    );
+    const { messageSenderId } =
+      await messageRepository.findMessageSenderId(messageId);
 
     if (messageSenderId !== requestingUserId) {
       res.status(403).json({
@@ -38,7 +37,7 @@ export const authoriseMessageDeletion = async (
 export const enforceMessageEditRules = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const messageId = Number(req.params.messageId);
 
@@ -66,7 +65,7 @@ export const enforceMessageEditRules = async (
 
 export const isSenderBlocked = async (
   recipientId: number,
-  senderId: number
+  senderId: number,
 ): Promise<void> => {
   const userRepository = new User();
   const result = await userRepository.findBlockListById(recipientId);

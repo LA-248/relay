@@ -10,22 +10,19 @@ export default function Login() {
 
   // Handle the submission of the login form
   const handleSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
+    event: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     event.preventDefault();
 
     try {
-      const response = await fetch(
-        `/api/auth/login/password`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
-          credentials: 'include',
-        }
-      );
+      const response = await fetch(`/api/auth/login/password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         const errorResponse = await response.json();
@@ -44,16 +41,16 @@ export default function Login() {
 
   return (
     <div>
-      <div className='login-container'>
-        <div className='login-box'>
-          <div className='login-header'>Sign in</div>
-          <form className='login-form' onSubmit={handleSubmit}>
+      <div className="login-container">
+        <div className="login-box">
+          <div className="login-header">Sign in</div>
+          <form className="login-form" onSubmit={handleSubmit}>
             <input
-              id='username'
-              placeholder='Username'
-              name='username'
-              type='text'
-              autoComplete='username'
+              id="username"
+              placeholder="Username"
+              name="username"
+              type="text"
+              autoComplete="username"
               required
               autoFocus
               value={username}
@@ -63,11 +60,11 @@ export default function Login() {
               }}
             />
             <input
-              id='current-password'
-              placeholder='Password'
-              name='password'
-              type='password'
-              autoComplete='current-password'
+              id="current-password"
+              placeholder="Password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
               required
               value={password}
               onChange={(event) => {
@@ -75,20 +72,20 @@ export default function Login() {
                 setErrorMessage('');
               }}
             />
-            <button className='login-button' type='submit'>
+            <button className="login-button" type="submit">
               Sign in
             </button>
           </form>
           {errorMessage && (
-            <div className='error-message' style={{ marginTop: '10px' }}>
+            <div className="error-message" style={{ marginTop: '10px' }}>
               {errorMessage}
             </div>
           )}
-          <div className='sign-up-redirect'>
-            Don't have an account? <Link to='/register'>Sign up</Link>
+          <div className="sign-up-redirect">
+            Don't have an account? <Link to="/register">Sign up</Link>
           </div>
         </div>
-        <div className='logotype'>relay</div>
+        <div className="logotype">relay</div>
       </div>
     </div>
   );

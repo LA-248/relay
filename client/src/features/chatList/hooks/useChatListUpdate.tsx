@@ -17,11 +17,11 @@ export default function useChatListUpdate(
             .map((chat) =>
               chat.room === chatData.room
                 ? {
-                  ...chat,
-                  last_message_content: chatData.lastMessageContent,
-                  last_message_time: chatData.lastMessageTime,
-                  updated_at: chatData.updatedAt,
-                }
+                    ...chat,
+                    last_message_content: chatData.lastMessageContent,
+                    last_message_time: chatData.lastMessageTime,
+                    updated_at: chatData.updatedAt,
+                  }
                 : chat,
             )
             .sort((a, b) => {

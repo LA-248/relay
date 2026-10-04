@@ -56,7 +56,10 @@ groupChatsRouter.post(
   '/:groupId/pictures',
   groupChatRoomAuth,
   validate({ params: UpdateGroupPictureParamsSchema }),
-  mediaUploadMiddleware(MulterUploadField.GROUP_PICTURE, S3AvatarStoragePath.GROUP_AVATARS),
+  mediaUploadMiddleware(
+    MulterUploadField.GROUP_PICTURE,
+    S3AvatarStoragePath.GROUP_AVATARS,
+  ),
   updateGroupPicture,
 );
 

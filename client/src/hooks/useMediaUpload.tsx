@@ -5,7 +5,7 @@ export function useMediaUpload(
   formRef: React.RefObject<HTMLFormElement | null>,
   apiEndpoint: string,
   setPicture?: React.Dispatch<React.SetStateAction<string | null>>,
-  successMessage?: string
+  successMessage?: string,
 ) {
   // Use the reference to the file picker input to open it when clicking on the upload button
   const handleFileInputClick = () => {
@@ -15,7 +15,7 @@ export function useMediaUpload(
   };
 
   const handleMediaUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ): Promise<void> => {
     event.preventDefault();
     // Use formData to package the file to then be sent to the server

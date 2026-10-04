@@ -59,7 +59,10 @@ usersRouter.put(
 usersRouter.post(
   '/:id/pictures',
   validate({ params: UploadProfilePictureParamsSchema }),
-  mediaUploadMiddleware(MulterUploadField.USER_AVATAR, S3AvatarStoragePath.USER_AVATARS),
+  mediaUploadMiddleware(
+    MulterUploadField.USER_AVATAR,
+    S3AvatarStoragePath.USER_AVATARS,
+  ),
   uploadProfilePicture,
 );
 

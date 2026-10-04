@@ -9,11 +9,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Request } from 'express';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
-import {
-  ChatDto,
-  ChatType,
-  S3AvatarStoragePath,
-} from '../types/chat.ts';
+import { ChatDto, ChatType, S3AvatarStoragePath } from '../types/chat.ts';
 
 if (!process.env.AWS_REGION || !process.env.BUCKET_NAME) {
   throw new Error('Missing AWS configuration environment variables');
@@ -27,7 +23,11 @@ export const createS3Uploader = ({
   id,
   storagePathPrefix,
   maxFileSize = 10 * 1024 * 1024,
-}: { id: string, storagePathPrefix: string, maxFileSize?: number }) =>
+}: {
+  id: string;
+  storagePathPrefix: string;
+  maxFileSize?: number;
+}) =>
   multer({
     storage: multerS3({
       s3: s3Client,
@@ -39,10 +39,7 @@ export const createS3Uploader = ({
       key: function (_req: Request, file, cb) {
         const fileName = file.originalname;
         const storagePath = `${storagePathPrefix}/${id}/${fileName}`;
-        cb(
-          null,
-          storagePath,
-        );
+        cb(null, storagePath);
       },
     }),
     limits: { fileSize: maxFileSize },
@@ -82,7 +79,9 @@ export async function deleteS3Directory(
   const deleteParams = {
     Bucket: bucket,
     Delete: {
-      Objects: directoryObjects.Contents.map((object) => ({ Key: object.Key })),
+      Objects: directoryObjects.Contents.map((object) => ({
+        Key: object.Key,
+      })),
     },
   };
 
@@ -126,25 +125,25 @@ export const generateChatListPresignedUrls = async (
           objectKey,
         );
         return presignedUrl;
-      })
-    )
+      }),
+    );
 
     const updatedChatList = results.map((result, index) => {
       const chat = chatList[index];
 
-      if (result.status === "fulfilled") {
+      if (result.status === 'fulfilled') {
         return { ...chat, chat_picture: result.value };
       } else {
-        console.error("Error loading profile picture:", result.reason);
+        console.error('Error loading profile picture:', result.reason);
         return { ...chat, chat_picture: null };
       }
-    })
+    });
 
     return updatedChatList;
   } catch (error) {
     // An unexpected picture processing error shouldn't prevent the entire chat list from being rendered
     // This handles unexpected errors gracefully by still rendering the chat list but setting all chat pictures to null
-    console.error("Unexpected error generating chat picture URLs:", error);
+    console.error('Unexpected error generating chat picture URLs:', error);
 
     return chatList.map((chat) => ({
       ...chat,
