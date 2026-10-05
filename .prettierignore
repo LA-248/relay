@@ -1,0 +1,5 @@
+**/package-lock.json
+coverage/
+.github/
+infra/
+server/src/k8s/
