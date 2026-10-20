@@ -13,7 +13,6 @@ export function useChatDelete(
 ) {
   const navigate = useNavigate();
 
-  // Remove a conversation from the chat list
   const handleChatDelete = useCallback(
     async (
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -22,10 +21,10 @@ export function useChatDelete(
       event.stopPropagation();
 
       try {
-        if (deletedChat.chat_id.includes('p')) {
+        if (deletedChat.id.includes('p')) {
           await deletePrivateChat(deletedChat.room);
         } else {
-          const groupId = Number(deletedChat.chat_id.replace('g_', ''));
+          const groupId = Number(deletedChat.id.replace('g_', ''));
           await deleteGroupChat(groupId, deletedChat.room);
         }
 

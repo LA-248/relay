@@ -36,7 +36,7 @@ export default function ChatItem({
         <img
           className="chat-pic"
           alt="Profile avatar"
-          src={chat.chat_picture || '/images/default-avatar.jpg'}
+          src={chat.picture || '/images/default-avatar.jpg'}
         ></img>
         <div className="chat-info">
           <div className="chat-name-and-time">

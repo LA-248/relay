@@ -12,7 +12,7 @@ export default function useAddNewPrivateChat(
       const handleFirstTimeChatAddition = (newChat: Chat): void => {
         setChatList((prevChatList): Chat[] => {
           // Only add chat if it does not already exist
-          if (!prevChatList.some((chat) => chat.chat_id === newChat.chat_id)) {
+          if (!prevChatList.some((chat) => chat.id === newChat.id)) {
             return [newChat, ...prevChatList];
           } else {
             return prevChatList;

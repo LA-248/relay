@@ -39,14 +39,12 @@ export default function AddChatInput({
           let updatedList: Chat[];
 
           // Only append the new chat to the list if it does not already exist
-          if (
-            !prevChatList.some((chat) => chat.chat_id === addedChat.chat_id)
-          ) {
+          if (!prevChatList.some((chat) => chat.id === addedChat.id)) {
             updatedList = [addedChat, ...prevChatList];
           } else {
             // If it does already exist, just set deleted_at to null
             updatedList = prevChatList.map((chat) => {
-              if (chat.chat_id === addedChat.chat_id) {
+              if (chat.id === addedChat.id) {
                 return { ...chat, deleted_at: null };
               }
               return chat;
@@ -54,6 +52,7 @@ export default function AddChatInput({
           }
           // Sorting must be done here for when chats are restored,
           // since a re-added chat might not be the most recently updated one
+          // TODO: Can this be done in the backend instead?
           return updatedList.sort(
             (a, b) =>
               new Date(b.updated_at).getTime() -
