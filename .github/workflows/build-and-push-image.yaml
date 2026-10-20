@@ -1,7 +1,5 @@
 name: Reusable - Build, tag, and push image
 
-run-name: Build, tag, and push image
-
 on:
   workflow_call:
     inputs:

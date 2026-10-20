@@ -82,7 +82,9 @@ export const findUserIdByUsername = async (
   const userId = await userRepository.findUserIdByUsername(username);
 
   if (!userId) {
-    console.log('User does not exist. Make sure that the username is correct.');
+    console.error(
+      'findUserIdByUsername: Error: User does not exist. Make sure that the username is correct.',
+    );
     throw new Error(
       'User does not exist. Make sure that the username is correct.',
     );

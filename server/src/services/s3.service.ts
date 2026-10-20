@@ -113,11 +113,11 @@ export const generateChatListPresignedUrls = async (
   try {
     const results = await Promise.allSettled(
       chatList.map(async (chat) => {
-        if (!chat.chat_picture) {
+        if (!chat.picture) {
           return null;
         }
 
-        const isPrivateChat = chat.chat_type === ChatType.PRIVATE;
+        const isPrivateChat = chat.type === ChatType.PRIVATE;
         const objectKey = buildAvatarObjectKey(chat, isPrivateChat);
 
         const presignedUrl = createPresignedUrl(
@@ -154,15 +154,15 @@ export const generateChatListPresignedUrls = async (
 
 function buildAvatarObjectKey(chat: ChatDto, isPrivateChat: boolean) {
   if (isPrivateChat) {
-    const fileName = chat.chat_picture;
+    const fileName = chat.picture;
     const recipientId = chat.recipient_user_id;
     return `${S3AvatarStoragePath.USER_AVATARS}/${recipientId}/${fileName}`;
   } else {
     // Chat IDs used in the chat list constructed for the frontend are given prefixes to differentiate -
     // between private and group chats (e.g. p_1, g_4), so to get the group ID -
     // we need to transform it so only the number is left, which can then be used in the S3 path
-    const groupId = chat.chat_id.split('_').pop();
-    const fileName = chat.chat_picture;
+    const groupId = chat.id.split('_').pop();
+    const fileName = chat.picture;
     return `${S3AvatarStoragePath.GROUP_AVATARS}/${groupId}/${fileName}`;
   }
 }

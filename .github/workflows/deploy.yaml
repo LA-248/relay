@@ -1,4 +1,4 @@
-name: Deploy 
+name: Deploy
 
 run-name: Deploy
 
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
-          node-version: '22.20'
+          node-version: "22.20"
       - run: npm ci
       - run: npm run build
 
@@ -46,30 +46,30 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
-          node-version: '22.20'
+          node-version: "22.20"
       - run: npm ci
       - run: npm run build
 
   build-and-push-server-image:
     uses: ./.github/workflows/build-and-push-image.yaml
     with:
-      image_tag: ${{ needs.increment-server-tag.outputs.latest_tag }} 
+      image_tag: ${{ needs.increment-server-tag.outputs.latest_tag }}
       working_directory: ./server
     secrets:
       ECR_REPO: ${{ secrets.ECR_REPO }}
 
-    needs: 
+    needs:
       - build-server
       - increment-server-tag
 
   build-and-push-client-image:
     uses: ./.github/workflows/build-and-push-image.yaml
     with:
-      image_tag: ${{ needs.increment-client-tag.outputs.latest_tag }} 
+      image_tag: ${{ needs.increment-client-tag.outputs.latest_tag }}
       working_directory: ./client
     secrets:
       ECR_REPO: ${{ secrets.ECR_REPO }}
 
-    needs: 
+    needs:
       - build-client
       - increment-client-tag

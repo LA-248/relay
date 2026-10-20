@@ -77,7 +77,7 @@ export const findPrivateChat = async (
   const privateChatRepository = new PrivateChat();
 
   const chat = await privateChatRepository.findChat(senderId, room);
-  const profilePictureName = chat.chat_picture;
+  const profilePictureName = chat.picture;
   const recipientId = chat.recipient_user_id;
 
   const profilePictureUrl = profilePictureName
@@ -87,7 +87,7 @@ export const findPrivateChat = async (
       )
     : null;
 
-  return { ...chat, chat_picture: profilePictureUrl };
+  return { ...chat, picture: profilePictureUrl };
 };
 
 export const findPrivateChatMembersByRoom = async (
